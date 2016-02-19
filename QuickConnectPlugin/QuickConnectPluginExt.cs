@@ -5,29 +5,30 @@ using System.Threading;
 using System.Windows.Forms;
 using KeePass.Plugins;
 using KeePassLib;
+using QuickConnectPlugin.KeePass;
 
 namespace QuickConnectPlugin {
 
     public class QuickConnectPluginExt : Plugin {
 
-        public const String Title = "Quick Connect";
+        public const String Title = "QuickConnect";
 
-        private const String PluginName = "QuickConnectPluginExt";
+        private const String PluginName = "QuickConnectPlugin";
 
         private const String OpenRemoteDesktopMenuItemText = "Open Remote Desktop";
         private const String OpenRemoteDesktopConsoleMenuItemText = "Open Remote Desktop (console)";
         private const String OpenVMwareVSphereClientMenuItemText = "Open VMware vSphere Client";
-        private const String OpenSshConsoleMenuItemText = "Open SSH Console";
+        private const String OpenSshConsoleMenuItemText = "Open PuTTY Console";
         private const String IPAddressPropertyName = "IP Address";
         private const String OSTypePropertyName = "OS Type";
 
         private IPluginHost pluginHost = null;
 
-        public bool Enabled { get; set; }
-        public bool PutMenuItemsOnTop { get; set; }
-
         private ToolStripMenuItem pluginMenuItem;
-        private EventHandler pluginMenuItemOnClickEventHandler;
+        private ToolStripMenuItem pluginMenuItemOptions;
+        private ToolStripMenuItem pluginMenuItemAbout;
+        private EventHandler pluginMenuItemOptionsOnClickEventHandler;
+        private EventHandler pluginMenuItemAboutOnClickEventHandler;
         private IList<ToolStripItem> menuItems = new List<ToolStripItem>();
 
         private String rdcConsoleParameter;
@@ -40,6 +41,8 @@ namespace QuickConnectPlugin {
             }
         }
 
+        public IQuickConnectPluginSettings Settings { get; private set; }
+
         public override bool Initialize(IPluginHost pluginHost) {
 
             Debug.Assert(pluginHost != null);
@@ -50,48 +53,75 @@ namespace QuickConnectPlugin {
 
             this.pluginHost = pluginHost;
 
-            pluginMenuItem = new ToolStripMenuItem(String.Format("{0}...", Title));
-            pluginMenuItem.Click += new EventHandler(
-                pluginMenuItemOnClickEventHandler = delegate(object obj, EventArgs ev) {
-                QuickConnectForm form = new QuickConnectForm();
-                form.Text = Title;
-                form.ShowDialog(pluginHost.MainWindow);
-            });
-            this.pluginHost.MainWindow.ToolsMenu.DropDownItems.Add(pluginMenuItem);
+            this.Settings = QuickConnectPluginSettings.Load(pluginHost, new PluginCustomConfigPropertyNameFormatter(PluginName));
 
-            // Configuration.
-            this.PutMenuItemsOnTop = true;
-            this.Enabled = true;
+            pluginMenuItemOptions = new ToolStripMenuItem("Options...");
+            pluginMenuItemOptions.Click += new EventHandler(
+                pluginMenuItemOptionsOnClickEventHandler = delegate(object obj, EventArgs ev) {
+                List<String> fields = null;
+                // Check if database is open.
+                if (this.pluginHost.Database != null && this.pluginHost.Database.IsOpen) {
+                    fields = new List<String>();
+                    foreach (var pwEntry in this.pluginHost.Database.RootGroup.GetEntries(true)) {
+                        foreach (var str in pwEntry.Strings.GetKeys()) {
+                            if (!fields.Contains(str)) {
+                                fields.Add(str);
+                            }
+                        }
+                    }
+                    fields.Sort();
+                }
+                using (FormOptions form = new FormOptions(Title, this.Settings, fields)) {
+                    form.Text = form.Text.Replace("{title}", Title);
+                    form.ShowDialog(pluginHost.MainWindow);
+                }
+            });
+            pluginMenuItemAbout = new ToolStripMenuItem("About");
+            pluginMenuItemAbout.Click += new EventHandler(
+                pluginMenuItemAboutOnClickEventHandler = delegate(object obj, EventArgs ev) {
+                using (FormAbout form = new FormAbout()) {
+                    form.Text = form.Text.Replace("{title}", Title);
+                    form.ShowDialog(pluginHost.MainWindow);
+                }
+            });
+            pluginMenuItem = new ToolStripMenuItem(String.Format("{0}", Title));
+            pluginMenuItem.DropDownItems.Add(pluginMenuItemOptions);
+            pluginMenuItem.DropDownItems.Add(pluginMenuItemAbout);
+
+            this.pluginHost.MainWindow.ToolsMenu.DropDownItems.Add(pluginMenuItem);
 
             // Add handlers.
             ContextMenuStrip entryContextMenu = pluginHost.MainWindow.EntryContextMenu;
-            if (this.Enabled) {
-                entryContextMenu.Opened += new EventHandler(entryContextMenu_Opened);
-                entryContextMenu.Closed += new ToolStripDropDownClosedEventHandler(entryContextMenu_Closed);
-            }
+            entryContextMenu.Opened += new EventHandler(entryContextMenu_Opened);
+            entryContextMenu.Closed += new ToolStripDropDownClosedEventHandler(entryContextMenu_Closed);
 
             return true;
         }
 
         private void entryContextMenu_Opened(object sender, EventArgs e) {
+
+            if (!this.Settings.Enabled) {
+                return;
+            }
+
             PwEntry[] selectedEntries = this.pluginHost.MainWindow.GetSelectedEntries();
             if (selectedEntries != null && selectedEntries.Length == 1) {
                 PwEntry pwEntry = selectedEntries[0];
-                String ipAddress = pwEntry.Strings.ReadSafe(IPAddressPropertyName);
-                OSType osType = OSTypeUtils.GetOSTypeFromString(pwEntry.Strings.ReadSafe(OSTypePropertyName));
-                if (osType == OSType.Windows || osType == OSType.Linux || osType == OSType.ESXi) {
-                    this.addMenuItems(osType, ipAddress, pwEntry);
+                String ipAddress = pwEntry.Strings.ReadSafe(!String.IsNullOrEmpty(this.Settings.HostAddressMapFieldName) ? this.Settings.HostAddressMapFieldName : IPAddressPropertyName);
+                var connectionMethodFieldValue = pwEntry.Strings.ReadSafe(!String.IsNullOrEmpty(this.Settings.ConnectionMethodMapFieldName) ? this.Settings.ConnectionMethodMapFieldName : OSTypePropertyName);
+                var connectionMethods = ConnectionMethodTypeUtils.GetConnectionMethodsFromString(connectionMethodFieldValue);
+                if (connectionMethods.Count != 0) {
+                    this.addMenuItems(new HostPwEntry(pwEntry, ipAddress, connectionMethods));
                 }
             }
         }
 
-        private void addMenuItems(OSType osType, String ipAddress, PwEntry pwEntry) {
-            bool hasIpAddress = !String.IsNullOrEmpty(ipAddress);
-            if (osType == OSType.Windows) {
+        private void addMenuItems(HostPwEntry hostPwEntry) {
+            if (hostPwEntry.ConnectionMethods.Contains(ConnectionMethodType.RemoteDesktop)) {
                 var openRemoteDesktopMenuItem = new ToolStripMenuItem() {
                     Text = OpenRemoteDesktopMenuItemText,
                     Image = (System.Drawing.Image)QuickConnectPlugin.Properties.Resources.remote,
-                    Enabled = hasIpAddress
+                    Enabled = hostPwEntry.HasIPAddress()
                 };
                 openRemoteDesktopMenuItem.Click += new EventHandler(
                     delegate(object obj, EventArgs ev) {
@@ -100,9 +130,9 @@ namespace QuickConnectPlugin {
                             ProcessStartInfo cmdKey = new ProcessStartInfo() {
                                 FileName = Environment.ExpandEnvironmentVariables(@"%SystemRoot%\system32\cmdkey.exe"),
                                 Arguments = String.Format("/generic:TERMSRV/{0} /user:{1} /pass:{2}",
-                                ipAddress,
-                                pwEntry.Strings.GetSafe("UserName").ReadString(),
-                                pwEntry.Strings.GetSafe("Password").ReadString()),
+                                hostPwEntry.IPAddress,
+                                hostPwEntry.GetUsername(),
+                                hostPwEntry.GetPassword()),
                                 WindowStyle = ProcessWindowStyle.Hidden
                             };
                             Process.Start(cmdKey);
@@ -114,7 +144,7 @@ namespace QuickConnectPlugin {
                             cmd.StartInfo.CreateNoWindow = true;
                             cmd.StartInfo.UseShellExecute = false;
                             cmd.Start();
-                            cmd.StandardInput.WriteLine(String.Format("\"{0}\" /f /v:{1}", Environment.ExpandEnvironmentVariables(@"%SystemRoot%\system32\mstsc.exe"), ipAddress));
+                            cmd.StandardInput.WriteLine(String.Format("\"{0}\" /f /v:{1}", Environment.ExpandEnvironmentVariables(@"%SystemRoot%\system32\mstsc.exe"), hostPwEntry.IPAddress));
                             cmd.StandardInput.Flush();
                             cmd.StandardInput.Close();
                             // Delete stored credentials.
@@ -122,7 +152,7 @@ namespace QuickConnectPlugin {
                                 Thread.Sleep(5000);
                                 ProcessStartInfo cmdKeyDeleteCred = new ProcessStartInfo() {
                                     FileName = Environment.ExpandEnvironmentVariables(@"%SystemRoot%\system32\cmdkey.exe"),
-                                    Arguments = String.Format("/delete:TERMSRV/{0}", ipAddress),
+                                    Arguments = String.Format("/delete:TERMSRV/{0}", hostPwEntry.IPAddress),
                                     WindowStyle = ProcessWindowStyle.Hidden
                                 };
                                 Process.Start(cmdKeyDeleteCred);
@@ -135,10 +165,13 @@ namespace QuickConnectPlugin {
                         }
                     }
                 );
+                this.menuItems.Add(openRemoteDesktopMenuItem);
+            };
+            if (hostPwEntry.ConnectionMethods.Contains(ConnectionMethodType.RemoteDesktopConsole)) {
                 var openRemoteDesktopConsoleMenuItem = new ToolStripMenuItem() {
                     Text = OpenRemoteDesktopConsoleMenuItemText,
                     Image = (System.Drawing.Image)QuickConnectPlugin.Properties.Resources.mycomputer,
-                    Enabled = hasIpAddress
+                    Enabled = hostPwEntry.HasIPAddress()
                 };
                 openRemoteDesktopConsoleMenuItem.Click += new EventHandler(
                   delegate(object obj, EventArgs ev) {
@@ -147,9 +180,9 @@ namespace QuickConnectPlugin {
                           ProcessStartInfo cmdKey = new ProcessStartInfo() {
                               FileName = Environment.ExpandEnvironmentVariables(@"%SystemRoot%\system32\cmdkey.exe"),
                               Arguments = String.Format("/generic:TERMSRV/{0} /user:{1} /pass:{2}",
-                              ipAddress,
-                              pwEntry.Strings.GetSafe("UserName").ReadString(),
-                              pwEntry.Strings.GetSafe("Password").ReadString()),
+                              hostPwEntry.IPAddress,
+                              hostPwEntry.GetUsername(),
+                              hostPwEntry.GetPassword()),
                               WindowStyle = ProcessWindowStyle.Hidden
                           };
                           Process.Start(cmdKey);
@@ -161,7 +194,7 @@ namespace QuickConnectPlugin {
                           cmd.StartInfo.CreateNoWindow = true;
                           cmd.StartInfo.UseShellExecute = false;
                           cmd.Start();
-                          cmd.StandardInput.WriteLine(String.Format("\"{0}\" /f /v:{1} /{2}", Environment.ExpandEnvironmentVariables(@"%SystemRoot%\system32\mstsc.exe"), ipAddress, this.RDCConsoleParameter));
+                          cmd.StandardInput.WriteLine(String.Format("\"{0}\" /f /v:{1} /{2}", Environment.ExpandEnvironmentVariables(@"%SystemRoot%\system32\mstsc.exe"), hostPwEntry.IPAddress, this.RDCConsoleParameter));
                           cmd.StandardInput.Flush();
                           cmd.StandardInput.Close();
                           // Delete stored credentials.
@@ -169,7 +202,7 @@ namespace QuickConnectPlugin {
                               Thread.Sleep(5000);
                               ProcessStartInfo cmdKeyDeleteCred = new ProcessStartInfo() {
                                   FileName = Environment.ExpandEnvironmentVariables(@"%SystemRoot%\system32\cmdkey.exe"),
-                                  Arguments = String.Format("/delete:TERMSRV/{0}", ipAddress),
+                                  Arguments = String.Format("/delete:TERMSRV/{0}", hostPwEntry.IPAddress),
                                   WindowStyle = ProcessWindowStyle.Hidden
                               };
                               Process.Start(cmdKeyDeleteCred);
@@ -182,14 +215,13 @@ namespace QuickConnectPlugin {
                       }
                   }
                 );
-                this.menuItems.Add(openRemoteDesktopMenuItem);
                 this.menuItems.Add(openRemoteDesktopConsoleMenuItem);
-            }
-            else if (osType == OSType.Linux) {
+            };
+            if (hostPwEntry.ConnectionMethods.Contains(ConnectionMethodType.PuttySSH)) {
                 var openSshConsoleMenuItem = new ToolStripMenuItem() {
                     Text = OpenSshConsoleMenuItemText,
                     Image = (System.Drawing.Image)QuickConnectPlugin.Properties.Resources.konsole,
-                    Enabled = hasIpAddress
+                    Enabled = hostPwEntry.HasIPAddress()
                 };
                 openSshConsoleMenuItem.Click += new EventHandler(
                     delegate(object obj, EventArgs ev) {
@@ -204,10 +236,10 @@ namespace QuickConnectPlugin {
                             cmd.StartInfo.UseShellExecute = false;
                             cmd.Start();
                             cmd.StandardInput.WriteLine(String.Format("\"{0}\" -ssh {2}@{1} -pw {3}",
-                                Utils.GetPuttyPath(),
-                                ipAddress,
-                                pwEntry.Strings.GetSafe("UserName").ReadString(),
-                                pwEntry.Strings.GetSafe("Password").ReadString())
+                                this.Settings.SSHClientPath ?? Utils.GetPuttyPath(),
+                                hostPwEntry.IPAddress,
+                                hostPwEntry.GetUsername(),
+                                hostPwEntry.GetPassword())
                                 );
                             cmd.StandardInput.Flush();
                             cmd.StandardInput.Close();
@@ -218,12 +250,12 @@ namespace QuickConnectPlugin {
                     }
                 );
                 this.menuItems.Add(openSshConsoleMenuItem);
-            }
-            else if (osType == OSType.ESXi) {
+            };
+            if (hostPwEntry.ConnectionMethods.Contains(ConnectionMethodType.vSphereClient)) {
                 var openVMWareVSphereClientMenuItem = new ToolStripMenuItem() {
                     Text = OpenVMwareVSphereClientMenuItemText,
                     Image = (System.Drawing.Image)QuickConnectPlugin.Properties.Resources.vmware,
-                    Enabled = hasIpAddress
+                    Enabled = hostPwEntry.HasIPAddress()
                 };
                 openVMWareVSphereClientMenuItem.Click += new EventHandler(
                     delegate(object obj, EventArgs ev) {
@@ -240,9 +272,9 @@ namespace QuickConnectPlugin {
                             // TODO: Find a way to hide password shown in command line arguments.
                             cmd.StandardInput.WriteLine(String.Format("\"{0}\" -s {1} -u {2} -p {3}",
                                 Utils.GetVMwareVSphereClientPath(),
-                                ipAddress,
-                                pwEntry.Strings.GetSafe("UserName").ReadString(),
-                                pwEntry.Strings.GetSafe("Password").ReadString())
+                                hostPwEntry.IPAddress,
+                                hostPwEntry.GetUsername(),
+                                hostPwEntry.GetPassword())
                                 );
                             cmd.StandardInput.Flush();
                             cmd.StandardInput.Close();
@@ -254,13 +286,10 @@ namespace QuickConnectPlugin {
                 );
                 this.menuItems.Add(openVMWareVSphereClientMenuItem);
             }
-            else {
-                throw new Exception(String.Format("OSType {0} is not supported.", osType.ToString()));
-            }
 
-            int separatorIndex = this.PutMenuItemsOnTop ? this.menuItems.Count : this.pluginHost.MainWindow.EntryContextMenu.Items.Count - this.menuItems.Count;
+            var putMenuItemsOnTop = !this.Settings.CompatibleMode;
 
-            if (this.PutMenuItemsOnTop) {
+            if (putMenuItemsOnTop) {
                 for (int i = this.menuItems.Count - 1; i >= 0; i--) {
                     this.pluginHost.MainWindow.EntryContextMenu.Items.Insert(0, this.menuItems[i]);
                 }
@@ -270,6 +299,8 @@ namespace QuickConnectPlugin {
                     this.pluginHost.MainWindow.EntryContextMenu.Items.Add(item);
                 }
             }
+            int separatorIndex = putMenuItemsOnTop ? this.menuItems.Count :
+                this.pluginHost.MainWindow.EntryContextMenu.Items.Count - this.menuItems.Count;
             var separator = new ToolStripSeparator();
             this.menuItems.Add(separator);
             this.pluginHost.MainWindow.EntryContextMenu.Items.Insert(separatorIndex, separator);
@@ -285,7 +316,12 @@ namespace QuickConnectPlugin {
         public override void Terminate() {
             if (this.pluginMenuItem != null) {
                 this.pluginHost.MainWindow.ToolsMenu.DropDownItems.Remove(pluginMenuItem);
-                this.pluginMenuItem.Click -= this.pluginMenuItemOnClickEventHandler;
+            }
+            if (this.pluginMenuItemAbout != null) {
+                this.pluginMenuItemAbout.Click -= this.pluginMenuItemAboutOnClickEventHandler;
+            }
+            if (this.pluginMenuItemOptions != null) {
+                this.pluginMenuItemOptions.Click -= this.pluginMenuItemOptionsOnClickEventHandler;
             }
         }
     }

@@ -33,23 +33,38 @@
   <ItemGroup>
     <Reference Include="KeePass">
       <HintPath>C:\Program Files (x86)\KeePass Password Safe 2\KeePass.exe</HintPath>
-      <Private>False</Private>
+      <Private>True</Private>
     </Reference>
+    <Reference Include="Microsoft.VisualBasic" />
+    <Reference Include="Microsoft.VisualBasic.PowerPacks.Vs, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="System" />
+    <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Commons\AssemblyUtils.cs" />
-    <Compile Include="QuickConnectForm.cs">
+    <Compile Include="FormAbout.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="QuickConnectForm.Designer.cs">
-      <DependentUpon>QuickConnectForm.cs</DependentUpon>
+    <Compile Include="FormAbout.Designer.cs">
+      <DependentUpon>FormAbout.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormOptions.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormOptions.Designer.cs">
+      <DependentUpon>FormOptions.cs</DependentUpon>
+    </Compile>
+    <Compile Include="HostPwEntry.cs" />
+    <Compile Include="KeePass\PluginCustomConfigPropertyNameFormatter.cs" />
+    <Compile Include="KeePass\ICustomConfigPropertyNameFormatter.cs" />
+    <Compile Include="IQuickConnectPluginSettings.cs" />
+    <Compile Include="QuickConnectPluginSettings.cs" />
     <Compile Include="Utils.cs" />
-    <Compile Include="OSType.cs" />
-    <Compile Include="OSTypeUtils.cs" />
+    <Compile Include="ConnectionMethodType.cs" />
+    <Compile Include="ConnectionMethodTypeUtils.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -60,6 +75,9 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <EmbeddedResource Include="FormOptions.resx">
+      <DependentUpon>FormOptions.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -69,8 +87,8 @@
     <Content Include="Resources\1454812854_mycomputer.png" />
     <Content Include="Resources\1454812927_remote.png" />
     <Content Include="Resources\readme.txt" />
-    <EmbeddedResource Include="QuickConnectForm.resx">
-      <DependentUpon>QuickConnectForm.cs</DependentUpon>
+    <EmbeddedResource Include="FormAbout.resx">
+      <DependentUpon>FormAbout.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
