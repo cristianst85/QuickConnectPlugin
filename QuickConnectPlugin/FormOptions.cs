@@ -28,17 +28,24 @@ namespace QuickConnectPlugin {
                 // TODO: Add tooltip.
             }
 
-            if (String.IsNullOrEmpty(settings.HostAddressMapFieldName)) {
-                this.comboBoxHostAddressMapFieldName.Items.Add(String.Empty);
-            }
-            if (String.IsNullOrEmpty(settings.ConnectionMethodMapFieldName)) {
-                this.comboBoxConnectionMethodMapFieldName.Items.Add(String.Empty);
-            }
+            // Always add empty items.
+            this.comboBoxHostAddressMapFieldName.Items.Add(String.Empty);
+            this.comboBoxConnectionMethodMapFieldName.Items.Add(String.Empty);
 
             if (dbFields == null) {
                 this.labelWarningMessage.Visible = true;
                 this.comboBoxHostAddressMapFieldName.Enabled = false;
                 this.comboBoxConnectionMethodMapFieldName.Enabled = false;
+
+                if (!String.IsNullOrEmpty(settings.HostAddressMapFieldName)) {
+                    this.comboBoxHostAddressMapFieldName.Items.Add(settings.HostAddressMapFieldName);
+                }
+                if (!String.IsNullOrEmpty(settings.ConnectionMethodMapFieldName)) {
+                    this.comboBoxConnectionMethodMapFieldName.Items.Add(settings.ConnectionMethodMapFieldName);
+                }
+
+                this.comboBoxHostAddressMapFieldName.SelectedValue = settings.HostAddressMapFieldName;
+                this.comboBoxConnectionMethodMapFieldName.SelectedValue = settings.ConnectionMethodMapFieldName;
             }
             else {
                 this.labelWarningMessage.Visible = false;

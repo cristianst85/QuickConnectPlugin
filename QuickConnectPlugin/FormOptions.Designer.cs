@@ -33,6 +33,7 @@
             this.checkBoxEnable = new System.Windows.Forms.CheckBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.groupBox12 = new System.Windows.Forms.GroupBox();
+            this.labelWarningMessage = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.comboBoxConnectionMethodMapFieldName = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
@@ -40,7 +41,6 @@
             this.buttonApply = new System.Windows.Forms.Button();
             this.buttonCancel = new System.Windows.Forms.Button();
             this.buttonOK = new System.Windows.Forms.Button();
-            this.labelWarningMessage = new System.Windows.Forms.Label();
             this.tabControl3.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -137,7 +137,7 @@
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Size = new System.Drawing.Size(287, 182);
             this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "Map";
+            this.tabPage2.Text = "Map Fields";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
             // groupBox12
@@ -153,6 +153,17 @@
             this.groupBox12.TabIndex = 1;
             this.groupBox12.TabStop = false;
             this.groupBox12.Text = "Settings";
+            // 
+            // labelWarningMessage
+            // 
+            this.labelWarningMessage.AutoSize = true;
+            this.labelWarningMessage.Location = new System.Drawing.Point(9, 101);
+            this.labelWarningMessage.Name = "labelWarningMessage";
+            this.labelWarningMessage.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.labelWarningMessage.Size = new System.Drawing.Size(270, 26);
+            this.labelWarningMessage.TabIndex = 4;
+            this.labelWarningMessage.Text = "No database available. Open or unlock a database first \r\nand then try again.";
+            this.labelWarningMessage.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // label2
             // 
@@ -220,17 +231,6 @@
             this.buttonOK.Text = "OK";
             this.buttonOK.UseVisualStyleBackColor = true;
             this.buttonOK.Click += new System.EventHandler(this.buttonOK_Click);
-            // 
-            // labelWarningMessage
-            // 
-            this.labelWarningMessage.AutoSize = true;
-            this.labelWarningMessage.Location = new System.Drawing.Point(9, 101);
-            this.labelWarningMessage.Name = "labelWarningMessage";
-            this.labelWarningMessage.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.labelWarningMessage.Size = new System.Drawing.Size(270, 26);
-            this.labelWarningMessage.TabIndex = 4;
-            this.labelWarningMessage.Text = "No database available. Open or unlock a database first \r\nand then try again.";
-            this.labelWarningMessage.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // FormOptions
             // 
