@@ -54,7 +54,6 @@ namespace QuickConnectPlugin {
             else {
                 this.comboBoxHostAddressMapFieldName.SelectedIndex =
                     this.comboBoxHostAddressMapFieldName.FindStringExact(this.settings.HostAddressMapFieldName);
-
             }
             if (String.IsNullOrEmpty(settings.ConnectionMethodMapFieldName)) {
                 this.comboBoxConnectionMethodMapFieldName.SelectedValue = String.Empty;
@@ -62,16 +61,16 @@ namespace QuickConnectPlugin {
             else {
                 this.comboBoxConnectionMethodMapFieldName.SelectedIndex =
                     this.comboBoxConnectionMethodMapFieldName.FindStringExact(this.settings.ConnectionMethodMapFieldName);
-
-                // Add handlers.
-                this.checkBoxEnable.CheckedChanged += new EventHandler(settingsChanged);
-                this.checkBoxCompatibleMode.CheckedChanged += new EventHandler(settingsChanged);
-                this.textBoxSSHClientPath.TextChanged += new EventHandler(settingsChanged);
-                this.comboBoxHostAddressMapFieldName.SelectedIndexChanged += new EventHandler(settingsChanged);
-                this.comboBoxConnectionMethodMapFieldName.SelectedIndexChanged += new EventHandler(settingsChanged);
-
-                this.buttonApply.Enabled = false;
             }
+
+            // Add handlers.
+            this.checkBoxEnable.CheckedChanged += new EventHandler(settingsChanged);
+            this.checkBoxCompatibleMode.CheckedChanged += new EventHandler(settingsChanged);
+            this.textBoxSSHClientPath.TextChanged += new EventHandler(settingsChanged);
+            this.comboBoxHostAddressMapFieldName.SelectedIndexChanged += new EventHandler(settingsChanged);
+            this.comboBoxConnectionMethodMapFieldName.SelectedIndexChanged += new EventHandler(settingsChanged);
+            
+            this.buttonApply.Enabled = false;
         }
 
         private void buttonApply_Click(object sender, EventArgs e) {
