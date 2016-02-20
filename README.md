@@ -18,7 +18,7 @@ QuickConnect is a plugin for [KeePass](http://keepass.info) password manager tha
 - The plugin adds a new menu item named **QuickConnect** under **Tools** menu;
 - Use the **Map Fields** tab in the **Options** dialog to configure the custom fields from which the plugin gets the host address (IP address or hostname) and the connection method;
 - Connection method is determined based on the text found in the mapped field. For example, if one of the following strings (case-insensitive) is found, then the corresponding items are added to the entry context menu (right-click):
-    * `windows` - *Remote Desktop* and *Open Remote Desktop (console)*;
+    * `windows` - *Open Remote Desktop* and *Open Remote Desktop (console)*;
 	* `esxi` or `vcenter` - *Open vSphere Client*;
 	* `linux` or a known Linux distribution name - *Open PuTTY Console*.
 	 
