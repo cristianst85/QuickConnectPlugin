@@ -10,8 +10,8 @@ namespace QuickConnectPlugin {
         /// <summary>
         /// Gets or sets a value indicating whether the plugin is run in 
         /// compatible mode. If the value is <c>true</c> the menu items 
-        /// are added at the top of the context menu, otherwise the menu 
-        /// items are added at the bottom of the context menu.
+        /// are added at the bottom of the context menu, otherwise the menu 
+        /// items are added at the top of the context menu.
         /// </summary>
         bool CompatibleMode { get; set; }
         /// <summary>
