@@ -62,7 +62,7 @@
     <Compile Include="KeePass\ICustomConfigPropertyNameFormatter.cs" />
     <Compile Include="IQuickConnectPluginSettings.cs" />
     <Compile Include="QuickConnectPluginSettings.cs" />
-    <Compile Include="Utils.cs" />
+    <Compile Include="QuickConnectUtils.cs" />
     <Compile Include="ConnectionMethodType.cs" />
     <Compile Include="ConnectionMethodTypeUtils.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
@@ -86,6 +86,7 @@
     <Content Include="Resources\1454812795_vmware.png" />
     <Content Include="Resources\1454812854_mycomputer.png" />
     <Content Include="Resources\1454812927_remote.png" />
+    <Content Include="Resources\1455997452_important.png" />
     <Content Include="Resources\readme.txt" />
     <EmbeddedResource Include="FormAbout.resx">
       <DependentUpon>FormAbout.cs</DependentUpon>

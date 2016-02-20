@@ -17,10 +17,10 @@ namespace QuickConnectPlugin {
 
         private const String OpenRemoteDesktopMenuItemText = "Open Remote Desktop";
         private const String OpenRemoteDesktopConsoleMenuItemText = "Open Remote Desktop (console)";
-        private const String OpenVMwareVSphereClientMenuItemText = "Open VMware vSphere Client";
-        private const String OpenSshConsoleMenuItemText = "Open PuTTY Console";
-        private const String IPAddressPropertyName = "IP Address";
-        private const String OSTypePropertyName = "OS Type";
+        private const String OpenVSphereClientMenuItemText = "Open vSphere Client";
+        private const String OpenSSHConsoleMenuItemText = "Open PuTTY Console";
+        private const String DefaultHostAddressFieldName = "IP Address";
+        private const String DefaultConnectionMethodFieldName = "OS Type";
 
         private IPluginHost pluginHost = null;
 
@@ -35,7 +35,7 @@ namespace QuickConnectPlugin {
         private String RDCConsoleParameter {
             get {
                 if (rdcConsoleParameter == null) {
-                    rdcConsoleParameter = Utils.IsOlderRemoteDesktopConnectionVersion() ? "console" : "admin";
+                    rdcConsoleParameter = QuickConnectUtils.IsOlderRemoteDesktopConnectionVersion() ? "console" : "admin";
                 }
                 return rdcConsoleParameter;
             }
@@ -107,8 +107,8 @@ namespace QuickConnectPlugin {
             PwEntry[] selectedEntries = this.pluginHost.MainWindow.GetSelectedEntries();
             if (selectedEntries != null && selectedEntries.Length == 1) {
                 PwEntry pwEntry = selectedEntries[0];
-                String ipAddress = pwEntry.Strings.ReadSafe(!String.IsNullOrEmpty(this.Settings.HostAddressMapFieldName) ? this.Settings.HostAddressMapFieldName : IPAddressPropertyName);
-                var connectionMethodFieldValue = pwEntry.Strings.ReadSafe(!String.IsNullOrEmpty(this.Settings.ConnectionMethodMapFieldName) ? this.Settings.ConnectionMethodMapFieldName : OSTypePropertyName);
+                String ipAddress = pwEntry.Strings.ReadSafe(!String.IsNullOrEmpty(this.Settings.HostAddressMapFieldName) ? this.Settings.HostAddressMapFieldName : DefaultHostAddressFieldName);
+                var connectionMethodFieldValue = pwEntry.Strings.ReadSafe(!String.IsNullOrEmpty(this.Settings.ConnectionMethodMapFieldName) ? this.Settings.ConnectionMethodMapFieldName : DefaultConnectionMethodFieldName);
                 var connectionMethods = ConnectionMethodTypeUtils.GetConnectionMethodsFromString(connectionMethodFieldValue);
                 if (connectionMethods.Count != 0) {
                     this.addMenuItems(new HostPwEntry(pwEntry, ipAddress, connectionMethods));
@@ -161,7 +161,7 @@ namespace QuickConnectPlugin {
                             thread.Start();
                         }
                         catch (Exception ex) {
-                            Debug.WriteLine(ex.ToString());
+                            this.log(ex.ToString());
                         }
                     }
                 );
@@ -211,7 +211,7 @@ namespace QuickConnectPlugin {
                           thread.Start();
                       }
                       catch (Exception ex) {
-                          Debug.WriteLine(ex.ToString());
+                          log(ex.ToString());
                       }
                   }
                 );
@@ -219,14 +219,13 @@ namespace QuickConnectPlugin {
             };
             if (hostPwEntry.ConnectionMethods.Contains(ConnectionMethodType.PuttySSH)) {
                 var openSshConsoleMenuItem = new ToolStripMenuItem() {
-                    Text = OpenSshConsoleMenuItemText,
+                    Text = OpenSSHConsoleMenuItemText,
                     Image = (System.Drawing.Image)QuickConnectPlugin.Properties.Resources.konsole,
                     Enabled = hostPwEntry.HasIPAddress()
                 };
                 openSshConsoleMenuItem.Click += new EventHandler(
                     delegate(object obj, EventArgs ev) {
                         try {
-                            Debug.WriteLine("openSshConsoleMenuItem.Click");
                             // Start a detached process.
                             Process cmd = new Process();
                             cmd.StartInfo.FileName = "cmd.exe";
@@ -236,7 +235,7 @@ namespace QuickConnectPlugin {
                             cmd.StartInfo.UseShellExecute = false;
                             cmd.Start();
                             cmd.StandardInput.WriteLine(String.Format("\"{0}\" -ssh {2}@{1} -pw {3}",
-                                this.Settings.SSHClientPath ?? Utils.GetPuttyPath(),
+                                this.Settings.SSHClientPath ?? QuickConnectUtils.GetPuttyPath(),
                                 hostPwEntry.IPAddress,
                                 hostPwEntry.GetUsername(),
                                 hostPwEntry.GetPassword())
@@ -245,22 +244,21 @@ namespace QuickConnectPlugin {
                             cmd.StandardInput.Close();
                         }
                         catch (Exception ex) {
-                            Debug.WriteLine(ex.ToString());
+                            log(ex.ToString());
                         };
                     }
                 );
                 this.menuItems.Add(openSshConsoleMenuItem);
             };
             if (hostPwEntry.ConnectionMethods.Contains(ConnectionMethodType.vSphereClient)) {
-                var openVMWareVSphereClientMenuItem = new ToolStripMenuItem() {
-                    Text = OpenVMwareVSphereClientMenuItemText,
+                var openVSphereClientMenuItem = new ToolStripMenuItem() {
+                    Text = OpenVSphereClientMenuItemText,
                     Image = (System.Drawing.Image)QuickConnectPlugin.Properties.Resources.vmware,
                     Enabled = hostPwEntry.HasIPAddress()
                 };
-                openVMWareVSphereClientMenuItem.Click += new EventHandler(
+                openVSphereClientMenuItem.Click += new EventHandler(
                     delegate(object obj, EventArgs ev) {
                         try {
-                            Debug.WriteLine("openVMWareVSphereClientMenuItem.Click");
                             // Start a detached process.
                             Process cmd = new Process();
                             cmd.StartInfo.FileName = "cmd.exe";
@@ -271,7 +269,7 @@ namespace QuickConnectPlugin {
                             cmd.Start();
                             // TODO: Find a way to hide password shown in command line arguments.
                             cmd.StandardInput.WriteLine(String.Format("\"{0}\" -s {1} -u {2} -p {3}",
-                                Utils.GetVMwareVSphereClientPath(),
+                                QuickConnectUtils.GetVSphereClientPath(),
                                 hostPwEntry.IPAddress,
                                 hostPwEntry.GetUsername(),
                                 hostPwEntry.GetPassword())
@@ -280,11 +278,11 @@ namespace QuickConnectPlugin {
                             cmd.StandardInput.Close();
                         }
                         catch (Exception ex) {
-                            Debug.WriteLine(ex.ToString());
+                            log(ex.ToString());
                         }
                     }
                 );
-                this.menuItems.Add(openVMWareVSphereClientMenuItem);
+                this.menuItems.Add(openVSphereClientMenuItem);
             }
 
             var putMenuItemsOnTop = !this.Settings.CompatibleMode;
@@ -311,6 +309,10 @@ namespace QuickConnectPlugin {
                 this.pluginHost.MainWindow.EntryContextMenu.Items.Remove(menuItem);
             }
             this.menuItems.Clear();
+        }
+
+        private void log(String message) {
+            Debug.WriteLine(String.Format("[{0}] {1}", this.GetType().Name, message));
         }
 
         public override void Terminate() {

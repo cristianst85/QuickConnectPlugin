@@ -8,8 +8,8 @@
     <ProjectGuid>{D8D7C102-FFA4-4A56-A885-D4556052D8E9}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>QuickConnectPlugin.GuiTest</RootNamespace>
-    <AssemblyName>QuickConnectPlugin.GuiTest</AssemblyName>
+    <RootNamespace>QuickConnectPlugin.OptionsFormLauncher</RootNamespace>
+    <AssemblyName>QuickConnectPlugin.OptionsFormLauncher</AssemblyName>
     <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>

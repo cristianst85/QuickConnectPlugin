@@ -41,12 +41,15 @@
             this.buttonApply = new System.Windows.Forms.Button();
             this.buttonCancel = new System.Windows.Forms.Button();
             this.buttonOK = new System.Windows.Forms.Button();
+            this.labelSSHClientPathWarningMessage = new System.Windows.Forms.Label();
+            this.pictureBoxSSHClientPathWarningIcon = new System.Windows.Forms.PictureBox();
             this.tabControl3.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.tabPage2.SuspendLayout();
             this.groupBox12.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxSSHClientPathWarningIcon)).BeginInit();
             this.SuspendLayout();
             // 
             // tabControl3
@@ -73,6 +76,8 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.pictureBoxSSHClientPathWarningIcon);
+            this.groupBox2.Controls.Add(this.labelSSHClientPathWarningMessage);
             this.groupBox2.Controls.Add(this.buttonConfigureSSHClientPath);
             this.groupBox2.Controls.Add(this.textBoxSSHClientPath);
             this.groupBox2.Location = new System.Drawing.Point(3, 97);
@@ -232,6 +237,27 @@
             this.buttonOK.UseVisualStyleBackColor = true;
             this.buttonOK.Click += new System.EventHandler(this.buttonOK_Click);
             // 
+            // labelSSHClientPathWarningMessage
+            // 
+            this.labelSSHClientPathWarningMessage.AutoSize = true;
+            this.labelSSHClientPathWarningMessage.Location = new System.Drawing.Point(38, 50);
+            this.labelSSHClientPathWarningMessage.Name = "labelSSHClientPathWarningMessage";
+            this.labelSSHClientPathWarningMessage.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.labelSSHClientPathWarningMessage.Size = new System.Drawing.Size(151, 13);
+            this.labelSSHClientPathWarningMessage.TabIndex = 5;
+            this.labelSSHClientPathWarningMessage.Text = "Specified path does not exists.";
+            this.labelSSHClientPathWarningMessage.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // pictureBoxSSHClientPathWarningIcon
+            // 
+            this.pictureBoxSSHClientPathWarningIcon.ErrorImage = null;
+            this.pictureBoxSSHClientPathWarningIcon.Image = global::QuickConnectPlugin.Properties.Resources.important;
+            this.pictureBoxSSHClientPathWarningIcon.Location = new System.Drawing.Point(19, 49);
+            this.pictureBoxSSHClientPathWarningIcon.Name = "pictureBoxSSHClientPathWarningIcon";
+            this.pictureBoxSSHClientPathWarningIcon.Size = new System.Drawing.Size(16, 16);
+            this.pictureBoxSSHClientPathWarningIcon.TabIndex = 7;
+            this.pictureBoxSSHClientPathWarningIcon.TabStop = false;
+            // 
             // FormOptions
             // 
             this.AcceptButton = this.buttonOK;
@@ -259,6 +285,7 @@
             this.tabPage2.ResumeLayout(false);
             this.groupBox12.ResumeLayout(false);
             this.groupBox12.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxSSHClientPathWarningIcon)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -283,5 +310,7 @@
         private System.Windows.Forms.CheckBox checkBoxEnable;
         private System.Windows.Forms.CheckBox checkBoxCompatibleMode;
         private System.Windows.Forms.Label labelWarningMessage;
+        private System.Windows.Forms.Label labelSSHClientPathWarningMessage;
+        private System.Windows.Forms.PictureBox pictureBoxSSHClientPathWarningIcon;
     }
 }

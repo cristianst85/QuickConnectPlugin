@@ -38,7 +38,8 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="UtilsTests.cs" />
+    <Compile Include="ConnectionMethodTypeUtilsTests.cs" />
+    <Compile Include="QuickConnectUtilsTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

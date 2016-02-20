@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 
-namespace QuickConnectPlugin.GuiTest {
+namespace QuickConnectPlugin.OptionsFormLauncher {
 
     public class InMemoryQuickConnectPluginSettings : IQuickConnectPluginSettings {
 

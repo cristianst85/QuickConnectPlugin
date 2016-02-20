@@ -21,12 +21,18 @@ namespace QuickConnectPlugin {
             this.checkBoxEnable.Checked = settings.Enabled;
             this.checkBoxCompatibleMode.Checked = settings.CompatibleMode;
 
+            ToolTip checkBoxCompatibleModeToolTip = new ToolTip();
+            checkBoxCompatibleModeToolTip.AutomaticDelay = 500;
+            checkBoxCompatibleModeToolTip.InitialDelay = 500;
+            checkBoxCompatibleModeToolTip.ShowAlways = true;
+            checkBoxCompatibleModeToolTip.SetToolTip(
+                this.checkBoxCompatibleMode,
+                "When checked the menu items are added at the bottom of the\r\n" +
+                "contextual menu (right-click on any entry in the list view)."
+            );
+
             this.textBoxSSHClientPath.Text = settings.SSHClientPath;
             this.textBoxSSHClientPath.Select(this.textBoxSSHClientPath.Text.Length, 0);
-
-            if (String.IsNullOrEmpty(settings.SSHClientPath) && !File.Exists(settings.SSHClientPath)) {
-                // TODO: Add tooltip.
-            }
 
             // Always add empty items.
             this.comboBoxHostAddressMapFieldName.Items.Add(String.Empty);
@@ -76,8 +82,13 @@ namespace QuickConnectPlugin {
             this.textBoxSSHClientPath.TextChanged += new EventHandler(settingsChanged);
             this.comboBoxHostAddressMapFieldName.SelectedIndexChanged += new EventHandler(settingsChanged);
             this.comboBoxConnectionMethodMapFieldName.SelectedIndexChanged += new EventHandler(settingsChanged);
-            
+
+            this.pictureBoxSSHClientPathWarningIcon.Visible = false;
+            this.labelSSHClientPathWarningMessage.Visible = false;
             this.buttonApply.Enabled = false;
+
+            // Force settings validation.
+            this.validateSettings();
         }
 
         private void buttonApply_Click(object sender, EventArgs e) {
@@ -113,16 +124,14 @@ namespace QuickConnectPlugin {
         }
 
         private void settingsChanged(Object sender, EventArgs e) {
-            if (validateSettings()) {
-                this.buttonApply.Enabled = true;
-            }
-            else {
-                this.buttonApply.Enabled = false;
-            }
+            this.buttonApply.Enabled = validateSettings();
         }
 
         private bool validateSettings() {
-            return isSSHClientPathValid();
+            bool isValid = isSSHClientPathValid();
+            this.pictureBoxSSHClientPathWarningIcon.Visible = !isValid;
+            this.labelSSHClientPathWarningMessage.Visible = !isValid;
+            return isValid;
         }
 
         private void buttonConfigureSSHClientPath_Click(object sender, EventArgs e) {

@@ -18,7 +18,7 @@ namespace QuickConnectPlugin {
             if (description.ToLower().Contains("esxi") || description.ToLower().Contains("vcenter")) {
                 connectionMethods.Add(ConnectionMethodType.vSphereClient);
             };
-            if (description.ToLower().Contains("linux")) {
+            if (description.ToLower().Contains("linux") || QuickConnectUtils.IsLinuxDistribution(description)) {
                 connectionMethods.Add(ConnectionMethodType.PuttySSH);
             };
             return connectionMethods;

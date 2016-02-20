@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows.Forms;
 
-namespace QuickConnectPlugin.GuiTest {
+namespace QuickConnectPlugin.OptionsFormLauncher {
 
     public class Program {
 
