@@ -1,3 +1,7 @@
+0.2.1
+
+ Minor improvements and bug fixes.
+
 0.2.0
 
  Added the ability to configure plugin options.
