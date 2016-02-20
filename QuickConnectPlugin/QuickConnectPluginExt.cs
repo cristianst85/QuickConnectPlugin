@@ -14,6 +14,8 @@ namespace QuickConnectPlugin {
         public const String Title = "QuickConnect";
 
         private const String PluginName = "QuickConnectPlugin";
+        // private const String PluginUpdateUrl = "http://www.disruptivesoftware.ro/projects/KeePassPluginsVersionFile.txt";
+        private const String PluginUpdateUrl = "https://raw.githubusercontent.com/cristianst85/QuickConnectPlugin/master/VERSION";
 
         private const String OpenRemoteDesktopMenuItemText = "Open Remote Desktop";
         private const String OpenRemoteDesktopConsoleMenuItemText = "Open Remote Desktop (console)";
@@ -42,6 +44,12 @@ namespace QuickConnectPlugin {
         }
 
         public IQuickConnectPluginSettings Settings { get; private set; }
+
+        public override string UpdateUrl {
+            get {
+                return PluginUpdateUrl;
+            }
+        }
 
         public override bool Initialize(IPluginHost pluginHost) {
 
