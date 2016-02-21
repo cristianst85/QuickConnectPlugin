@@ -226,10 +226,11 @@ namespace QuickConnectPlugin {
                 this.menuItems.Add(openRemoteDesktopConsoleMenuItem);
             };
             if (hostPwEntry.ConnectionMethods.Contains(ConnectionMethodType.PuttySSH)) {
+                var sshClientPath = !String.IsNullOrEmpty(this.Settings.SSHClientPath) ? this.Settings.SSHClientPath : QuickConnectUtils.GetPuttyPath();
                 var openSshConsoleMenuItem = new ToolStripMenuItem() {
                     Text = OpenSSHConsoleMenuItemText,
                     Image = (System.Drawing.Image)QuickConnectPlugin.Properties.Resources.konsole,
-                    Enabled = hostPwEntry.HasIPAddress()
+                    Enabled = hostPwEntry.HasIPAddress() && !String.IsNullOrEmpty(sshClientPath)
                 };
                 openSshConsoleMenuItem.Click += new EventHandler(
                     delegate(object obj, EventArgs ev) {
@@ -243,7 +244,7 @@ namespace QuickConnectPlugin {
                             cmd.StartInfo.UseShellExecute = false;
                             cmd.Start();
                             cmd.StandardInput.WriteLine(String.Format("\"{0}\" -ssh {2}@{1} -pw {3}",
-                                this.Settings.SSHClientPath ?? QuickConnectUtils.GetPuttyPath(),
+                                sshClientPath,
                                 hostPwEntry.IPAddress,
                                 hostPwEntry.GetUsername(),
                                 hostPwEntry.GetPassword())
@@ -259,10 +260,11 @@ namespace QuickConnectPlugin {
                 this.menuItems.Add(openSshConsoleMenuItem);
             };
             if (hostPwEntry.ConnectionMethods.Contains(ConnectionMethodType.vSphereClient)) {
+                var vSphereClientPath = QuickConnectUtils.GetVSphereClientPath();
                 var openVSphereClientMenuItem = new ToolStripMenuItem() {
                     Text = OpenVSphereClientMenuItemText,
                     Image = (System.Drawing.Image)QuickConnectPlugin.Properties.Resources.vmware,
-                    Enabled = hostPwEntry.HasIPAddress()
+                    Enabled = hostPwEntry.HasIPAddress() && !String.IsNullOrEmpty(vSphereClientPath)
                 };
                 openVSphereClientMenuItem.Click += new EventHandler(
                     delegate(object obj, EventArgs ev) {
@@ -277,7 +279,7 @@ namespace QuickConnectPlugin {
                             cmd.Start();
                             // TODO: Find a way to hide password shown in command line arguments.
                             cmd.StandardInput.WriteLine(String.Format("\"{0}\" -s {1} -u {2} -p {3}",
-                                QuickConnectUtils.GetVSphereClientPath(),
+                                vSphereClientPath,
                                 hostPwEntry.IPAddress,
                                 hostPwEntry.GetUsername(),
                                 hostPwEntry.GetPassword())
