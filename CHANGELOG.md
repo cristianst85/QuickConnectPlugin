@@ -1,3 +1,7 @@
+0.2.3
+
+ Minor improvements.
+
 0.2.2
 
  Added UpdateUrl so that KeePass can check for plugin updates.
