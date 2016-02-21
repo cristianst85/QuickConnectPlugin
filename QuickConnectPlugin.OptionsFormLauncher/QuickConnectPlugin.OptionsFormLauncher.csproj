@@ -37,9 +37,7 @@
       <HintPath>..\QuickConnectPlugin\bin\Debug\KeePass.exe</HintPath>
     </Reference>
     <Reference Include="System" />
-    <Reference Include="System.Data" />
     <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="InMemoryQuickConnectPluginSettings.cs" />
