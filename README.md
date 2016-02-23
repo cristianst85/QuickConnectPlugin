@@ -9,9 +9,9 @@ QuickConnect is a plugin for [KeePass](http://keepass.info) password manager tha
 
 ## Installation
 
-- Download the latest release;
-- Verify that the checksum for QuickConnectPlugin.dll matches the one published with the release;
-- Copy the QuickConnectPlugin.dll in the KeePass plugins directory and restart the application.
+- Download the [latest](https://github.com/cristianst85/QuickConnectPlugin/releases/latest) release;
+- Verify that the checksum for QuickConnectPlugin.plgx matches the one published with the release;
+- Copy the QuickConnectPlugin.plgx in the KeePass plugins directory and restart the application.
 
 ## Usage
 
@@ -21,7 +21,9 @@ QuickConnect is a plugin for [KeePass](http://keepass.info) password manager tha
     * `windows` - *Open Remote Desktop* and *Open Remote Desktop (console)*;
 	* `esxi` or `vcenter` - *Open vSphere Client*;
 	* `linux` or a known Linux distribution name - *Open PuTTY Console*.
-	 
+
+<p align="center"><img src="https://raw.github.com/cristianst85/QuickConnectPlugin/master/docs/screenshot.png" alt="QuickConnectPlugin" /></p>
+
 ## Security Considerations
 
 - Please take note that when launching *vSphere Client* or *PuTTY* the plugin exposes the password via command-line arguments and it is visible during the entire lifetime of the child process.
