@@ -4,7 +4,7 @@ QuickConnect is a plugin for [KeePass](http://keepass.info) password manager tha
 
 ## Requirements
 
-- Microsoft Windows XP/7 with .NET Framework 4.0;
+- Microsoft Windows XP/7 with .NET Framework 3.5;
 - [KeePass](http://keepass.info) version 2.31 or newer.
 
 ## Installation
