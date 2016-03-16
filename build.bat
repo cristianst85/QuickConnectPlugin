@@ -15,7 +15,7 @@ IF EXIST .\QuickConnectPlugin\obj\ (
 )
 
 echo Building PLGX file...
-%KEEPASS_PATH% --plgx-create "%SOURCE_PATH%"
+%KEEPASS_PATH% --plgx-prereq-net:3.5 --plgx-create "%SOURCE_PATH%"
 
 IF NOT EXIST build (
 	mkdir build
