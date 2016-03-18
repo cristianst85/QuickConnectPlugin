@@ -114,12 +114,16 @@ namespace QuickConnectPlugin {
 
             PwEntry[] selectedEntries = this.pluginHost.MainWindow.GetSelectedEntries();
             if (selectedEntries != null && selectedEntries.Length == 1) {
-                PwEntry pwEntry = selectedEntries[0];
-                String ipAddress = pwEntry.Strings.ReadSafe(!String.IsNullOrEmpty(this.Settings.HostAddressMapFieldName) ? this.Settings.HostAddressMapFieldName : DefaultHostAddressFieldName);
-                var connectionMethodFieldValue = pwEntry.Strings.ReadSafe(!String.IsNullOrEmpty(this.Settings.ConnectionMethodMapFieldName) ? this.Settings.ConnectionMethodMapFieldName : DefaultConnectionMethodFieldName);
-                var connectionMethods = ConnectionMethodTypeUtils.GetConnectionMethodsFromString(connectionMethodFieldValue);
-                if (connectionMethods.Count != 0) {
-                    this.addMenuItems(new HostPwEntry(pwEntry, ipAddress, connectionMethods));
+                HostPwEntry hostPwEntry = new HostPwEntry(
+                    selectedEntries[0],
+                    this.pluginHost.Database,
+                    !String.IsNullOrEmpty(this.Settings.ConnectionMethodMapFieldName) ?
+                    this.Settings.ConnectionMethodMapFieldName : DefaultConnectionMethodFieldName,
+                    !String.IsNullOrEmpty(this.Settings.HostAddressMapFieldName) ?
+                    this.Settings.HostAddressMapFieldName : DefaultHostAddressFieldName
+                );
+                if (hostPwEntry.HasConnectionMethods) {
+                    this.addMenuItems(hostPwEntry);
                 }
             }
         }
@@ -129,7 +133,7 @@ namespace QuickConnectPlugin {
                 var openRemoteDesktopMenuItem = new ToolStripMenuItem() {
                     Text = OpenRemoteDesktopMenuItemText,
                     Image = (System.Drawing.Image)QuickConnectPlugin.Properties.Resources.remote,
-                    Enabled = hostPwEntry.HasIPAddress()
+                    Enabled = hostPwEntry.HasIPAddress
                 };
                 openRemoteDesktopMenuItem.Click += new EventHandler(
                     delegate(object obj, EventArgs ev) {
@@ -179,7 +183,7 @@ namespace QuickConnectPlugin {
                 var openRemoteDesktopConsoleMenuItem = new ToolStripMenuItem() {
                     Text = OpenRemoteDesktopConsoleMenuItemText,
                     Image = (System.Drawing.Image)QuickConnectPlugin.Properties.Resources.mycomputer,
-                    Enabled = hostPwEntry.HasIPAddress()
+                    Enabled = hostPwEntry.HasIPAddress
                 };
                 openRemoteDesktopConsoleMenuItem.Click += new EventHandler(
                   delegate(object obj, EventArgs ev) {
@@ -230,7 +234,7 @@ namespace QuickConnectPlugin {
                 var openSshConsoleMenuItem = new ToolStripMenuItem() {
                     Text = OpenSSHConsoleMenuItemText,
                     Image = (System.Drawing.Image)QuickConnectPlugin.Properties.Resources.konsole,
-                    Enabled = hostPwEntry.HasIPAddress() && !String.IsNullOrEmpty(sshClientPath)
+                    Enabled = hostPwEntry.HasIPAddress && !String.IsNullOrEmpty(sshClientPath)
                 };
                 openSshConsoleMenuItem.Click += new EventHandler(
                     delegate(object obj, EventArgs ev) {
@@ -264,7 +268,7 @@ namespace QuickConnectPlugin {
                 var openVSphereClientMenuItem = new ToolStripMenuItem() {
                     Text = OpenVSphereClientMenuItemText,
                     Image = (System.Drawing.Image)QuickConnectPlugin.Properties.Resources.vmware,
-                    Enabled = hostPwEntry.HasIPAddress() && !String.IsNullOrEmpty(vSphereClientPath)
+                    Enabled = hostPwEntry.HasIPAddress && !String.IsNullOrEmpty(vSphereClientPath)
                 };
                 openVSphereClientMenuItem.Click += new EventHandler(
                     delegate(object obj, EventArgs ev) {
