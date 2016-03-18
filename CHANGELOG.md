@@ -1,3 +1,7 @@
+0.2.4
+
+ Bug fix.
+
 0.2.3
 
  Minor improvements.
