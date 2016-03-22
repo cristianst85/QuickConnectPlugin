@@ -37,6 +37,7 @@ namespace QuickConnectPlugin {
             // Always add empty items.
             this.comboBoxHostAddressMapFieldName.Items.Add(String.Empty);
             this.comboBoxConnectionMethodMapFieldName.Items.Add(String.Empty);
+            this.comboBoxAdditionalOptionsMapFieldName.Items.Add(String.Empty);
 
             if (dbFields == null) {
                 this.labelWarningMessage.Visible = true;
@@ -49,15 +50,20 @@ namespace QuickConnectPlugin {
                 if (!String.IsNullOrEmpty(settings.ConnectionMethodMapFieldName)) {
                     this.comboBoxConnectionMethodMapFieldName.Items.Add(settings.ConnectionMethodMapFieldName);
                 }
+                if (!String.IsNullOrEmpty(settings.AdditionalOptionsMapFieldName)) {
+                    this.comboBoxAdditionalOptionsMapFieldName.Items.Add(settings.AdditionalOptionsMapFieldName);
+                }
 
                 this.comboBoxHostAddressMapFieldName.SelectedValue = settings.HostAddressMapFieldName;
                 this.comboBoxConnectionMethodMapFieldName.SelectedValue = settings.ConnectionMethodMapFieldName;
+                this.comboBoxAdditionalOptionsMapFieldName.SelectedValue = settings.AdditionalOptionsMapFieldName;
             }
             else {
                 this.labelWarningMessage.Visible = false;
                 foreach (var field in dbFields) {
                     this.comboBoxHostAddressMapFieldName.Items.Add(field);
                     this.comboBoxConnectionMethodMapFieldName.Items.Add(field);
+                    this.comboBoxAdditionalOptionsMapFieldName.Items.Add(field);
                 }
             }
 
@@ -75,6 +81,13 @@ namespace QuickConnectPlugin {
                 this.comboBoxConnectionMethodMapFieldName.SelectedIndex =
                     this.comboBoxConnectionMethodMapFieldName.FindStringExact(this.settings.ConnectionMethodMapFieldName);
             }
+            if (String.IsNullOrEmpty(settings.AdditionalOptionsMapFieldName)) {
+                this.comboBoxAdditionalOptionsMapFieldName.SelectedValue = String.Empty;
+            }
+            else {
+                this.comboBoxAdditionalOptionsMapFieldName.SelectedIndex =
+                    this.comboBoxAdditionalOptionsMapFieldName.FindStringExact(this.settings.AdditionalOptionsMapFieldName);
+            }
 
             // Add handlers.
             this.checkBoxEnable.CheckedChanged += new EventHandler(settingsChanged);
@@ -82,6 +95,7 @@ namespace QuickConnectPlugin {
             this.textBoxSSHClientPath.TextChanged += new EventHandler(settingsChanged);
             this.comboBoxHostAddressMapFieldName.SelectedIndexChanged += new EventHandler(settingsChanged);
             this.comboBoxConnectionMethodMapFieldName.SelectedIndexChanged += new EventHandler(settingsChanged);
+            this.comboBoxAdditionalOptionsMapFieldName.SelectedIndexChanged += new EventHandler(settingsChanged);
 
             this.pictureBoxSSHClientPathWarningIcon.Visible = false;
             this.labelSSHClientPathWarningMessage.Visible = false;
@@ -109,6 +123,7 @@ namespace QuickConnectPlugin {
             this.settings.SSHClientPath = this.textBoxSSHClientPath.Text;
             this.settings.HostAddressMapFieldName = (String)this.comboBoxHostAddressMapFieldName.SelectedItem;
             this.settings.ConnectionMethodMapFieldName = (String)this.comboBoxConnectionMethodMapFieldName.SelectedItem;
+            this.settings.AdditionalOptionsMapFieldName = (String)this.comboBoxAdditionalOptionsMapFieldName.SelectedItem;
             this.settings.Save();
         }
 

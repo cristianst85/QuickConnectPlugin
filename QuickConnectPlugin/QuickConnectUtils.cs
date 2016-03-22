@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
 using Microsoft.Win32;
@@ -55,35 +53,5 @@ namespace QuickConnectPlugin {
                 return null;
             }
         }
-
-        public static bool IsLinuxDistribution(String description) {
-            if (String.IsNullOrEmpty(description)) {
-                return false;
-            }
-            foreach (var name in LinuxDistributionsNames) {
-                if (description.ToLower().Contains(name.ToLower())) {
-                    return true;
-                }
-            }
-            return false;
-        }
-
-        public static readonly ICollection<String> LinuxDistributionsNames = new Collection<String>() {
-            "openSUSE",
-            "SUSE",
-            "SLES",
-            "Red Hat",
-            "RHEL",
-            "CentOS",
-            "Debian",
-            "Gentoo",
-            "Ubuntu",
-            "Fedora",
-            "Mandriva",
-            "Mageia",
-            "Arch",
-            "Slackware",
-            "Mint"
-        };
     }
 }

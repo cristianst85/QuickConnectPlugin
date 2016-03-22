@@ -41,7 +41,18 @@
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ArgumentsFormatters\CmdKeyRegisterArgumentsFormatter.cs" />
     <Compile Include="Commons\AssemblyUtils.cs" />
+    <Compile Include="ArgumentsFormatters\CmdKeyUnregisterArgumentsFormatter.cs" />
+    <Compile Include="IFieldMapper.cs" />
+    <Compile Include="IHostPwEntry.cs" />
+    <Compile Include="PuttyOptions.cs" />
+    <Compile Include="PuttyOptionsParser.cs" />
+    <Compile Include="RegistryPuttySessionFinder.cs" />
+    <Compile Include="ArgumentsFormatters\IArgumentsFormatter.cs" />
+    <Compile Include="Commons\ProcessUtils.cs" />
+    <Compile Include="IPuttySessionFinder.cs" />
+    <Compile Include="ArgumentsFormatters\PuttyArgumentsFormatter.cs" />
     <Compile Include="PwEntryUtils.cs" />
     <Compile Include="FormAbout.cs">
       <SubType>Form</SubType>
@@ -70,8 +81,10 @@
     </Compile>
     <Compile Include="QuickConnectPluginExt.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ArgumentsFormatters\RemoteDesktopArgumentsFormatter.cs" />
+    <Compile Include="SettingsFieldMapper.cs" />
+    <Compile Include="ArgumentsFormatters\VSphereClientArgumentsFormatter.cs" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
     <EmbeddedResource Include="FormOptions.resx">
       <DependentUpon>FormOptions.cs</DependentUpon>

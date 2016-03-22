@@ -26,6 +26,8 @@
             this.tabControl3 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.pictureBoxSSHClientPathWarningIcon = new System.Windows.Forms.PictureBox();
+            this.labelSSHClientPathWarningMessage = new System.Windows.Forms.Label();
             this.buttonConfigureSSHClientPath = new System.Windows.Forms.Button();
             this.textBoxSSHClientPath = new System.Windows.Forms.TextBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
@@ -41,15 +43,15 @@
             this.buttonApply = new System.Windows.Forms.Button();
             this.buttonCancel = new System.Windows.Forms.Button();
             this.buttonOK = new System.Windows.Forms.Button();
-            this.labelSSHClientPathWarningMessage = new System.Windows.Forms.Label();
-            this.pictureBoxSSHClientPathWarningIcon = new System.Windows.Forms.PictureBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.comboBoxAdditionalOptionsMapFieldName = new System.Windows.Forms.ComboBox();
             this.tabControl3.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.groupBox2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxSSHClientPathWarningIcon)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.tabPage2.SuspendLayout();
             this.groupBox12.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxSSHClientPathWarningIcon)).BeginInit();
             this.SuspendLayout();
             // 
             // tabControl3
@@ -86,6 +88,27 @@
             this.groupBox2.TabIndex = 4;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "SSH Client Path";
+            // 
+            // pictureBoxSSHClientPathWarningIcon
+            // 
+            this.pictureBoxSSHClientPathWarningIcon.ErrorImage = null;
+            this.pictureBoxSSHClientPathWarningIcon.Image = global::QuickConnectPlugin.Properties.Resources.important;
+            this.pictureBoxSSHClientPathWarningIcon.Location = new System.Drawing.Point(19, 49);
+            this.pictureBoxSSHClientPathWarningIcon.Name = "pictureBoxSSHClientPathWarningIcon";
+            this.pictureBoxSSHClientPathWarningIcon.Size = new System.Drawing.Size(16, 16);
+            this.pictureBoxSSHClientPathWarningIcon.TabIndex = 7;
+            this.pictureBoxSSHClientPathWarningIcon.TabStop = false;
+            // 
+            // labelSSHClientPathWarningMessage
+            // 
+            this.labelSSHClientPathWarningMessage.AutoSize = true;
+            this.labelSSHClientPathWarningMessage.Location = new System.Drawing.Point(38, 50);
+            this.labelSSHClientPathWarningMessage.Name = "labelSSHClientPathWarningMessage";
+            this.labelSSHClientPathWarningMessage.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.labelSSHClientPathWarningMessage.Size = new System.Drawing.Size(151, 13);
+            this.labelSSHClientPathWarningMessage.TabIndex = 5;
+            this.labelSSHClientPathWarningMessage.Text = "Specified path does not exists.";
+            this.labelSSHClientPathWarningMessage.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // buttonConfigureSSHClientPath
             // 
@@ -147,6 +170,8 @@
             // 
             // groupBox12
             // 
+            this.groupBox12.Controls.Add(this.comboBoxAdditionalOptionsMapFieldName);
+            this.groupBox12.Controls.Add(this.label3);
             this.groupBox12.Controls.Add(this.labelWarningMessage);
             this.groupBox12.Controls.Add(this.label2);
             this.groupBox12.Controls.Add(this.comboBoxConnectionMethodMapFieldName);
@@ -162,7 +187,7 @@
             // labelWarningMessage
             // 
             this.labelWarningMessage.AutoSize = true;
-            this.labelWarningMessage.Location = new System.Drawing.Point(9, 101);
+            this.labelWarningMessage.Location = new System.Drawing.Point(9, 124);
             this.labelWarningMessage.Name = "labelWarningMessage";
             this.labelWarningMessage.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.labelWarningMessage.Size = new System.Drawing.Size(270, 26);
@@ -237,26 +262,23 @@
             this.buttonOK.UseVisualStyleBackColor = true;
             this.buttonOK.Click += new System.EventHandler(this.buttonOK_Click);
             // 
-            // labelSSHClientPathWarningMessage
+            // label3
             // 
-            this.labelSSHClientPathWarningMessage.AutoSize = true;
-            this.labelSSHClientPathWarningMessage.Location = new System.Drawing.Point(38, 50);
-            this.labelSSHClientPathWarningMessage.Name = "labelSSHClientPathWarningMessage";
-            this.labelSSHClientPathWarningMessage.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.labelSSHClientPathWarningMessage.Size = new System.Drawing.Size(151, 13);
-            this.labelSSHClientPathWarningMessage.TabIndex = 5;
-            this.labelSSHClientPathWarningMessage.Text = "Specified path does not exists.";
-            this.labelSSHClientPathWarningMessage.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(18, 84);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(113, 13);
+            this.label3.TabIndex = 5;
+            this.label3.Text = "Additional options from";
             // 
-            // pictureBoxSSHClientPathWarningIcon
+            // comboBoxAdditionalOptionsMapFieldName
             // 
-            this.pictureBoxSSHClientPathWarningIcon.ErrorImage = null;
-            this.pictureBoxSSHClientPathWarningIcon.Image = global::QuickConnectPlugin.Properties.Resources.important;
-            this.pictureBoxSSHClientPathWarningIcon.Location = new System.Drawing.Point(19, 49);
-            this.pictureBoxSSHClientPathWarningIcon.Name = "pictureBoxSSHClientPathWarningIcon";
-            this.pictureBoxSSHClientPathWarningIcon.Size = new System.Drawing.Size(16, 16);
-            this.pictureBoxSSHClientPathWarningIcon.TabIndex = 7;
-            this.pictureBoxSSHClientPathWarningIcon.TabStop = false;
+            this.comboBoxAdditionalOptionsMapFieldName.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxAdditionalOptionsMapFieldName.FormattingEnabled = true;
+            this.comboBoxAdditionalOptionsMapFieldName.Location = new System.Drawing.Point(137, 81);
+            this.comboBoxAdditionalOptionsMapFieldName.Name = "comboBoxAdditionalOptionsMapFieldName";
+            this.comboBoxAdditionalOptionsMapFieldName.Size = new System.Drawing.Size(137, 21);
+            this.comboBoxAdditionalOptionsMapFieldName.TabIndex = 6;
             // 
             // FormOptions
             // 
@@ -280,12 +302,12 @@
             this.tabPage1.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxSSHClientPathWarningIcon)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.tabPage2.ResumeLayout(false);
             this.groupBox12.ResumeLayout(false);
             this.groupBox12.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxSSHClientPathWarningIcon)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -312,5 +334,7 @@
         private System.Windows.Forms.Label labelWarningMessage;
         private System.Windows.Forms.Label labelSSHClientPathWarningMessage;
         private System.Windows.Forms.PictureBox pictureBoxSSHClientPathWarningIcon;
+        private System.Windows.Forms.ComboBox comboBoxAdditionalOptionsMapFieldName;
+        private System.Windows.Forms.Label label3;
     }
 }
