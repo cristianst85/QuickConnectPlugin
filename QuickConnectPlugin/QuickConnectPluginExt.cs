@@ -247,7 +247,7 @@ namespace QuickConnectPlugin {
                             cmd.StartInfo.CreateNoWindow = true;
                             cmd.StartInfo.UseShellExecute = false;
                             cmd.Start();
-                            cmd.StandardInput.WriteLine(String.Format("\"{0}\" -ssh {2}@{1} -pw {3}",
+                            cmd.StandardInput.WriteLine(String.Format("\"{0}\" -ssh {2}@{1} -pw \"{3}\"",
                                 sshClientPath,
                                 hostPwEntry.IPAddress,
                                 hostPwEntry.GetUsername(),
