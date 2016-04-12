@@ -139,7 +139,7 @@ namespace QuickConnectPlugin {
                             ProcessUtils.StartDetached(new CmdKeyUnregisterArgumentsFormatter().Format(hostPwEntry), TimeSpan.FromSeconds(5));
                         }
                         catch (Exception ex) {
-                            this.log(ex.ToString());
+                            log(ex);
                         }
                     }
                 );
@@ -164,7 +164,7 @@ namespace QuickConnectPlugin {
                           ProcessUtils.StartDetached(new CmdKeyUnregisterArgumentsFormatter().Format(hostPwEntry), TimeSpan.FromSeconds(5));
                       }
                       catch (Exception ex) {
-                          log(ex.ToString());
+                          log(ex);
                       }
                   }
                 );
@@ -185,7 +185,7 @@ namespace QuickConnectPlugin {
                             ProcessUtils.StartDetached(argsFormatter.Format(hostPwEntry));
                         }
                         catch (Exception ex) {
-                            log(ex.ToString());
+                            log(ex);
                         };
                     }
                 );
@@ -205,7 +205,7 @@ namespace QuickConnectPlugin {
                             ProcessUtils.StartDetached(argsFormatter.Format(hostPwEntry));
                         }
                         catch (Exception ex) {
-                            log(ex.ToString());
+                            log(ex);
                         }
                     }
                 );
@@ -238,8 +238,9 @@ namespace QuickConnectPlugin {
             this.menuItems.Clear();
         }
 
-        private void log(String message) {
-            Debug.WriteLine(String.Format("[{0}] {1}", this.GetType().Name, message));
+        private void log(Exception ex) {
+            Debug.WriteLine(String.Format("[{0}] Error while launching process. Exception: {1}", this.GetType().Name, ex.ToString()));
+            MessageBox.Show(String.Format("Error while launching process.\n\nError details: {0}", ex.ToString()), PluginName, MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
 
         public override void Terminate() {
