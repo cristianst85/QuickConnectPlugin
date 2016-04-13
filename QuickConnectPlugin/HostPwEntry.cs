@@ -28,13 +28,13 @@ namespace QuickConnectPlugin {
             }
         }
 
-        private string additionOptions = null;
+        private string additionalOptions = null;
         public string AdditionalOptions {
             get {
-                if (this.additionOptions == null) {
-                    this.additionOptions = this.fieldsMapper.AdditionalOptions;
+                if (this.additionalOptions == null) {
+                    this.additionalOptions = this.pwEntry.Strings.ReadSafe(this.fieldsMapper.AdditionalOptions);
                 }
-                return this.additionOptions;
+                return this.additionalOptions;
             }
         }
 
