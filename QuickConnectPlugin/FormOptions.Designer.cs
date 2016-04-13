@@ -35,6 +35,8 @@
             this.checkBoxEnable = new System.Windows.Forms.CheckBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.groupBox12 = new System.Windows.Forms.GroupBox();
+            this.comboBoxAdditionalOptionsMapFieldName = new System.Windows.Forms.ComboBox();
+            this.label3 = new System.Windows.Forms.Label();
             this.labelWarningMessage = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.comboBoxConnectionMethodMapFieldName = new System.Windows.Forms.ComboBox();
@@ -43,8 +45,6 @@
             this.buttonApply = new System.Windows.Forms.Button();
             this.buttonCancel = new System.Windows.Forms.Button();
             this.buttonOK = new System.Windows.Forms.Button();
-            this.label3 = new System.Windows.Forms.Label();
-            this.comboBoxAdditionalOptionsMapFieldName = new System.Windows.Forms.ComboBox();
             this.tabControl3.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -184,6 +184,24 @@
             this.groupBox12.TabStop = false;
             this.groupBox12.Text = "Settings";
             // 
+            // comboBoxAdditionalOptionsMapFieldName
+            // 
+            this.comboBoxAdditionalOptionsMapFieldName.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxAdditionalOptionsMapFieldName.FormattingEnabled = true;
+            this.comboBoxAdditionalOptionsMapFieldName.Location = new System.Drawing.Point(137, 81);
+            this.comboBoxAdditionalOptionsMapFieldName.Name = "comboBoxAdditionalOptionsMapFieldName";
+            this.comboBoxAdditionalOptionsMapFieldName.Size = new System.Drawing.Size(137, 21);
+            this.comboBoxAdditionalOptionsMapFieldName.TabIndex = 6;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(18, 84);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(113, 13);
+            this.label3.TabIndex = 5;
+            this.label3.Text = "Additional options from";
+            // 
             // labelWarningMessage
             // 
             this.labelWarningMessage.AutoSize = true;
@@ -262,24 +280,6 @@
             this.buttonOK.UseVisualStyleBackColor = true;
             this.buttonOK.Click += new System.EventHandler(this.buttonOK_Click);
             // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(18, 84);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(113, 13);
-            this.label3.TabIndex = 5;
-            this.label3.Text = "Additional options from";
-            // 
-            // comboBoxAdditionalOptionsMapFieldName
-            // 
-            this.comboBoxAdditionalOptionsMapFieldName.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBoxAdditionalOptionsMapFieldName.FormattingEnabled = true;
-            this.comboBoxAdditionalOptionsMapFieldName.Location = new System.Drawing.Point(137, 81);
-            this.comboBoxAdditionalOptionsMapFieldName.Name = "comboBoxAdditionalOptionsMapFieldName";
-            this.comboBoxAdditionalOptionsMapFieldName.Size = new System.Drawing.Size(137, 21);
-            this.comboBoxAdditionalOptionsMapFieldName.TabIndex = 6;
-            // 
             // FormOptions
             // 
             this.AcceptButton = this.buttonOK;
@@ -293,6 +293,7 @@
             this.Controls.Add(this.tabControl3);
             this.DoubleBuffered = true;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+            this.MaximizeBox = false;
             this.Name = "FormOptions";
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
