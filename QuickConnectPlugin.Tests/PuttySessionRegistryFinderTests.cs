@@ -13,10 +13,11 @@ namespace QuickConnectPlugin.Tests {
             CollectionAssert.IsNotEmpty(finder.Find(".*"));
         }
 
-        [Test]
-        public void FindAllThatContainsWord() {
+        [TestCase("root")]
+        [TestCase("keepass")]
+        public void FindAllThatContainsWord(String pattern) {
             RegistryPuttySessionFinder finder = new RegistryPuttySessionFinder();
-            CollectionAssert.IsNotEmpty(finder.Find("root"));
+            CollectionAssert.IsNotEmpty(finder.Find(pattern));
         }
     }
 }
