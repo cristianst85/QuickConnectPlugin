@@ -27,9 +27,12 @@ namespace QuickConnectPlugin.Commons {
             }
         }
 
-        public static void Start(String processCommand) {
+        public static void Start(String path, String processCommand) {
             using (Process process = new Process()) {
-                process.StartInfo.FileName = processCommand;
+                process.StartInfo.FileName = path;
+                process.StartInfo.Arguments = processCommand;
+                process.StartInfo.CreateNoWindow = true;
+                process.StartInfo.UseShellExecute = false;
                 process.Start();
             }
         }

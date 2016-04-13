@@ -131,7 +131,7 @@ namespace QuickConnectPlugin {
                 menuItem.Click += new EventHandler(
                     delegate(object obj, EventArgs ev) {
                         try {
-                            ProcessUtils.Start(new CmdKeyRegisterArgumentsFormatter().Format(hostPwEntry));
+                            ProcessUtils.Start(CmdKeyRegisterArgumentsFormatter.CmdKeyPath, new CmdKeyRegisterArgumentsFormatter().Format(hostPwEntry));
                             IArgumentsFormatter argsFormatter = new RemoteDesktopArgumentsFormatter() {
                                 FullScreen = true
                             };
@@ -154,7 +154,7 @@ namespace QuickConnectPlugin {
                 menuItem.Click += new EventHandler(
                   delegate(object obj, EventArgs ev) {
                       try {
-                          ProcessUtils.Start(new CmdKeyRegisterArgumentsFormatter().Format(hostPwEntry));
+                          ProcessUtils.Start(CmdKeyRegisterArgumentsFormatter.CmdKeyPath, new CmdKeyRegisterArgumentsFormatter().Format(hostPwEntry));
                           IArgumentsFormatter argsFormatter = new RemoteDesktopArgumentsFormatter() {
                               FullScreen = true,
                               UseConsole = true,
