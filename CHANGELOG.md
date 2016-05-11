@@ -1,6 +1,21 @@
+0.3.0-rc.2
+
+ Bug fix: Removed '-pw' switch and password when connecting with PuTTY via Telnet.
+ Minor UI improvement.
+
+0.3.0-rc.1
+
+ Added support for detecting connection method by specifying the protocol name (e.g.: ssh, telnet, rdp) instead of OS name/type.
+ Added support for specifying additional options (e.g.: session name) to load with PuTTY.
+ Other code optimizations and improvements.
+
+0.2.5
+
+ Bug fix: Passwords are enclosed in double quotes with PuTTY. Fixes an issue with passwords that contains white-spaces.
+
 0.2.4
 
- Bug fix.
+ Bug fix: Referenced fields (username/password) are properly compiled.
 
 0.2.3
 
