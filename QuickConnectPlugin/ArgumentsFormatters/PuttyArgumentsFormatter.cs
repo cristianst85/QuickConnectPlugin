@@ -36,12 +36,14 @@ namespace QuickConnectPlugin.ArgumentsFormatters {
                 sb.Append(" -telnet");
             }
 
-            // Allow passwords with white-spaces.
-            sb.AppendFormat(" {0}@{1} -pw \"{2}\"",
-                hostPwEntry.GetUsername(),
-                hostPwEntry.IPAddress,
-                hostPwEntry.GetPassword()
-            );
+            sb.AppendFormat(" {0}@{1}", hostPwEntry.GetUsername(), hostPwEntry.IPAddress);
+
+            // Specifying the password via -pw switch only works with SSH protocol.
+            // See: http://the.earth.li/~sgtatham/putty/0.65/htmldoc/Chapter3.html.
+            if (hostPwEntry.ConnectionMethods.Contains(ConnectionMethodType.PuttySSH)) {
+                // Allow passwords with white-spaces.
+                sb.AppendFormat(" -pw \"{0}\"", hostPwEntry.GetPassword());
+            }
 
             return sb.ToString();
         }

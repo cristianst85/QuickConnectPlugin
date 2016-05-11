@@ -67,7 +67,7 @@ namespace QuickConnectPlugin.ArgumentsFormatters.Tests {
             InMemoryPuttySessionFinder sessionFinder = new InMemoryPuttySessionFinder();
 
             PuttyArgumentsFormatter argumentsFormatter = new PuttyArgumentsFormatter("putty.exe", sessionFinder);
-            Assert.AreEqual("\"putty.exe\" -telnet root@127.0.0.1 -pw \"12345678\"", argumentsFormatter.Format(pwEntry));
+            Assert.AreEqual("\"putty.exe\" -telnet root@127.0.0.1", argumentsFormatter.Format(pwEntry));
         }
     }
 }
