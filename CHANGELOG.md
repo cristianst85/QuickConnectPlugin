@@ -1,7 +1,11 @@
+0.3.0-rc.3
+
+ Bug fix: Unescape session names containing special characters.
+
 0.3.0-rc.2
 
  Bug fix: Removed '-pw' switch and password when connecting with PuTTY via Telnet.
- Minor UI improvement.
+ Minor UI fix.
 
 0.3.0-rc.1
 
