@@ -7,6 +7,7 @@ using KeePassLib;
 using QuickConnectPlugin.ArgumentsFormatters;
 using QuickConnectPlugin.Commons;
 using QuickConnectPlugin.KeePass;
+using QuickConnectPlugin.Services;
 
 namespace QuickConnectPlugin {
 
@@ -181,7 +182,8 @@ namespace QuickConnectPlugin {
                 menuItem.Click += new EventHandler(
                     delegate(object obj, EventArgs ev) {
                         try {
-                            IArgumentsFormatter argsFormatter = new PuttyArgumentsFormatter(sshClientPath, new RegistryPuttySessionFinder());
+                            var sessionFinder = new RegistryPuttySessionFinder(new WindowsRegistryService());
+                            IArgumentsFormatter argsFormatter = new PuttyArgumentsFormatter(sshClientPath, sessionFinder);
                             ProcessUtils.StartDetached(argsFormatter.Format(hostPwEntry));
                         }
                         catch (Exception ex) {

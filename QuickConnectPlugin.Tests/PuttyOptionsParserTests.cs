@@ -24,6 +24,7 @@ namespace QuickConnectPlugin.Tests {
         [TestCase("session:\"My Session\"", "My Session")]
         [TestCase("session:\"My Session\"; Telnet", "My Session", Description = "Use the same field to specify the session name and connection method")]
         [TestCase("telnet; session:\"My Session\"", "My Session", Description = "Use the same field to specify the session name and connection method")]
+        [TestCase("session:\"%cygterm @ yellow/dark_blue\"", "%cygterm @ yellow/dark_blue", Description = "Test case / GitHub Issue #2")]
         public void TryParse(String optionsString, String expectedSessionName) {
             PuttyOptions options;
             Assert.IsTrue(PuttyOptionsParser.TryParse(optionsString, out options));

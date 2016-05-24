@@ -15,7 +15,7 @@ namespace QuickConnectPlugin.ArgumentsFormatters.Tests {
             };
             pwEntry.ConnectionMethods.Add(ConnectionMethodType.PuttySSH);
 
-            InMemoryPuttySessionFinder sessionFinder = new InMemoryPuttySessionFinder();
+            FakePuttySessionFinder sessionFinder = new FakePuttySessionFinder();
 
             PuttyArgumentsFormatter argumentsFormatter = new PuttyArgumentsFormatter("putty.exe", sessionFinder);
             Assert.AreEqual("\"putty.exe\" -ssh root@127.0.0.1 -pw \"12345678\"", argumentsFormatter.Format(pwEntry));
@@ -31,7 +31,7 @@ namespace QuickConnectPlugin.ArgumentsFormatters.Tests {
             };
             pwEntry.ConnectionMethods.Add(ConnectionMethodType.PuttySSH);
 
-            InMemoryPuttySessionFinder sessionFinder = new InMemoryPuttySessionFinder();
+            FakePuttySessionFinder sessionFinder = new FakePuttySessionFinder();
             sessionFinder.Sessions.Add("MySession");
 
             PuttyArgumentsFormatter argumentsFormatter = new PuttyArgumentsFormatter("putty.exe", sessionFinder);
@@ -48,8 +48,7 @@ namespace QuickConnectPlugin.ArgumentsFormatters.Tests {
             };
             pwEntry.ConnectionMethods.Add(ConnectionMethodType.PuttySSH);
 
-            InMemoryPuttySessionFinder sessionFinder = new InMemoryPuttySessionFinder();
-            sessionFinder.Sessions.Add("MySession");
+            FakePuttySessionFinder sessionFinder = new FakePuttySessionFinder();
 
             PuttyArgumentsFormatter argumentsFormatter = new PuttyArgumentsFormatter("putty.exe", sessionFinder);
             Assert.AreEqual("\"putty.exe\" -ssh root@127.0.0.1 -pw \"12345678\"", argumentsFormatter.Format(pwEntry));
@@ -64,7 +63,7 @@ namespace QuickConnectPlugin.ArgumentsFormatters.Tests {
             };
             pwEntry.ConnectionMethods.Add(ConnectionMethodType.PuttyTelnet);
 
-            InMemoryPuttySessionFinder sessionFinder = new InMemoryPuttySessionFinder();
+            FakePuttySessionFinder sessionFinder = new FakePuttySessionFinder();
 
             PuttyArgumentsFormatter argumentsFormatter = new PuttyArgumentsFormatter("putty.exe", sessionFinder);
             Assert.AreEqual("\"putty.exe\" -telnet root@127.0.0.1", argumentsFormatter.Format(pwEntry));

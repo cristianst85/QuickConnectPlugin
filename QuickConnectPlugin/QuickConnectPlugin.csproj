@@ -83,8 +83,10 @@
     <Compile Include="QuickConnectPluginExt.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ArgumentsFormatters\RemoteDesktopArgumentsFormatter.cs" />
+    <Compile Include="Services\WindowsRegistryService.cs" />
     <Compile Include="SettingsFieldMapper.cs" />
     <Compile Include="ArgumentsFormatters\VSphereClientArgumentsFormatter.cs" />
+    <Compile Include="Services\IRegistryService.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="FormOptions.resx">
