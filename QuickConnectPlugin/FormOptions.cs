@@ -43,6 +43,7 @@ namespace QuickConnectPlugin {
                 this.labelWarningMessage.Visible = true;
                 this.comboBoxHostAddressMapFieldName.Enabled = false;
                 this.comboBoxConnectionMethodMapFieldName.Enabled = false;
+                this.comboBoxAdditionalOptionsMapFieldName.Enabled = false;
 
                 if (!String.IsNullOrEmpty(settings.HostAddressMapFieldName)) {
                     this.comboBoxHostAddressMapFieldName.Items.Add(settings.HostAddressMapFieldName);
