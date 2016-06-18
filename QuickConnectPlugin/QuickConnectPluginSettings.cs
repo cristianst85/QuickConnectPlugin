@@ -9,6 +9,7 @@ namespace QuickConnectPlugin {
         public bool Enabled { get; set; }
         public bool CompatibleMode { get; set; }
         public String SSHClientPath { get; set; }
+        public string WinScpPath { get; set; }
         public String HostAddressMapFieldName { get; set; }
         public String ConnectionMethodMapFieldName { get; set; }
 
@@ -33,6 +34,7 @@ namespace QuickConnectPlugin {
             this.Enabled = this.pluginHost.CustomConfig.GetBool(this.propertyNameFormatter.Format("Enabled"), true);
             this.CompatibleMode = this.pluginHost.CustomConfig.GetBool(this.propertyNameFormatter.Format("CompatibleMode"), false);
             this.SSHClientPath = this.pluginHost.CustomConfig.GetString(this.propertyNameFormatter.Format("SSHClientPath"), String.Empty);
+            this.WinScpPath = this.pluginHost.CustomConfig.GetString(this.propertyNameFormatter.Format("WinScpPath"), String.Empty);
             this.HostAddressMapFieldName = this.pluginHost.CustomConfig.GetString(this.propertyNameFormatter.Format("HostAddressMapFieldName"), String.Empty);
             this.ConnectionMethodMapFieldName = this.pluginHost.CustomConfig.GetString(this.propertyNameFormatter.Format("ConnectionMethodMapFieldName"), String.Empty);
         }
@@ -44,6 +46,7 @@ namespace QuickConnectPlugin {
             this.pluginHost.CustomConfig.SetBool(this.propertyNameFormatter.Format("Enabled"), this.Enabled);
             this.pluginHost.CustomConfig.SetBool(this.propertyNameFormatter.Format("CompatibleMode"), this.CompatibleMode);
             this.pluginHost.CustomConfig.SetString(this.propertyNameFormatter.Format("SSHClientPath"), this.SSHClientPath);
+            this.pluginHost.CustomConfig.SetString(this.propertyNameFormatter.Format("WinScpPath"), this.WinScpPath);
             this.pluginHost.CustomConfig.SetString(this.propertyNameFormatter.Format("HostAddressMapFieldName"), this.HostAddressMapFieldName);
             this.pluginHost.CustomConfig.SetString(this.propertyNameFormatter.Format("ConnectionMethodMapFieldName"), this.ConnectionMethodMapFieldName);
         }

@@ -21,6 +21,7 @@ namespace QuickConnectPlugin {
         private const String OpenRemoteDesktopConsoleMenuItemText = "Open Remote Desktop (console)";
         private const String OpenVSphereClientMenuItemText = "Open vSphere Client";
         private const String OpenSSHConsoleMenuItemText = "Open PuTTY Console";
+        private const String OpenWinScpMenuItemText = "Open WinSCP";
         private const String DefaultHostAddressFieldName = "IP Address";
         private const String DefaultConnectionMethodFieldName = "OS Type";
 
@@ -262,6 +263,44 @@ namespace QuickConnectPlugin {
                     }
                 );
                 this.menuItems.Add(openSshConsoleMenuItem);
+            };
+            if (hostPwEntry.ConnectionMethods.Contains(ConnectionMethodType.WinSCP))
+            {
+                var winScpPath = !String.IsNullOrEmpty(this.Settings.WinScpPath) ? this.Settings.WinScpPath : QuickConnectUtils.GetWinScpPath();
+                var winScpConsoleMenuItem = new ToolStripMenuItem()
+                {
+                    Text = OpenWinScpMenuItemText,
+                    Image = (System.Drawing.Image)QuickConnectPlugin.Properties.Resources.winscp,
+                    Enabled = hostPwEntry.HasIPAddress && !String.IsNullOrEmpty(winScpPath)
+                };
+                winScpConsoleMenuItem.Click += new EventHandler(
+                    delegate (object obj, EventArgs ev) {
+                        try
+                        {
+                            // Start a detached process.
+                            Process cmd = new Process();
+                            cmd.StartInfo.FileName = "cmd.exe";
+                            cmd.StartInfo.RedirectStandardInput = true;
+                            cmd.StartInfo.RedirectStandardOutput = true;
+                            cmd.StartInfo.CreateNoWindow = true;
+                            cmd.StartInfo.UseShellExecute = false;
+                            cmd.Start();
+                            cmd.StandardInput.WriteLine(String.Format("\"{0}\" scp://{2}:{3}@{1}",
+                                winScpPath,
+                                hostPwEntry.IPAddress,
+                                hostPwEntry.GetUsername(),
+                                hostPwEntry.GetPassword())
+                                );
+                            cmd.StandardInput.Flush();
+                            cmd.StandardInput.Close();
+                        }
+                        catch (Exception ex)
+                        {
+                            log(ex.ToString());
+                        };
+                    }
+                );
+                this.menuItems.Add(winScpConsoleMenuItem);
             };
             if (hostPwEntry.ConnectionMethods.Contains(ConnectionMethodType.vSphereClient)) {
                 var vSphereClientPath = QuickConnectUtils.GetVSphereClientPath();

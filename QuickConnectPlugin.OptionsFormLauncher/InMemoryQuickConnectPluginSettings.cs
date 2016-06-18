@@ -8,6 +8,7 @@ namespace QuickConnectPlugin.OptionsFormLauncher {
         public bool Enabled { get; set; }
         public bool CompatibleMode { get; set; }
         public string SSHClientPath { get; set; }
+        public string WinScpPath { get; set; }
         public string HostAddressMapFieldName { get; set; }
         public string ConnectionMethodMapFieldName { get; set; }
 

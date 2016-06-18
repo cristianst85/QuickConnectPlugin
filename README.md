@@ -20,13 +20,13 @@ QuickConnect is a plugin for [KeePass](http://keepass.info) password manager tha
 - Connection method is determined based on the text found in the mapped field. For example, if one of the following strings (case-insensitive) is found, then the corresponding items are added to the entry context menu (right-click):
     * `windows` - *Open Remote Desktop* and *Open Remote Desktop (console)*;
 	* `esxi` or `vcenter` - *Open vSphere Client*;
-	* `linux` or a known Linux distribution name - *Open PuTTY Console*.
+	* `linux` or a known Linux distribution name - *Open PuTTY Console* and *Open WinSCP*.
 
 <p align="center"><img src="https://raw.github.com/cristianst85/QuickConnectPlugin/master/docs/screenshot.png" alt="QuickConnectPlugin" /></p>
 
 ## Security Considerations
 
-- Please take note that when launching *vSphere Client* or *PuTTY* the plugin exposes the password via command-line arguments and it is visible during the entire lifetime of the child process.
+- Please take note that when launching *vSphere Client*,*PuTTY* or *WinSCP* the plugin exposes the password via command-line arguments and it is visible during the entire lifetime of the child process.
 
 ## Repository
 

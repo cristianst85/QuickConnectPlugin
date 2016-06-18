@@ -31,6 +31,9 @@ namespace QuickConnectPlugin {
         /// connecting to the remote host.
         /// </summary>
         String ConnectionMethodMapFieldName { get; set; }
+
+        string WinScpPath { get; set; }
+
         /// <summary>
         /// Loads the plugin settings.
         /// </summary>

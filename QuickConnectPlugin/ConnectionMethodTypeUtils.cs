@@ -20,6 +20,7 @@ namespace QuickConnectPlugin {
             };
             if (description.ToLower().Contains("linux") || QuickConnectUtils.IsLinuxDistribution(description)) {
                 connectionMethods.Add(ConnectionMethodType.PuttySSH);
+                connectionMethods.Add(ConnectionMethodType.WinSCP);
             };
             return connectionMethods;
         }
