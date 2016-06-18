@@ -9,6 +9,7 @@ namespace QuickConnectPlugin {
         RemoteDesktopConsole = 2,
         vSphereClient = 3,
         PuttySSH = 4,
-        WinSCP = 5,
+        PuttyTelnet = 5,
+		WinSCP = 6
     }
 }

@@ -40,6 +40,8 @@
             this.checkBoxEnable = new System.Windows.Forms.CheckBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.groupBox12 = new System.Windows.Forms.GroupBox();
+            this.comboBoxAdditionalOptionsMapFieldName = new System.Windows.Forms.ComboBox();
+            this.label3 = new System.Windows.Forms.Label();
             this.labelWarningMessage = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.comboBoxConnectionMethodMapFieldName = new System.Windows.Forms.ComboBox();
@@ -160,21 +162,19 @@
             // 
             this.pictureBoxSSHClientPathWarningIcon.ErrorImage = null;
             this.pictureBoxSSHClientPathWarningIcon.Image = global::QuickConnectPlugin.Properties.Resources.important;
-            this.pictureBoxSSHClientPathWarningIcon.Location = new System.Drawing.Point(38, 94);
-            this.pictureBoxSSHClientPathWarningIcon.Margin = new System.Windows.Forms.Padding(6);
+            this.pictureBoxSSHClientPathWarningIcon.Location = new System.Drawing.Point(19, 49);
             this.pictureBoxSSHClientPathWarningIcon.Name = "pictureBoxSSHClientPathWarningIcon";
-            this.pictureBoxSSHClientPathWarningIcon.Size = new System.Drawing.Size(32, 31);
+            this.pictureBoxSSHClientPathWarningIcon.Size = new System.Drawing.Size(16, 16);
             this.pictureBoxSSHClientPathWarningIcon.TabIndex = 7;
             this.pictureBoxSSHClientPathWarningIcon.TabStop = false;
             // 
             // labelSSHClientPathWarningMessage
             // 
             this.labelSSHClientPathWarningMessage.AutoSize = true;
-            this.labelSSHClientPathWarningMessage.Location = new System.Drawing.Point(76, 96);
-            this.labelSSHClientPathWarningMessage.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
+            this.labelSSHClientPathWarningMessage.Location = new System.Drawing.Point(38, 50);
             this.labelSSHClientPathWarningMessage.Name = "labelSSHClientPathWarningMessage";
             this.labelSSHClientPathWarningMessage.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.labelSSHClientPathWarningMessage.Size = new System.Drawing.Size(306, 25);
+            this.labelSSHClientPathWarningMessage.Size = new System.Drawing.Size(151, 13);
             this.labelSSHClientPathWarningMessage.TabIndex = 5;
             this.labelSSHClientPathWarningMessage.Text = "Specified path does not exists.";
             this.labelSSHClientPathWarningMessage.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -246,6 +246,8 @@
             // 
             // groupBox12
             // 
+            this.groupBox12.Controls.Add(this.comboBoxAdditionalOptionsMapFieldName);
+            this.groupBox12.Controls.Add(this.label3);
             this.groupBox12.Controls.Add(this.labelWarningMessage);
             this.groupBox12.Controls.Add(this.label2);
             this.groupBox12.Controls.Add(this.comboBoxConnectionMethodMapFieldName);
@@ -260,11 +262,28 @@
             this.groupBox12.TabStop = false;
             this.groupBox12.Text = "Settings";
             // 
+            // comboBoxAdditionalOptionsMapFieldName
+            // 
+            this.comboBoxAdditionalOptionsMapFieldName.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxAdditionalOptionsMapFieldName.FormattingEnabled = true;
+            this.comboBoxAdditionalOptionsMapFieldName.Location = new System.Drawing.Point(137, 81);
+            this.comboBoxAdditionalOptionsMapFieldName.Name = "comboBoxAdditionalOptionsMapFieldName";
+            this.comboBoxAdditionalOptionsMapFieldName.Size = new System.Drawing.Size(137, 21);
+            this.comboBoxAdditionalOptionsMapFieldName.TabIndex = 6;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(18, 84);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(113, 13);
+            this.label3.TabIndex = 5;
+            this.label3.Text = "Additional options from";
+            // 
             // labelWarningMessage
             // 
             this.labelWarningMessage.AutoSize = true;
-            this.labelWarningMessage.Location = new System.Drawing.Point(18, 194);
-            this.labelWarningMessage.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
+            this.labelWarningMessage.Location = new System.Drawing.Point(9, 124);
             this.labelWarningMessage.Name = "labelWarningMessage";
             this.labelWarningMessage.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.labelWarningMessage.Size = new System.Drawing.Size(544, 50);
@@ -359,7 +378,7 @@
             this.Controls.Add(this.tabControl3);
             this.DoubleBuffered = true;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
-            this.Margin = new System.Windows.Forms.Padding(6);
+            this.MaximizeBox = false;
             this.Name = "FormOptions";
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
@@ -409,5 +428,7 @@
         private System.Windows.Forms.Label labelWinScpPathWarningMessage;
         private System.Windows.Forms.Button buttonConfigureWinScpPath;
         private System.Windows.Forms.TextBox textBoxWinScpPath;
+        private System.Windows.Forms.ComboBox comboBoxAdditionalOptionsMapFieldName;
+        private System.Windows.Forms.Label label3;
     }
 }

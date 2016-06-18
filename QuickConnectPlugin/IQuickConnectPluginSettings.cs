@@ -35,6 +35,15 @@ namespace QuickConnectPlugin {
         string WinScpPath { get; set; }
 
         /// <summary>
+        /// Gets or sets a value indicating the field name from the KeePass
+        /// database that is used to specify additional options for the 
+        /// remote host client.
+        /// </summary>
+        /// <value>
+        /// The name of the additional options map field.
+        /// </value>
+        String AdditionalOptionsMapFieldName { get; set; }
+        /// <summary>
         /// Loads the plugin settings.
         /// </summary>
         void Load();

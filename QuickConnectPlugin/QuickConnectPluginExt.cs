@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Threading;
 using System.Windows.Forms;
 using KeePass.Plugins;
 using KeePassLib;
+using QuickConnectPlugin.ArgumentsFormatters;
+using QuickConnectPlugin.Commons;
 using QuickConnectPlugin.KeePass;
+using QuickConnectPlugin.Services;
 
 namespace QuickConnectPlugin {
 
@@ -14,7 +16,6 @@ namespace QuickConnectPlugin {
         public const String Title = "QuickConnect";
 
         private const String PluginName = "QuickConnectPlugin";
-        // private const String PluginUpdateUrl = "http://www.disruptivesoftware.ro/projects/KeePassPluginsVersionFile.txt";
         private const String PluginUpdateUrl = "https://raw.githubusercontent.com/cristianst85/QuickConnectPlugin/master/VERSION";
 
         private const String OpenRemoteDesktopMenuItemText = "Open Remote Desktop";
@@ -22,10 +23,9 @@ namespace QuickConnectPlugin {
         private const String OpenVSphereClientMenuItemText = "Open vSphere Client";
         private const String OpenSSHConsoleMenuItemText = "Open PuTTY Console";
         private const String OpenWinScpMenuItemText = "Open WinSCP";
-        private const String DefaultHostAddressFieldName = "IP Address";
-        private const String DefaultConnectionMethodFieldName = "OS Type";
 
         private IPluginHost pluginHost = null;
+        private IFieldMapper fieldsMapper = null;
 
         private ToolStripMenuItem pluginMenuItem;
         private ToolStripMenuItem pluginMenuItemOptions;
@@ -34,13 +34,13 @@ namespace QuickConnectPlugin {
         private EventHandler pluginMenuItemAboutOnClickEventHandler;
         private IList<ToolStripItem> menuItems = new List<ToolStripItem>();
 
-        private String rdcConsoleParameter;
-        private String RDCConsoleParameter {
+        private bool? rdcIsOlderVersion;
+        private bool RDCIsOlderVersion {
             get {
-                if (rdcConsoleParameter == null) {
-                    rdcConsoleParameter = QuickConnectUtils.IsOlderRemoteDesktopConnectionVersion() ? "console" : "admin";
+                if (!rdcIsOlderVersion.HasValue) {
+                    rdcIsOlderVersion = QuickConnectUtils.IsOlderRemoteDesktopConnectionVersion();
                 }
-                return rdcConsoleParameter;
+                return rdcIsOlderVersion.Value;
             }
         }
 
@@ -64,6 +64,8 @@ namespace QuickConnectPlugin {
 
             this.Settings = QuickConnectPluginSettings.Load(pluginHost, new PluginCustomConfigPropertyNameFormatter(PluginName));
 
+            this.fieldsMapper = new SettingsFieldMapper(this.Settings);
+
             pluginMenuItemOptions = new ToolStripMenuItem("Options...");
             pluginMenuItemOptions.Click += new EventHandler(
                 pluginMenuItemOptionsOnClickEventHandler = delegate(object obj, EventArgs ev) {
@@ -81,7 +83,6 @@ namespace QuickConnectPlugin {
                     fields.Sort();
                 }
                 using (FormOptions form = new FormOptions(Title, this.Settings, fields)) {
-                    form.Text = form.Text.Replace("{title}", Title);
                     form.ShowDialog(pluginHost.MainWindow);
                 }
             });
@@ -115,14 +116,7 @@ namespace QuickConnectPlugin {
 
             PwEntry[] selectedEntries = this.pluginHost.MainWindow.GetSelectedEntries();
             if (selectedEntries != null && selectedEntries.Length == 1) {
-                HostPwEntry hostPwEntry = new HostPwEntry(
-                    selectedEntries[0],
-                    this.pluginHost.Database,
-                    !String.IsNullOrEmpty(this.Settings.ConnectionMethodMapFieldName) ?
-                    this.Settings.ConnectionMethodMapFieldName : DefaultConnectionMethodFieldName,
-                    !String.IsNullOrEmpty(this.Settings.HostAddressMapFieldName) ?
-                    this.Settings.HostAddressMapFieldName : DefaultHostAddressFieldName
-                );
+                HostPwEntry hostPwEntry = new HostPwEntry(selectedEntries[0], this.pluginHost.Database, this.fieldsMapper);
                 if (hostPwEntry.HasConnectionMethods) {
                     this.addMenuItems(hostPwEntry);
                 }
@@ -131,138 +125,74 @@ namespace QuickConnectPlugin {
 
         private void addMenuItems(HostPwEntry hostPwEntry) {
             if (hostPwEntry.ConnectionMethods.Contains(ConnectionMethodType.RemoteDesktop)) {
-                var openRemoteDesktopMenuItem = new ToolStripMenuItem() {
+                var menuItem = new ToolStripMenuItem() {
                     Text = OpenRemoteDesktopMenuItemText,
                     Image = (System.Drawing.Image)QuickConnectPlugin.Properties.Resources.remote,
                     Enabled = hostPwEntry.HasIPAddress
                 };
-                openRemoteDesktopMenuItem.Click += new EventHandler(
+                menuItem.Click += new EventHandler(
                     delegate(object obj, EventArgs ev) {
                         try {
-                            // Store credentials.
-                            ProcessStartInfo cmdKey = new ProcessStartInfo() {
-                                FileName = Environment.ExpandEnvironmentVariables(@"%SystemRoot%\system32\cmdkey.exe"),
-                                Arguments = String.Format("/generic:TERMSRV/{0} /user:{1} /pass:{2}",
-                                hostPwEntry.IPAddress,
-                                hostPwEntry.GetUsername(),
-                                hostPwEntry.GetPassword()),
-                                WindowStyle = ProcessWindowStyle.Hidden
+                            ProcessUtils.Start(CmdKeyRegisterArgumentsFormatter.CmdKeyPath, new CmdKeyRegisterArgumentsFormatter().Format(hostPwEntry));
+                            IArgumentsFormatter argsFormatter = new RemoteDesktopArgumentsFormatter() {
+                                FullScreen = true
                             };
-                            Process.Start(cmdKey);
-                            // Start a detached process and open Remote Desktop Connection.
-                            Process cmd = new Process();
-                            cmd.StartInfo.FileName = "cmd.exe";
-                            cmd.StartInfo.RedirectStandardInput = true;
-                            cmd.StartInfo.RedirectStandardOutput = true;
-                            cmd.StartInfo.CreateNoWindow = true;
-                            cmd.StartInfo.UseShellExecute = false;
-                            cmd.Start();
-                            cmd.StandardInput.WriteLine(String.Format("\"{0}\" /f /v:{1}", Environment.ExpandEnvironmentVariables(@"%SystemRoot%\system32\mstsc.exe"), hostPwEntry.IPAddress));
-                            cmd.StandardInput.Flush();
-                            cmd.StandardInput.Close();
-                            // Delete stored credentials.
-                            ThreadStart threadStart = delegate() {
-                                Thread.Sleep(5000);
-                                ProcessStartInfo cmdKeyDeleteCred = new ProcessStartInfo() {
-                                    FileName = Environment.ExpandEnvironmentVariables(@"%SystemRoot%\system32\cmdkey.exe"),
-                                    Arguments = String.Format("/delete:TERMSRV/{0}", hostPwEntry.IPAddress),
-                                    WindowStyle = ProcessWindowStyle.Hidden
-                                };
-                                Process.Start(cmdKeyDeleteCred);
-                            };
-                            Thread thread = new Thread(threadStart);
-                            thread.Start();
+                            ProcessUtils.StartDetached(argsFormatter.Format(hostPwEntry));
+                            ProcessUtils.StartDetached(new CmdKeyUnregisterArgumentsFormatter().Format(hostPwEntry), TimeSpan.FromSeconds(5));
                         }
                         catch (Exception ex) {
-                            this.log(ex.ToString());
+                            log(ex);
                         }
                     }
                 );
-                this.menuItems.Add(openRemoteDesktopMenuItem);
+                this.menuItems.Add(menuItem);
             };
             if (hostPwEntry.ConnectionMethods.Contains(ConnectionMethodType.RemoteDesktopConsole)) {
-                var openRemoteDesktopConsoleMenuItem = new ToolStripMenuItem() {
+                var menuItem = new ToolStripMenuItem() {
                     Text = OpenRemoteDesktopConsoleMenuItemText,
                     Image = (System.Drawing.Image)QuickConnectPlugin.Properties.Resources.mycomputer,
                     Enabled = hostPwEntry.HasIPAddress
                 };
-                openRemoteDesktopConsoleMenuItem.Click += new EventHandler(
+                menuItem.Click += new EventHandler(
                   delegate(object obj, EventArgs ev) {
                       try {
-                          // Store credentials.
-                          ProcessStartInfo cmdKey = new ProcessStartInfo() {
-                              FileName = Environment.ExpandEnvironmentVariables(@"%SystemRoot%\system32\cmdkey.exe"),
-                              Arguments = String.Format("/generic:TERMSRV/{0} /user:{1} /pass:{2}",
-                              hostPwEntry.IPAddress,
-                              hostPwEntry.GetUsername(),
-                              hostPwEntry.GetPassword()),
-                              WindowStyle = ProcessWindowStyle.Hidden
+                          ProcessUtils.Start(CmdKeyRegisterArgumentsFormatter.CmdKeyPath, new CmdKeyRegisterArgumentsFormatter().Format(hostPwEntry));
+                          IArgumentsFormatter argsFormatter = new RemoteDesktopArgumentsFormatter() {
+                              FullScreen = true,
+                              UseConsole = true,
+                              IsOlderVersion = RDCIsOlderVersion
                           };
-                          Process.Start(cmdKey);
-                          // Start a detached process and open Remote Desktop Connection.
-                          Process cmd = new Process();
-                          cmd.StartInfo.FileName = "cmd.exe";
-                          cmd.StartInfo.RedirectStandardInput = true;
-                          cmd.StartInfo.RedirectStandardOutput = true;
-                          cmd.StartInfo.CreateNoWindow = true;
-                          cmd.StartInfo.UseShellExecute = false;
-                          cmd.Start();
-                          cmd.StandardInput.WriteLine(String.Format("\"{0}\" /f /v:{1} /{2}", Environment.ExpandEnvironmentVariables(@"%SystemRoot%\system32\mstsc.exe"), hostPwEntry.IPAddress, this.RDCConsoleParameter));
-                          cmd.StandardInput.Flush();
-                          cmd.StandardInput.Close();
-                          // Delete stored credentials.
-                          ThreadStart threadStart = delegate() {
-                              Thread.Sleep(5000);
-                              ProcessStartInfo cmdKeyDeleteCred = new ProcessStartInfo() {
-                                  FileName = Environment.ExpandEnvironmentVariables(@"%SystemRoot%\system32\cmdkey.exe"),
-                                  Arguments = String.Format("/delete:TERMSRV/{0}", hostPwEntry.IPAddress),
-                                  WindowStyle = ProcessWindowStyle.Hidden
-                              };
-                              Process.Start(cmdKeyDeleteCred);
-                          };
-                          Thread thread = new Thread(threadStart);
-                          thread.Start();
+                          ProcessUtils.StartDetached(argsFormatter.Format(hostPwEntry));
+                          ProcessUtils.StartDetached(new CmdKeyUnregisterArgumentsFormatter().Format(hostPwEntry), TimeSpan.FromSeconds(5));
                       }
                       catch (Exception ex) {
-                          log(ex.ToString());
+                          log(ex);
                       }
                   }
                 );
-                this.menuItems.Add(openRemoteDesktopConsoleMenuItem);
+                this.menuItems.Add(menuItem);
             };
-            if (hostPwEntry.ConnectionMethods.Contains(ConnectionMethodType.PuttySSH)) {
+            if (hostPwEntry.ConnectionMethods.Contains(ConnectionMethodType.PuttySSH) ||
+                hostPwEntry.ConnectionMethods.Contains(ConnectionMethodType.PuttyTelnet)) {
                 var sshClientPath = !String.IsNullOrEmpty(this.Settings.SSHClientPath) ? this.Settings.SSHClientPath : QuickConnectUtils.GetPuttyPath();
-                var openSshConsoleMenuItem = new ToolStripMenuItem() {
+                var menuItem = new ToolStripMenuItem() {
                     Text = OpenSSHConsoleMenuItemText,
                     Image = (System.Drawing.Image)QuickConnectPlugin.Properties.Resources.konsole,
                     Enabled = hostPwEntry.HasIPAddress && !String.IsNullOrEmpty(sshClientPath)
                 };
-                openSshConsoleMenuItem.Click += new EventHandler(
+                menuItem.Click += new EventHandler(
                     delegate(object obj, EventArgs ev) {
                         try {
-                            // Start a detached process.
-                            Process cmd = new Process();
-                            cmd.StartInfo.FileName = "cmd.exe";
-                            cmd.StartInfo.RedirectStandardInput = true;
-                            cmd.StartInfo.RedirectStandardOutput = true;
-                            cmd.StartInfo.CreateNoWindow = true;
-                            cmd.StartInfo.UseShellExecute = false;
-                            cmd.Start();
-                            cmd.StandardInput.WriteLine(String.Format("\"{0}\" -ssh {2}@{1} -pw {3}",
-                                sshClientPath,
-                                hostPwEntry.IPAddress,
-                                hostPwEntry.GetUsername(),
-                                hostPwEntry.GetPassword())
-                                );
-                            cmd.StandardInput.Flush();
-                            cmd.StandardInput.Close();
+                            var sessionFinder = new RegistryPuttySessionFinder(new WindowsRegistryService());
+                            IArgumentsFormatter argsFormatter = new PuttyArgumentsFormatter(sshClientPath, sessionFinder);
+                            ProcessUtils.StartDetached(argsFormatter.Format(hostPwEntry));
                         }
                         catch (Exception ex) {
-                            log(ex.ToString());
+                            log(ex);
                         };
                     }
                 );
-                this.menuItems.Add(openSshConsoleMenuItem);
+                this.menuItems.Add(menuItem);
             };
             if (hostPwEntry.ConnectionMethods.Contains(ConnectionMethodType.WinSCP))
             {
@@ -296,7 +226,7 @@ namespace QuickConnectPlugin {
                         }
                         catch (Exception ex)
                         {
-                            log(ex.ToString());
+                            log(ex);
                         };
                     }
                 );
@@ -304,38 +234,23 @@ namespace QuickConnectPlugin {
             };
             if (hostPwEntry.ConnectionMethods.Contains(ConnectionMethodType.vSphereClient)) {
                 var vSphereClientPath = QuickConnectUtils.GetVSphereClientPath();
-                var openVSphereClientMenuItem = new ToolStripMenuItem() {
+                var menuItem = new ToolStripMenuItem() {
                     Text = OpenVSphereClientMenuItemText,
                     Image = (System.Drawing.Image)QuickConnectPlugin.Properties.Resources.vmware,
                     Enabled = hostPwEntry.HasIPAddress && !String.IsNullOrEmpty(vSphereClientPath)
                 };
-                openVSphereClientMenuItem.Click += new EventHandler(
+                menuItem.Click += new EventHandler(
                     delegate(object obj, EventArgs ev) {
                         try {
-                            // Start a detached process.
-                            Process cmd = new Process();
-                            cmd.StartInfo.FileName = "cmd.exe";
-                            cmd.StartInfo.RedirectStandardInput = true;
-                            cmd.StartInfo.RedirectStandardOutput = true;
-                            cmd.StartInfo.CreateNoWindow = true;
-                            cmd.StartInfo.UseShellExecute = false;
-                            cmd.Start();
-                            // TODO: Find a way to hide password shown in command line arguments.
-                            cmd.StandardInput.WriteLine(String.Format("\"{0}\" -s {1} -u {2} -p {3}",
-                                vSphereClientPath,
-                                hostPwEntry.IPAddress,
-                                hostPwEntry.GetUsername(),
-                                hostPwEntry.GetPassword())
-                                );
-                            cmd.StandardInput.Flush();
-                            cmd.StandardInput.Close();
+                            IArgumentsFormatter argsFormatter = new VSphereClientArgumentsFormatter(vSphereClientPath);
+                            ProcessUtils.StartDetached(argsFormatter.Format(hostPwEntry));
                         }
                         catch (Exception ex) {
-                            log(ex.ToString());
+                            log(ex);
                         }
                     }
                 );
-                this.menuItems.Add(openVSphereClientMenuItem);
+                this.menuItems.Add(menuItem);
             }
 
             var putMenuItemsOnTop = !this.Settings.CompatibleMode;
@@ -364,8 +279,9 @@ namespace QuickConnectPlugin {
             this.menuItems.Clear();
         }
 
-        private void log(String message) {
-            Debug.WriteLine(String.Format("[{0}] {1}", this.GetType().Name, message));
+        private void log(Exception ex) {
+            Debug.WriteLine(String.Format("[{0}] Error while launching process. Exception: {1}", this.GetType().Name, ex.ToString()));
+            MessageBox.Show(String.Format("Error while launching process.\n\nError details: {0}", ex.ToString()), PluginName, MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
 
         public override void Terminate() {
