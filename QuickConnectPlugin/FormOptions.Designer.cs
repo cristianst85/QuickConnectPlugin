@@ -39,6 +39,9 @@
             this.checkBoxCompatibleMode = new System.Windows.Forms.CheckBox();
             this.checkBoxEnable = new System.Windows.Forms.CheckBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.buttonApply = new System.Windows.Forms.Button();
+            this.buttonCancel = new System.Windows.Forms.Button();
+            this.buttonOK = new System.Windows.Forms.Button();
             this.groupBox12 = new System.Windows.Forms.GroupBox();
             this.comboBoxAdditionalOptionsMapFieldName = new System.Windows.Forms.ComboBox();
             this.label3 = new System.Windows.Forms.Label();
@@ -47,9 +50,6 @@
             this.comboBoxConnectionMethodMapFieldName = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
             this.comboBoxHostAddressMapFieldName = new System.Windows.Forms.ComboBox();
-            this.buttonApply = new System.Windows.Forms.Button();
-            this.buttonCancel = new System.Windows.Forms.Button();
-            this.buttonOK = new System.Windows.Forms.Button();
             this.tabControl3.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -105,10 +105,10 @@
             // 
             this.pictureBoxWinScpPathWarningIcon.ErrorImage = null;
             this.pictureBoxWinScpPathWarningIcon.Image = global::QuickConnectPlugin.Properties.Resources.important;
-            this.pictureBoxWinScpPathWarningIcon.Location = new System.Drawing.Point(38, 94);
+            this.pictureBoxWinScpPathWarningIcon.Location = new System.Drawing.Point(38, 96);
             this.pictureBoxWinScpPathWarningIcon.Margin = new System.Windows.Forms.Padding(6);
             this.pictureBoxWinScpPathWarningIcon.Name = "pictureBoxWinScpPathWarningIcon";
-            this.pictureBoxWinScpPathWarningIcon.Size = new System.Drawing.Size(32, 31);
+            this.pictureBoxWinScpPathWarningIcon.Size = new System.Drawing.Size(16, 16);
             this.pictureBoxWinScpPathWarningIcon.TabIndex = 7;
             this.pictureBoxWinScpPathWarningIcon.TabStop = false;
             // 
@@ -162,7 +162,7 @@
             // 
             this.pictureBoxSSHClientPathWarningIcon.ErrorImage = null;
             this.pictureBoxSSHClientPathWarningIcon.Image = global::QuickConnectPlugin.Properties.Resources.important;
-            this.pictureBoxSSHClientPathWarningIcon.Location = new System.Drawing.Point(19, 49);
+            this.pictureBoxSSHClientPathWarningIcon.Location = new System.Drawing.Point(38, 98);
             this.pictureBoxSSHClientPathWarningIcon.Name = "pictureBoxSSHClientPathWarningIcon";
             this.pictureBoxSSHClientPathWarningIcon.Size = new System.Drawing.Size(16, 16);
             this.pictureBoxSSHClientPathWarningIcon.TabIndex = 7;
@@ -171,10 +171,10 @@
             // labelSSHClientPathWarningMessage
             // 
             this.labelSSHClientPathWarningMessage.AutoSize = true;
-            this.labelSSHClientPathWarningMessage.Location = new System.Drawing.Point(38, 50);
+            this.labelSSHClientPathWarningMessage.Location = new System.Drawing.Point(76, 98);
             this.labelSSHClientPathWarningMessage.Name = "labelSSHClientPathWarningMessage";
             this.labelSSHClientPathWarningMessage.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.labelSSHClientPathWarningMessage.Size = new System.Drawing.Size(151, 13);
+            this.labelSSHClientPathWarningMessage.Size = new System.Drawing.Size(306, 25);
             this.labelSSHClientPathWarningMessage.TabIndex = 5;
             this.labelSSHClientPathWarningMessage.Text = "Specified path does not exists.";
             this.labelSSHClientPathWarningMessage.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -244,6 +244,40 @@
             this.tabPage2.Text = "Map Fields";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
+            // buttonApply
+            // 
+            this.buttonApply.Location = new System.Drawing.Point(456, 601);
+            this.buttonApply.Margin = new System.Windows.Forms.Padding(6);
+            this.buttonApply.Name = "buttonApply";
+            this.buttonApply.Size = new System.Drawing.Size(150, 44);
+            this.buttonApply.TabIndex = 1;
+            this.buttonApply.Text = "Apply";
+            this.buttonApply.UseVisualStyleBackColor = true;
+            this.buttonApply.Click += new System.EventHandler(this.buttonApply_Click);
+            // 
+            // buttonCancel
+            // 
+            this.buttonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.buttonCancel.Location = new System.Drawing.Point(294, 601);
+            this.buttonCancel.Margin = new System.Windows.Forms.Padding(6);
+            this.buttonCancel.Name = "buttonCancel";
+            this.buttonCancel.Size = new System.Drawing.Size(150, 44);
+            this.buttonCancel.TabIndex = 2;
+            this.buttonCancel.Text = "Cancel";
+            this.buttonCancel.UseVisualStyleBackColor = true;
+            // 
+            // buttonOK
+            // 
+            this.buttonOK.DialogResult = System.Windows.Forms.DialogResult.OK;
+            this.buttonOK.Location = new System.Drawing.Point(132, 601);
+            this.buttonOK.Margin = new System.Windows.Forms.Padding(6);
+            this.buttonOK.Name = "buttonOK";
+            this.buttonOK.Size = new System.Drawing.Size(150, 44);
+            this.buttonOK.TabIndex = 3;
+            this.buttonOK.Text = "OK";
+            this.buttonOK.UseVisualStyleBackColor = true;
+            this.buttonOK.Click += new System.EventHandler(this.buttonOK_Click);
+            // 
             // groupBox12
             // 
             this.groupBox12.Controls.Add(this.comboBoxAdditionalOptionsMapFieldName);
@@ -253,12 +287,12 @@
             this.groupBox12.Controls.Add(this.comboBoxConnectionMethodMapFieldName);
             this.groupBox12.Controls.Add(this.label1);
             this.groupBox12.Controls.Add(this.comboBoxHostAddressMapFieldName);
-            this.groupBox12.Location = new System.Drawing.Point(6, 2);
+            this.groupBox12.Location = new System.Drawing.Point(8, 6);
             this.groupBox12.Margin = new System.Windows.Forms.Padding(6);
             this.groupBox12.Name = "groupBox12";
             this.groupBox12.Padding = new System.Windows.Forms.Padding(6);
-            this.groupBox12.Size = new System.Drawing.Size(560, 338);
-            this.groupBox12.TabIndex = 1;
+            this.groupBox12.Size = new System.Drawing.Size(560, 507);
+            this.groupBox12.TabIndex = 2;
             this.groupBox12.TabStop = false;
             this.groupBox12.Text = "Settings";
             // 
@@ -266,24 +300,27 @@
             // 
             this.comboBoxAdditionalOptionsMapFieldName.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxAdditionalOptionsMapFieldName.FormattingEnabled = true;
-            this.comboBoxAdditionalOptionsMapFieldName.Location = new System.Drawing.Point(137, 81);
+            this.comboBoxAdditionalOptionsMapFieldName.Location = new System.Drawing.Point(274, 156);
+            this.comboBoxAdditionalOptionsMapFieldName.Margin = new System.Windows.Forms.Padding(6);
             this.comboBoxAdditionalOptionsMapFieldName.Name = "comboBoxAdditionalOptionsMapFieldName";
-            this.comboBoxAdditionalOptionsMapFieldName.Size = new System.Drawing.Size(137, 21);
+            this.comboBoxAdditionalOptionsMapFieldName.Size = new System.Drawing.Size(270, 33);
             this.comboBoxAdditionalOptionsMapFieldName.TabIndex = 6;
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(18, 84);
+            this.label3.Location = new System.Drawing.Point(36, 162);
+            this.label3.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(113, 13);
+            this.label3.Size = new System.Drawing.Size(231, 25);
             this.label3.TabIndex = 5;
             this.label3.Text = "Additional options from";
             // 
             // labelWarningMessage
             // 
             this.labelWarningMessage.AutoSize = true;
-            this.labelWarningMessage.Location = new System.Drawing.Point(9, 124);
+            this.labelWarningMessage.Location = new System.Drawing.Point(18, 238);
+            this.labelWarningMessage.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.labelWarningMessage.Name = "labelWarningMessage";
             this.labelWarningMessage.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.labelWarningMessage.Size = new System.Drawing.Size(544, 50);
@@ -330,40 +367,6 @@
             this.comboBoxHostAddressMapFieldName.Name = "comboBoxHostAddressMapFieldName";
             this.comboBoxHostAddressMapFieldName.Size = new System.Drawing.Size(270, 33);
             this.comboBoxHostAddressMapFieldName.TabIndex = 0;
-            // 
-            // buttonApply
-            // 
-            this.buttonApply.Location = new System.Drawing.Point(456, 601);
-            this.buttonApply.Margin = new System.Windows.Forms.Padding(6);
-            this.buttonApply.Name = "buttonApply";
-            this.buttonApply.Size = new System.Drawing.Size(150, 44);
-            this.buttonApply.TabIndex = 1;
-            this.buttonApply.Text = "Apply";
-            this.buttonApply.UseVisualStyleBackColor = true;
-            this.buttonApply.Click += new System.EventHandler(this.buttonApply_Click);
-            // 
-            // buttonCancel
-            // 
-            this.buttonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.buttonCancel.Location = new System.Drawing.Point(294, 601);
-            this.buttonCancel.Margin = new System.Windows.Forms.Padding(6);
-            this.buttonCancel.Name = "buttonCancel";
-            this.buttonCancel.Size = new System.Drawing.Size(150, 44);
-            this.buttonCancel.TabIndex = 2;
-            this.buttonCancel.Text = "Cancel";
-            this.buttonCancel.UseVisualStyleBackColor = true;
-            // 
-            // buttonOK
-            // 
-            this.buttonOK.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.buttonOK.Location = new System.Drawing.Point(132, 601);
-            this.buttonOK.Margin = new System.Windows.Forms.Padding(6);
-            this.buttonOK.Name = "buttonOK";
-            this.buttonOK.Size = new System.Drawing.Size(150, 44);
-            this.buttonOK.TabIndex = 3;
-            this.buttonOK.Text = "OK";
-            this.buttonOK.UseVisualStyleBackColor = true;
-            this.buttonOK.Click += new System.EventHandler(this.buttonOK_Click);
             // 
             // FormOptions
             // 
@@ -412,15 +415,9 @@
         private System.Windows.Forms.Button buttonConfigureSSHClientPath;
         private System.Windows.Forms.TextBox textBoxSSHClientPath;
         private System.Windows.Forms.TabPage tabPage2;
-        private System.Windows.Forms.GroupBox groupBox12;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.ComboBox comboBoxConnectionMethodMapFieldName;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.ComboBox comboBoxHostAddressMapFieldName;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.CheckBox checkBoxEnable;
         private System.Windows.Forms.CheckBox checkBoxCompatibleMode;
-        private System.Windows.Forms.Label labelWarningMessage;
         private System.Windows.Forms.Label labelSSHClientPathWarningMessage;
         private System.Windows.Forms.PictureBox pictureBoxSSHClientPathWarningIcon;
         private System.Windows.Forms.GroupBox groupBox3;
@@ -428,7 +425,13 @@
         private System.Windows.Forms.Label labelWinScpPathWarningMessage;
         private System.Windows.Forms.Button buttonConfigureWinScpPath;
         private System.Windows.Forms.TextBox textBoxWinScpPath;
+        private System.Windows.Forms.GroupBox groupBox12;
         private System.Windows.Forms.ComboBox comboBoxAdditionalOptionsMapFieldName;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label labelWarningMessage;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.ComboBox comboBoxConnectionMethodMapFieldName;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.ComboBox comboBoxHostAddressMapFieldName;
     }
 }
