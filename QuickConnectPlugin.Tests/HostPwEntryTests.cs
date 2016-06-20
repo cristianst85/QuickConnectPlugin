@@ -69,7 +69,8 @@ namespace QuickConnectPlugin.Tests {
         [TestCase("Linux host sample (with referenced fields)")]
         public void HostPwEntryWithAndWithoutReferencedFields(String title) {
             var expectedConnectionMethods = new Collection<ConnectionMethodType>() {
-                ConnectionMethodType.PuttySSH
+                ConnectionMethodType.PuttySSH,
+                ConnectionMethodType.WinSCP
             };
 
             var entry = new HostPwEntry(

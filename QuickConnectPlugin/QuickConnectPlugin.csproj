@@ -43,6 +43,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ArgumentsFormatters\CmdKeyRegisterArgumentsFormatter.cs" />
+    <Compile Include="ArgumentsFormatters\WinScpArgumentsFormatter.cs" />
     <Compile Include="Commons\AssemblyUtils.cs" />
     <Compile Include="ArgumentsFormatters\CmdKeyUnregisterArgumentsFormatter.cs" />
     <Compile Include="IFieldMapper.cs" />

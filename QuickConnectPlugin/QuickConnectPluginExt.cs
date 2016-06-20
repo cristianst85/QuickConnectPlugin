@@ -207,22 +207,8 @@ namespace QuickConnectPlugin {
                     delegate (object obj, EventArgs ev) {
                         try
                         {
-                            // Start a detached process.
-                            Process cmd = new Process();
-                            cmd.StartInfo.FileName = "cmd.exe";
-                            cmd.StartInfo.RedirectStandardInput = true;
-                            cmd.StartInfo.RedirectStandardOutput = true;
-                            cmd.StartInfo.CreateNoWindow = true;
-                            cmd.StartInfo.UseShellExecute = false;
-                            cmd.Start();
-                            cmd.StandardInput.WriteLine(String.Format("\"{0}\" scp://{2}:{3}@{1}",
-                                winScpPath,
-                                hostPwEntry.IPAddress,
-                                hostPwEntry.GetUsername(),
-                                hostPwEntry.GetPassword())
-                                );
-                            cmd.StandardInput.Flush();
-                            cmd.StandardInput.Close();
+                            IArgumentsFormatter argsFormatter = new WinScpArgumentsFormatter(winScpPath);
+                            ProcessUtils.StartDetached(argsFormatter.Format(hostPwEntry));
                         }
                         catch (Exception ex)
                         {
