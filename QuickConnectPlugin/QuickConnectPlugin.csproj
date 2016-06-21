@@ -43,6 +43,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ArgumentsFormatters\CmdKeyRegisterArgumentsFormatter.cs" />
+    <Compile Include="ArgumentsFormatters\WinScpArgumentsFormatter.cs" />
     <Compile Include="Commons\AssemblyUtils.cs" />
     <Compile Include="ArgumentsFormatters\CmdKeyUnregisterArgumentsFormatter.cs" />
     <Compile Include="IFieldMapper.cs" />
@@ -101,6 +102,7 @@
     <Content Include="Resources\1454812854_mycomputer.png" />
     <Content Include="Resources\1454812927_remote.png" />
     <Content Include="Resources\1455997452_important.png" />
+    <None Include="Resources\1466555752_Transfer Document.png" />
     <Content Include="Resources\readme.txt" />
     <EmbeddedResource Include="FormAbout.resx">
       <DependentUpon>FormAbout.cs</DependentUpon>

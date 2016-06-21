@@ -53,5 +53,25 @@ namespace QuickConnectPlugin {
                 return null;
             }
         }
+
+        public static String GetWinScpPath()
+        {
+            String filePath64 = @"C:\Program Files (x86)\WinSCP\WinSCP.exe";
+            String filePath32 = @"C:\Program Files\WinSCP\WinSCP.exe";
+            if (File.Exists(filePath64))
+            {
+                return filePath64;
+            }
+            else if (File.Exists(filePath32))
+            {
+                return filePath32;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        
     }
 }

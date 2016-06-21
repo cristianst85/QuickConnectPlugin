@@ -32,16 +32,19 @@ namespace QuickConnectPlugin.Tests {
                 ConnectionMethodType.RemoteDesktopConsole
             });
             yield return new TestCaseData("ESXi 5.1", new Collection<ConnectionMethodType> {
-                ConnectionMethodType.vSphereClient
+                ConnectionMethodType.vSphereClient,
             });
             yield return new TestCaseData("Linux", new Collection<ConnectionMethodType> {
-                ConnectionMethodType.PuttySSH
+                ConnectionMethodType.PuttySSH,
+                ConnectionMethodType.WinSCP
             });
             yield return new TestCaseData("openSUSE 12.3", new Collection<ConnectionMethodType> {
-                ConnectionMethodType.PuttySSH
+                ConnectionMethodType.PuttySSH,
+                ConnectionMethodType.WinSCP
             });
             yield return new TestCaseData("SSH", new Collection<ConnectionMethodType> {
-                ConnectionMethodType.PuttySSH
+                ConnectionMethodType.PuttySSH,
+                ConnectionMethodType.WinSCP
             });
             yield return new TestCaseData("OpenWrt", new Collection<ConnectionMethodType> {
                 ConnectionMethodType.PuttyTelnet

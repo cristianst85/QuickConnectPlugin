@@ -31,6 +31,9 @@ namespace QuickConnectPlugin {
         /// connecting to the remote host.
         /// </summary>
         String ConnectionMethodMapFieldName { get; set; }
+
+        string WinScpPath { get; set; }
+
         /// <summary>
         /// Gets or sets a value indicating the field name from the KeePass
         /// database that is used to specify additional options for the 
