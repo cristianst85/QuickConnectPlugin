@@ -20,7 +20,7 @@ QuickConnect is a plugin for [KeePass](http://keepass.info) password manager tha
 - Connection method is determined based on the text found in the mapped field. For example, if one of the following strings (case-insensitive) is found, then the corresponding items are added to the entry context menu (right-click):
     * `rdp` or `windows` - *Open Remote Desktop* and *Open Remote Desktop (console)*;
     * `esxi` or `vcenter` - *Open vSphere Client*;
-    * `ssh`, `telnet`, `linux` or a known Linux distribution name - *Open PuTTY Console*.
+    * `ssh`, `telnet`, `linux` or a known Linux distribution name - *Open PuTTY Console* and *Open WinSCP*.
 - Additional options like session name can be specified to be used with PuTTY. The syntax is as follows:
     `[{ssh|telnet}|<os_type>;]session:"<regex_pattern>"`.
 
@@ -30,7 +30,7 @@ Connection method and Additional options can be mapped to the same field. This w
 
 ## Security Considerations
 
-- Please take note that when launching *vSphere Client* or *PuTTY* the plugin exposes the password via command-line arguments and it is visible during the entire lifetime of the child process.
+- Please take note that when launching *vSphere Client*,*PuTTY* or *WinSCP* the plugin exposes the password via command-line arguments and it is visible during the entire lifetime of the child process.
 
 ## Repository
 

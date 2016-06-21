@@ -17,6 +17,7 @@ namespace QuickConnectPlugin {
             };
             if (useSSH(description)) {
                 connectionMethods.Add(ConnectionMethodType.PuttySSH);
+                connectionMethods.Add(ConnectionMethodType.WinSCP);
             };
             if (useTelnet(description)) {
                 connectionMethods.Add(ConnectionMethodType.PuttyTelnet);

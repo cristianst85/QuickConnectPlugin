@@ -22,6 +22,7 @@ namespace QuickConnectPlugin {
         private const String OpenRemoteDesktopConsoleMenuItemText = "Open Remote Desktop (console)";
         private const String OpenVSphereClientMenuItemText = "Open vSphere Client";
         private const String OpenSSHConsoleMenuItemText = "Open PuTTY Console";
+        private const String OpenWinScpMenuItemText = "Open WinSCP";
 
         private IPluginHost pluginHost = null;
         private IFieldMapper fieldsMapper = null;
@@ -192,6 +193,30 @@ namespace QuickConnectPlugin {
                     }
                 );
                 this.menuItems.Add(menuItem);
+            };
+            if (hostPwEntry.ConnectionMethods.Contains(ConnectionMethodType.WinSCP))
+            {
+                var winScpPath = !String.IsNullOrEmpty(this.Settings.WinScpPath) ? this.Settings.WinScpPath : QuickConnectUtils.GetWinScpPath();
+                var winScpConsoleMenuItem = new ToolStripMenuItem()
+                {
+                    Text = OpenWinScpMenuItemText,
+                    Image = (System.Drawing.Image)QuickConnectPlugin.Properties.Resources.winscp,
+                    Enabled = hostPwEntry.HasIPAddress && !String.IsNullOrEmpty(winScpPath)
+                };
+                winScpConsoleMenuItem.Click += new EventHandler(
+                    delegate (object obj, EventArgs ev) {
+                        try
+                        {
+                            IArgumentsFormatter argsFormatter = new WinScpArgumentsFormatter(winScpPath);
+                            ProcessUtils.StartDetached(argsFormatter.Format(hostPwEntry));
+                        }
+                        catch (Exception ex)
+                        {
+                            log(ex);
+                        };
+                    }
+                );
+                this.menuItems.Add(winScpConsoleMenuItem);
             };
             if (hostPwEntry.ConnectionMethods.Contains(ConnectionMethodType.vSphereClient)) {
                 var vSphereClientPath = QuickConnectUtils.GetVSphereClientPath();
