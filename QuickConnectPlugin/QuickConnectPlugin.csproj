@@ -90,7 +90,6 @@
     <Compile Include="Services\IRegistryService.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Resources\winscp-icon-32.png" />
     <EmbeddedResource Include="FormOptions.resx">
       <DependentUpon>FormOptions.cs</DependentUpon>
     </EmbeddedResource>
@@ -103,6 +102,7 @@
     <Content Include="Resources\1454812854_mycomputer.png" />
     <Content Include="Resources\1454812927_remote.png" />
     <Content Include="Resources\1455997452_important.png" />
+    <None Include="Resources\1466555752_Transfer Document.png" />
     <Content Include="Resources\readme.txt" />
     <EmbeddedResource Include="FormAbout.resx">
       <DependentUpon>FormAbout.cs</DependentUpon>
