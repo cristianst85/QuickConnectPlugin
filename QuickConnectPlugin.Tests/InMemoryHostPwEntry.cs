@@ -36,5 +36,9 @@ namespace QuickConnectPlugin.Tests {
         public bool HasIPAddress {
             get { return String.IsNullOrEmpty(this.IPAddress); }
         }
+
+        public void UpdatePassword(string newPassword) {
+            this.Password = newPassword;
+        }
     }
 }

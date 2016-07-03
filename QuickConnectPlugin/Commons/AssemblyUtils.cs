@@ -36,5 +36,9 @@ namespace QuickConnectPlugin.Commons {
             }
             return null;
         }
+
+        public static String GetExecutingAssemblyName() {
+            return System.Reflection.Assembly.GetExecutingAssembly().GetName().Name;
+        }
     }
 }

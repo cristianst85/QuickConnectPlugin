@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using KeePassLib;
+using KeePassLib.Security;
 
 namespace QuickConnectPlugin {
 
@@ -42,10 +43,10 @@ namespace QuickConnectPlugin {
         private PwDatabase pwDatabase;
         private IFieldMapper fieldsMapper;
 
-        public HostPwEntry(PwEntry pwEntry, PwDatabase pwDatabase, IFieldMapper fieldsMapper) {
+        public HostPwEntry(PwEntry pwEntry, PwDatabase pwDatabase, IFieldMapper fieldMapper) {
             this.pwEntry = pwEntry;
             this.pwDatabase = pwDatabase;
-            this.fieldsMapper = fieldsMapper;
+            this.fieldsMapper = fieldMapper;
         }
 
         public bool HasIPAddress {
@@ -60,12 +61,22 @@ namespace QuickConnectPlugin {
             }
         }
 
+        public String Title {
+            get {
+                return this.pwEntry.Strings.Get("Title").ReadString();
+            }
+        }
+
         public String GetUsername() {
             return PwEntryUtils.ReadCompiledSafeString(this.pwDatabase, this.pwEntry, "UserName");
         }
 
         public String GetPassword() {
             return PwEntryUtils.ReadCompiledSafeString(this.pwDatabase, this.pwEntry, "Password");
+        }
+
+        public void UpdatePassword(string newPassword) {
+            this.pwDatabase.RootGroup.FindEntry(this.pwEntry.Uuid, true).Strings.Set("Password", new ProtectedString(true, newPassword));
         }
     }
 }

@@ -164,15 +164,15 @@ namespace QuickConnectPlugin {
         }
 
         private bool validateSettings() {
-            bool isValidSSHCLientPath = isSSHClientPathValid();
-            this.pictureBoxSSHClientPathWarningIcon.Visible = !isValidSSHCLientPath;
-            this.labelSSHClientPathWarningMessage.Visible = !isValidSSHCLientPath;
+            bool isValidSSHClientPath = isSSHClientPathValid();
+            this.pictureBoxSSHClientPathWarningIcon.Visible = !isValidSSHClientPath;
+            this.labelSSHClientPathWarningMessage.Visible = !isValidSSHClientPath;
 
             bool isValidWinScpPath = isWinScpPathValid();
             this.pictureBoxWinScpPathWarningIcon.Visible = !isValidWinScpPath;
             this.labelWinScpPathWarningMessage.Visible = !isValidWinScpPath;
 
-            return isValidSSHCLientPath && isValidWinScpPath;
+            return isValidSSHClientPath && isValidWinScpPath;
         }
 
         private void buttonConfigureSSHClientPath_Click(object sender, EventArgs e) {
