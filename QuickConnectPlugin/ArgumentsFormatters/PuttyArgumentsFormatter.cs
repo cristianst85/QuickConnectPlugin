@@ -29,6 +29,10 @@ namespace QuickConnectPlugin.ArgumentsFormatters {
                 }
             }
 
+            if (success && options.Port.HasValue) {
+                sb.AppendFormat(" -P {0}", options.Port);
+            }
+
             if (hostPwEntry.ConnectionMethods.Contains(ConnectionMethodType.PuttySSH)) {
                 sb.Append(" -ssh");
             }

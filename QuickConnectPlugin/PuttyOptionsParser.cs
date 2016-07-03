@@ -21,14 +21,14 @@ namespace QuickConnectPlugin {
                 if (token.Contains(":")) {
                     String[] optionNameValue = token.Split(':');
                     if (optionNameValue.Length == 2 && optionNameValue[0].Trim().Equals("session")) {
-                        options = new PuttyOptions() {
-                            SessionName = optionNameValue[1].Trim('\"')
-                        };
-                        return true;
+                        options.SessionName = optionNameValue[1].Trim('\"');
+                    }
+                    else if (optionNameValue.Length == 2 && optionNameValue[0].Trim().Equals("port")) {
+                        options.Port = int.Parse(optionNameValue[1].Trim());
                     }
                 }
             }
-            return false;
+            return true;
         }
     }
 }
