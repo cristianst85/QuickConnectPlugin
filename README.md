@@ -21,8 +21,8 @@ QuickConnect is a plugin for [KeePass](http://keepass.info) password manager tha
     * `rdp` or `windows` - *Open Remote Desktop* and *Open Remote Desktop (console)*;
     * `esxi` or `vcenter` - *Open vSphere Client*;
     * `ssh`, `telnet`, `linux` or a known Linux distribution name - *Open PuTTY Console* and *Open WinSCP*.
-- Additional options like session name can be specified to be used with PuTTY. The syntax is as follows:
-    `[{ssh|telnet}|<os_type>;]session:"<regex_pattern>"`.
+- Additional options like session name or port can be specified to be used with PuTTY. The syntax is as follows:
+    `[{ssh|telnet}|<os_type>;]session:"<regex_pattern>";port:<port>`.
 
 Connection method and Additional options can be mapped to the same field. This will avoid cluttering the database with too many custom fields.
 

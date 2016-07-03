@@ -1,3 +1,9 @@
+0.3.0-rc.4
+
+ Added WinSCP support for connecting to linux hosts.
+ Default port can be overridden via additional options when connecting with PuTTY.
+ Minor UI fix.
+
 0.3.0-rc.3
 
  Bug fix: Unescape session names containing special characters.
