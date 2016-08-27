@@ -42,8 +42,10 @@ namespace QuickConnectPlugin {
             this.toolStripMenuItemSaveLogAs.Enabled = false;
             this.toolStripMenuItemClearLog.Enabled = false;
 
-            this.comboBoxHostType.Items.Add(HostType.Windows);
-            this.comboBoxHostType.Items.Add(HostType.ESXi);
+            foreach (var hostType in this.pwChangerServiceFactory.GetSupported()) {
+                this.comboBoxHostType.Items.Add(hostType);
+            }
+            this.checkBoxOverrideHostType.Enabled = this.comboBoxHostType.Items.Count > 0;
 
             this.listView.FullRowSelect = true;
 
@@ -86,13 +88,12 @@ namespace QuickConnectPlugin {
         private void toogleControls(bool state) {
             this.treeView.Enabled = state;
             this.listView.Enabled = state;
-            this.checkBoxOverrideHostType.Enabled = state;
+            this.checkBoxOverrideHostType.Enabled = state && this.comboBoxHostType.Items.Count > 0;
             this.comboBoxHostType.Enabled = state && this.checkBoxOverrideHostType.Checked;
             this.maskedTextBoxNewPassword.Enabled = state;
             this.maskedTextBoxRepeatNewPassword.Enabled = state;
             this.buttonStartChangePasswords.Enabled = state;
             this.buttonShowHidePassword.Enabled = state;
-            this.buttonCancel.Enabled = state;
         }
 
         private bool isHostTypeConfigured() {

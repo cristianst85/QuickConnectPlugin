@@ -40,13 +40,9 @@ namespace QuickConnectPlugin.BatchPasswordChangerFormLaucher {
 
             IPasswordChangerTreeNode treeNode = PasswordChangerTreeNode.Build(pwDatabase, fieldMapper);
 
-            if (false) {
-                treeNode = new EmptyTreeNode("No database available.");
-            }
-
             var pwChangerServiceFactory = new PasswordChangerServiceFactory(
                 new PasswordDatabase(pwDatabase),
-                new FakePasswordChangerFactory()
+                new NotSupportedPasswordChangerFactory()
             );
 
             var formBatchPasswordChanger = new FormBatchPasswordChanger(treeNode, pwChangerServiceFactory);

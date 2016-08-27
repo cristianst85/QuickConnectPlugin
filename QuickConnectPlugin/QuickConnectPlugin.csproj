@@ -48,6 +48,7 @@
   <ItemGroup>
     <Compile Include="ArgumentsFormatters\CmdKeyRegisterArgumentsFormatter.cs" />
     <Compile Include="ArgumentsFormatters\WinScpArgumentsFormatter.cs" />
+    <Compile Include="Commons\EnumUtils.cs" />
     <Compile Include="Commons\TextBoxUtils.cs" />
     <Compile Include="FormBatchPasswordChanger.cs">
       <SubType>Form</SubType>
@@ -60,6 +61,10 @@
     <Compile Include="IFieldMapper.cs" />
     <Compile Include="IHasTitle.cs" />
     <Compile Include="IHostPwEntry.cs" />
+    <Compile Include="PasswordChanger\WindowsPasswordChangerFactory.cs" />
+    <Compile Include="PasswordChanger\IPasswordChangerGenericFactory.cs" />
+    <Compile Include="PasswordChanger\ESXiPasswordChangerFactory.cs" />
+    <Compile Include="PasswordChanger\DictionaryPasswordChangerFactory.cs" />
     <Compile Include="PasswordChanger\IPasswordChangerHostPwEntry.cs" />
     <Compile Include="PasswordChanger\IPasswordChangerTreeNode.cs" />
     <Compile Include="PasswordChanger\EmptyTreeNode.cs" />
@@ -150,6 +155,7 @@
     <Content Include="Resources\1454812927_remote.png" />
     <Content Include="Resources\1455997452_important.png" />
     <None Include="Resources\1466555752_Transfer Document.png" />
+    <None Include="Resources\1472349739_agt_action_success.png" />
     <Content Include="Resources\readme.txt" />
     <EmbeddedResource Include="FormAbout.resx">
       <DependentUpon>FormAbout.cs</DependentUpon>

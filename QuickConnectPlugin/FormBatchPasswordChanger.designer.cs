@@ -56,7 +56,6 @@ namespace QuickConnectPlugin {
             this.toolStripMenuItemShowEntriesOfSubgroups = new System.Windows.Forms.ToolStripMenuItem();
             this.showPasswordsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.progressBar = new System.Windows.Forms.ProgressBar();
-            this.buttonCancel = new System.Windows.Forms.Button();
             this.splitContainer.Panel1.SuspendLayout();
             this.splitContainer.Panel2.SuspendLayout();
             this.splitContainer.SuspendLayout();
@@ -252,7 +251,7 @@ namespace QuickConnectPlugin {
             // 
             // buttonStartChangePasswords
             // 
-            this.buttonStartChangePasswords.Location = new System.Drawing.Point(542, 405);
+            this.buttonStartChangePasswords.Location = new System.Drawing.Point(665, 405);
             this.buttonStartChangePasswords.Name = "buttonStartChangePasswords";
             this.buttonStartChangePasswords.Size = new System.Drawing.Size(138, 25);
             this.buttonStartChangePasswords.TabIndex = 3;
@@ -324,18 +323,8 @@ namespace QuickConnectPlugin {
             // 
             this.progressBar.Location = new System.Drawing.Point(15, 405);
             this.progressBar.Name = "progressBar";
-            this.progressBar.Size = new System.Drawing.Size(521, 25);
+            this.progressBar.Size = new System.Drawing.Size(644, 25);
             this.progressBar.TabIndex = 12;
-            // 
-            // buttonCancel
-            // 
-            this.buttonCancel.Location = new System.Drawing.Point(686, 405);
-            this.buttonCancel.Name = "buttonCancel";
-            this.buttonCancel.Size = new System.Drawing.Size(117, 25);
-            this.buttonCancel.TabIndex = 13;
-            this.buttonCancel.Text = "Cancel";
-            this.buttonCancel.UseVisualStyleBackColor = true;
-            this.buttonCancel.Click += new System.EventHandler(this.buttonCancelClick);
             // 
             // FormBatchPasswordChanger
             // 
@@ -343,7 +332,6 @@ namespace QuickConnectPlugin {
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.ClientSize = new System.Drawing.Size(819, 442);
-            this.Controls.Add(this.buttonCancel);
             this.Controls.Add(this.progressBar);
             this.Controls.Add(this.buttonStartChangePasswords);
             this.Controls.Add(this.splitContainer);
@@ -398,7 +386,6 @@ namespace QuickConnectPlugin {
         private ToolStripMenuItem toolStripMenuItemClearLog;
         private ProgressBar progressBar;
         private ToolStripMenuItem toolStripMenuItemView;
-        private Button buttonCancel;
         private ToolStripMenuItem toolStripMenuItemShowEntriesOfSubgroups;
         private ColumnHeader hostType;
         private ToolStripMenuItem showPasswordsToolStripMenuItem;

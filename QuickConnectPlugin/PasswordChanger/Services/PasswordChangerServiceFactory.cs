@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using QuickConnectPlugin.Commons;
 
 namespace QuickConnectPlugin.PasswordChanger.Services {
 
@@ -14,6 +17,19 @@ namespace QuickConnectPlugin.PasswordChanger.Services {
 
         public IPasswordChangerService Create(IHostTypeMapper hostTypeMapper) {
             return new PasswordChangerService(this.passwordDatabase, this.passwordChangerFactory, hostTypeMapper);
+        }
+
+        public ICollection<HostType> GetSupported() {
+            var results = new Collection<HostType>();
+            foreach (var hostType in EnumUtils.EnumToList<HostType>()) {
+                try {
+                    this.passwordChangerFactory.Create(hostType);
+                    results.Add(hostType);
+                }
+                catch (NotSupportedException) {
+                }
+            }
+            return results;
         }
     }
 }

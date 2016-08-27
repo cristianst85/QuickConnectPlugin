@@ -7,8 +7,10 @@ namespace QuickConnectPlugin.OptionsFormLauncher {
 
         public bool Enabled { get; set; }
         public bool CompatibleMode { get; set; }
+        public bool AddChangePasswordMenuItem { get; set; }
         public string SSHClientPath { get; set; }
         public string WinScpPath { get; set; }
+        public string PsPasswdPath { get; set; }
         public string HostAddressMapFieldName { get; set; }
         public string ConnectionMethodMapFieldName { get; set; }
         public string AdditionalOptionsMapFieldName { get; set; }
