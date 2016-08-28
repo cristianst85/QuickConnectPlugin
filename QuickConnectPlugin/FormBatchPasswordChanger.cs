@@ -307,7 +307,10 @@ namespace QuickConnectPlugin {
             if (this.pwChangerWorker != null && this.pwChangerWorker.IsRunning) {
                 return;
             }
-            if (this.getSelectedEntries().Count > 0 && this.passwordsMatch() & this.isHostTypeConfigured()) {
+            if (this.getSelectedEntries().Count > 0 &&
+                (this.maskedTextBoxNewPassword.UseSystemPasswordChar && this.passwordsMatch() ||
+                !this.maskedTextBoxNewPassword.UseSystemPasswordChar && TextBoxUtils.HasText(this.maskedTextBoxNewPassword)) &&
+                this.isHostTypeConfigured()) {
                 this.buttonStartChangePasswords.Enabled = true;
             }
             else {
