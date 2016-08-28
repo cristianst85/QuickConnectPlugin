@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
+using QuickConnectPlugin.PasswordChanger;
 using QuickConnectPlugin.PasswordChanger.Services;
 using QuickConnectPlugin.Tests;
 using QuickConnectPlugin.Tests.PasswordChanger;
@@ -23,10 +24,9 @@ namespace QuickConnectPlugin.FormLauchers {
                 IPAddress = "host",
             };
             hostPwEntry.ConnectionMethods.Add(ConnectionMethodType.RemoteDesktop);
-            var pwChangerFactory = new FakePasswordChangerFactory(20000);
-            var pwChangerServiceFactory = new PasswordChangerServiceFactory(pwDatabase, pwChangerFactory);
-
-            var formPasswordChange = new FormPasswordChanger(hostPwEntry, pwChangerServiceFactory);
+            var pwChanger = new FakePasswordChanger(HostType.Windows) { ThreadSleepDuration = 20000 };
+            var pwChangerService = new PasswordChangerServiceWrapper(pwDatabase, pwChanger);
+            var formPasswordChange = new FormPasswordChanger(hostPwEntry, pwChangerService);
             Application.Run(formPasswordChange);
         }
     }

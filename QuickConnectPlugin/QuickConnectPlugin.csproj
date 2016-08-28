@@ -67,6 +67,7 @@
     <Compile Include="IFieldMapper.cs" />
     <Compile Include="IHasTitle.cs" />
     <Compile Include="IHostPwEntry.cs" />
+    <Compile Include="PasswordChanger\Services\PasswordChangerServiceWrapper.cs" />
     <Compile Include="PasswordChanger\WindowsPasswordChangerFactory.cs" />
     <Compile Include="PasswordChanger\IPasswordChangerGenericFactory.cs" />
     <Compile Include="PasswordChanger\ESXiPasswordChangerFactory.cs" />

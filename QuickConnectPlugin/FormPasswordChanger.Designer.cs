@@ -114,7 +114,7 @@
             this.Name = "FormPasswordChanger";
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "Password Changer ({})";
+            this.Text = "Change Password ({})";
             this.groupBox.ResumeLayout(false);
             this.groupBox.PerformLayout();
             this.ResumeLayout(false);

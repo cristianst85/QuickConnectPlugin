@@ -12,17 +12,17 @@ namespace QuickConnectPlugin {
 
     public partial class FormPasswordChanger : Form {
 
-        private IPasswordChangerServiceFactory pwChangerServiceFactory;
+        private IPasswordChangerService pwChangerService;
         private BatchPasswordChangerWorker pwChangerWorker;
         private IHostPwEntry hostPwEntry;
 
-        public FormPasswordChanger(IHostPwEntry hostPwEntry, IPasswordChangerServiceFactory pwChangerServiceFactory) {
+        public FormPasswordChanger(IHostPwEntry hostPwEntry, IPasswordChangerService pwChangerService) {
             InitializeComponent();
 
             this.hostPwEntry = hostPwEntry;
-            this.pwChangerServiceFactory = pwChangerServiceFactory;
+            this.pwChangerService = pwChangerService;
 
-            this.Text = this.Text.Replace("{}", String.Format("{0}@hostname", hostPwEntry.GetUsername(), hostPwEntry.IPAddress));
+            this.Text = this.Text.Replace("{}", String.Format("{0}@{1}", hostPwEntry.GetUsername(), hostPwEntry.IPAddress));
 
             this.maskedTextBoxNewPassword.TextChanged += new EventHandler(checkPasswords);
             this.maskedTextBoxRepeatNewPassword.TextChanged += new EventHandler(checkPasswords);
@@ -36,10 +36,9 @@ namespace QuickConnectPlugin {
         private void changePasswordClick(object sender, EventArgs e) {
             if (this.pwChangerWorker == null || !this.pwChangerWorker.IsRunning) {
                 this.toogleControls(false);
-                var passwordChangerService = this.pwChangerServiceFactory.Create(new HostTypeMapper());
                 var entries = new Collection<IHostPwEntry>() { this.hostPwEntry };
-                this.pwChangerWorker = new BatchPasswordChangerWorker(passwordChangerService, entries, maskedTextBoxNewPassword.Text);
-                var thread = new Thread(new ThreadStart(() => runBatchPasswordChangerWorker(passwordChangerService)));
+                this.pwChangerWorker = new BatchPasswordChangerWorker(this.pwChangerService, entries, maskedTextBoxNewPassword.Text);
+                var thread = new Thread(new ThreadStart(() => runBatchPasswordChangerWorker(this.pwChangerService)));
                 thread.Name = "FormPasswordChangeThread";
                 thread.IsBackground = true;
                 thread.Start();
@@ -58,14 +57,14 @@ namespace QuickConnectPlugin {
         public void batchPasswordChangerWorkerChanged(object sender, BatchPasswordChangerEventArgs e) {
             Debug.WriteLine("batchPasswordChangerWorkerChanged");
             this.Invoke((MethodInvoker)delegate {
-                MessageBox.Show(String.Format("Password successfully changed for user '{0}' on host '{1}'.", "Password Changer", e.HostPwEntry.GetUsername(), e.HostPwEntry.IPAddress), "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show(String.Format("Password successfully changed for user '{0}' on host '{1}'.", e.HostPwEntry.GetUsername(), e.HostPwEntry.IPAddress), String.Empty, MessageBoxButtons.OK, MessageBoxIcon.Information);
             });
         }
 
         public void batchPasswordChangerWorkerError(object sender, BatchPasswordChangerErrorEventArgs e) {
             Debug.WriteLine("batchPasswordChangerWorkerError");
             this.Invoke((MethodInvoker)delegate {
-                MessageBox.Show(String.Format("Error changing password. Exception: {0}", e.Exception), "Password Changer Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(String.Format("Error changing password. Exception: {0}", e.Exception), String.Empty, MessageBoxButtons.OK, MessageBoxIcon.Error);
             });
         }
 
@@ -82,15 +81,14 @@ namespace QuickConnectPlugin {
             Debug.WriteLine("buttonShowHidePassword_Click");
             this.maskedTextBoxNewPassword.UseSystemPasswordChar = !this.maskedTextBoxNewPassword.UseSystemPasswordChar;
             this.maskedTextBoxRepeatNewPassword.UseSystemPasswordChar = !this.maskedTextBoxRepeatNewPassword.UseSystemPasswordChar;
-            this.maskedTextBoxRepeatNewPassword.Enabled = this.maskedTextBoxNewPassword.UseSystemPasswordChar;
             if (this.maskedTextBoxNewPassword.UseSystemPasswordChar) {
                 this.maskedTextBoxRepeatNewPassword.Text = this.maskedTextBoxNewPassword.Text;
             }
             else {
                 this.maskedTextBoxRepeatNewPassword.Text = String.Empty;
                 this.maskedTextBoxRepeatNewPassword.BackColor = Color.Empty;
-                this.checkControls();
             }
+            this.checkControls();
         }
 
         private void checkControls(object sender, EventArgs e) {
@@ -103,12 +101,13 @@ namespace QuickConnectPlugin {
                 return;
             }
             if (this.maskedTextBoxNewPassword.UseSystemPasswordChar && this.passwordsMatch() ||
-                !this.maskedTextBoxNewPassword.UseSystemPasswordChar) {
+                !this.maskedTextBoxNewPassword.UseSystemPasswordChar && TextBoxUtils.HasText(this.maskedTextBoxNewPassword)) {
                 this.buttonChangePassword.Enabled = true;
             }
             else {
                 this.buttonChangePassword.Enabled = false;
             }
+            this.maskedTextBoxRepeatNewPassword.Enabled = this.maskedTextBoxNewPassword.UseSystemPasswordChar;
         }
 
         private void toogleControls(bool state) {
@@ -120,7 +119,7 @@ namespace QuickConnectPlugin {
 
         private bool passwordsMatch() {
             Debug.WriteLine("passwordsMatch");
-            return this.maskedTextBoxNewPassword.Text.Length > 0 &&
+            return TextBoxUtils.HasText(this.maskedTextBoxNewPassword) &&
                 this.maskedTextBoxNewPassword.Text.Equals(this.maskedTextBoxRepeatNewPassword.Text);
         }
 

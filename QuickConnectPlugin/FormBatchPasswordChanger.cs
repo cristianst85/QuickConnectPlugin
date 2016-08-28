@@ -143,23 +143,6 @@ namespace QuickConnectPlugin {
             }
         }
 
-        private void checkControls(object sender, EventArgs e) {
-            this.checkControls();
-        }
-
-        private void checkControls() {
-            Debug.WriteLine("checkControls");
-            if (this.pwChangerWorker != null && this.pwChangerWorker.IsRunning) {
-                return;
-            }
-            if (this.getSelectedEntries().Count > 0 && this.passwordsMatch() & this.isHostTypeConfigured()) {
-                this.buttonStartChangePasswords.Enabled = true;
-            }
-            else {
-                this.buttonStartChangePasswords.Enabled = false;
-            }
-        }
-
         private void saveLogAsClick(object sender, EventArgs e) {
             using (var dialog = new SaveFileDialog()) {
                 dialog.Title = "Save Log As";
@@ -305,20 +288,37 @@ namespace QuickConnectPlugin {
             Debug.WriteLine("buttonShowHidePassword_Click");
             this.maskedTextBoxNewPassword.UseSystemPasswordChar = !this.maskedTextBoxNewPassword.UseSystemPasswordChar;
             this.maskedTextBoxRepeatNewPassword.UseSystemPasswordChar = !this.maskedTextBoxRepeatNewPassword.UseSystemPasswordChar;
-            this.maskedTextBoxRepeatNewPassword.Enabled = this.maskedTextBoxNewPassword.UseSystemPasswordChar;
             if (this.maskedTextBoxNewPassword.UseSystemPasswordChar) {
                 this.maskedTextBoxRepeatNewPassword.Text = this.maskedTextBoxNewPassword.Text;
             }
             else {
                 this.maskedTextBoxRepeatNewPassword.Text = String.Empty;
                 this.maskedTextBoxRepeatNewPassword.BackColor = Color.Empty;
-                this.checkControls();
             }
+            this.checkControls();
+        }
+
+        private void checkControls(object sender, EventArgs e) {
+            this.checkControls();
+        }
+
+        private void checkControls() {
+            Debug.WriteLine("checkControls");
+            if (this.pwChangerWorker != null && this.pwChangerWorker.IsRunning) {
+                return;
+            }
+            if (this.getSelectedEntries().Count > 0 && this.passwordsMatch() & this.isHostTypeConfigured()) {
+                this.buttonStartChangePasswords.Enabled = true;
+            }
+            else {
+                this.buttonStartChangePasswords.Enabled = false;
+            }
+            this.maskedTextBoxRepeatNewPassword.Enabled = this.maskedTextBoxNewPassword.UseSystemPasswordChar;
         }
 
         private bool passwordsMatch() {
             Debug.WriteLine("passwordsMatch");
-            return this.maskedTextBoxNewPassword.Text.Length > 0 &&
+            return TextBoxUtils.HasText(this.maskedTextBoxNewPassword) &&
                 this.maskedTextBoxNewPassword.Text.Equals(this.maskedTextBoxRepeatNewPassword.Text);
         }
 

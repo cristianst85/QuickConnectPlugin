@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
 using System.Windows.Forms;
@@ -37,7 +38,7 @@ namespace QuickConnectPlugin {
         private EventHandler pluginMenuItemOptionsOnClickEventHandler;
         private EventHandler pluginMenuItemAboutOnClickEventHandler;
         private EventHandler pluginMenuItemBatchPasswordChangerOnClickEventHandler;
-        private IList<ToolStripItem> menuItems = new List<ToolStripItem>();
+        private List<ToolStripItem> menuItems = new List<ToolStripItem>();
 
         private bool? rdcIsOlderVersion;
         private bool RDCIsOlderVersion {
@@ -148,21 +149,46 @@ namespace QuickConnectPlugin {
         }
 
         private void entryContextMenu_Opened(object sender, EventArgs e) {
-
             if (!this.Settings.Enabled) {
                 return;
             }
-
             PwEntry[] selectedEntries = this.pluginHost.MainWindow.GetSelectedEntries();
             if (selectedEntries != null && selectedEntries.Length == 1) {
                 HostPwEntry hostPwEntry = new HostPwEntry(selectedEntries[0], this.pluginHost.Database, this.fieldsMapper);
                 if (hostPwEntry.HasConnectionMethods) {
-                    this.addMenuItems(hostPwEntry);
+                    this.menuItems.AddRange(this.createMenuItems(hostPwEntry));
+                    if (this.Settings.CompatibleMode) {
+                        this.menuItems.Insert(0, new ToolStripSeparator());
+                    }
+                    else {
+                        this.menuItems.Add(new ToolStripSeparator());
+                    }
+                    if (this.Settings.AddChangePasswordMenuItem) {
+                        if (this.Settings.CompatibleMode) {
+                            this.menuItems.Insert(0, this.createChangePasswordMenuItem(hostPwEntry));
+                            this.menuItems.Insert(0, new ToolStripSeparator());
+                        }
+                        else {
+                            this.menuItems.Add(this.createChangePasswordMenuItem(hostPwEntry));
+                            this.menuItems.Add(new ToolStripSeparator());
+                        }
+                    }
+                    if (this.Settings.CompatibleMode) {
+                        foreach (var item in this.menuItems) {
+                            this.pluginHost.MainWindow.EntryContextMenu.Items.Add(item);
+                        }
+                    }
+                    else {
+                        for (int i = this.menuItems.Count - 1; i >= 0; i--) {
+                            this.pluginHost.MainWindow.EntryContextMenu.Items.Insert(0, this.menuItems[i]);
+                        }
+                    }
                 }
             }
         }
 
-        private void addMenuItems(HostPwEntry hostPwEntry) {
+        private ICollection<ToolStripItem> createMenuItems(HostPwEntry hostPwEntry) {
+            var menuItems = new Collection<ToolStripItem>();
             if (hostPwEntry.ConnectionMethods.Contains(ConnectionMethodType.RemoteDesktop)) {
                 var menuItem = new ToolStripMenuItem() {
                     Text = OpenRemoteDesktopMenuItemText,
@@ -184,7 +210,7 @@ namespace QuickConnectPlugin {
                         }
                     }
                 );
-                this.menuItems.Add(menuItem);
+                menuItems.Add(menuItem);
             };
             if (hostPwEntry.ConnectionMethods.Contains(ConnectionMethodType.RemoteDesktopConsole)) {
                 var menuItem = new ToolStripMenuItem() {
@@ -209,7 +235,7 @@ namespace QuickConnectPlugin {
                       }
                   }
                 );
-                this.menuItems.Add(menuItem);
+                menuItems.Add(menuItem);
             };
             if (hostPwEntry.ConnectionMethods.Contains(ConnectionMethodType.PuttySSH) ||
                 hostPwEntry.ConnectionMethods.Contains(ConnectionMethodType.PuttyTelnet)) {
@@ -231,7 +257,7 @@ namespace QuickConnectPlugin {
                         };
                     }
                 );
-                this.menuItems.Add(menuItem);
+                menuItems.Add(menuItem);
             };
             if (hostPwEntry.ConnectionMethods.Contains(ConnectionMethodType.WinSCP)) {
                 var winScpPath = !String.IsNullOrEmpty(this.Settings.WinScpPath) ? this.Settings.WinScpPath : QuickConnectUtils.GetWinScpPath();
@@ -251,7 +277,7 @@ namespace QuickConnectPlugin {
                         };
                     }
                 );
-                this.menuItems.Add(winScpConsoleMenuItem);
+                menuItems.Add(winScpConsoleMenuItem);
             };
             if (hostPwEntry.ConnectionMethods.Contains(ConnectionMethodType.vSphereClient)) {
                 var vSphereClientPath = QuickConnectUtils.GetVSphereClientPath();
@@ -271,26 +297,44 @@ namespace QuickConnectPlugin {
                         }
                     }
                 );
-                this.menuItems.Add(menuItem);
+                menuItems.Add(menuItem);
             }
+            return menuItems;
+        }
 
-            var putMenuItemsOnTop = !this.Settings.CompatibleMode;
-
-            if (putMenuItemsOnTop) {
-                for (int i = this.menuItems.Count - 1; i >= 0; i--) {
-                    this.pluginHost.MainWindow.EntryContextMenu.Items.Insert(0, this.menuItems[i]);
-                }
+        private ToolStripMenuItem createChangePasswordMenuItem(HostPwEntry hostPwEntry) {
+            IPasswordChanger pwChanger = null;
+            var hostTypeMapper = new HostTypeMapper();
+            var hostType = hostTypeMapper.Get(hostPwEntry);
+            if (hostType == HostType.ESXi && QuickConnectUtils.IsVSpherePowerCLIInstalled()) {
+                pwChanger = new ESXiPasswordChanger();
             }
-            else {
-                foreach (var item in this.menuItems) {
-                    this.pluginHost.MainWindow.EntryContextMenu.Items.Add(item);
-                }
+            else if (hostType == HostType.Windows &&
+                                !String.IsNullOrEmpty(this.Settings.PsPasswdPath) &&
+                                File.Exists(this.Settings.PsPasswdPath) &&
+                                PsPasswdWrapper.IsPsPasswdUtility(this.Settings.PsPasswdPath) &&
+                                PsPasswdWrapper.IsSupportedVersion(this.Settings.PsPasswdPath)
+            ) {
+                pwChanger = new WindowsPasswordChanger(new PsPasswdWrapper(this.Settings.PsPasswdPath));
             }
-            int separatorIndex = putMenuItemsOnTop ? this.menuItems.Count :
-                this.pluginHost.MainWindow.EntryContextMenu.Items.Count - this.menuItems.Count;
-            var separator = new ToolStripSeparator();
-            this.menuItems.Add(separator);
-            this.pluginHost.MainWindow.EntryContextMenu.Items.Insert(separatorIndex, separator);
+            var menuItem = new ToolStripMenuItem() {
+                Text = "Change Password...",
+                Enabled = hostPwEntry.HasIPAddress && pwChanger != null
+            };
+            menuItem.Click += new EventHandler(
+                delegate(object obj, EventArgs ev) {
+                    try {
+                        var pwDatabase = new PasswordDatabase(this.pluginHost.Database);
+                        var pwChangerService = new PasswordChangerServiceWrapper(pwDatabase, pwChanger);
+                        var formPasswordChange = new FormPasswordChanger(hostPwEntry, pwChangerService);
+                        formPasswordChange.ShowDialog();
+                    }
+                    catch (Exception ex) {
+                        log(ex);
+                    }
+                }
+            );
+            return menuItem;
         }
 
         private void entryContextMenu_Closed(object sender, ToolStripDropDownClosedEventArgs e) {
