@@ -37,8 +37,12 @@ namespace QuickConnectPlugin.PasswordChanger {
         }
 
         public ICollection<IPasswordChangerHostPwEntry> GetEntries() {
+            return this.GetEntries(false);
+        }
+
+        public ICollection<IPasswordChangerHostPwEntry> GetEntries(bool includeSubGroupEntries) {
             var entries = new Collection<IPasswordChangerHostPwEntry>();
-            foreach (var pwEntry in this.pwGroup.Entries) {
+            foreach (var pwEntry in this.pwGroup.GetEntries(includeSubGroupEntries)) {
                 entries.Add(new PasswordChangerHostPwEntry(pwEntry, this.pwDatabase, this.fieldMapper));
             }
             return entries;

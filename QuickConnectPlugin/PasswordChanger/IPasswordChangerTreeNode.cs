@@ -8,5 +8,7 @@ namespace QuickConnectPlugin.PasswordChanger {
         TreeNode Root { get; }
 
         ICollection<IPasswordChangerHostPwEntry> GetEntries();
+
+        ICollection<IPasswordChangerHostPwEntry> GetEntries(bool includeSubGroupEntries);
     }
 }

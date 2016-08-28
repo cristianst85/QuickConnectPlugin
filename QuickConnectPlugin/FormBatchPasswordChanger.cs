@@ -94,6 +94,7 @@ namespace QuickConnectPlugin {
             this.maskedTextBoxRepeatNewPassword.Enabled = state;
             this.buttonStartChangePasswords.Enabled = state;
             this.buttonShowHidePassword.Enabled = state;
+            this.toolStripMenuItemShowEntriesOfSubgroups.Enabled = state;
         }
 
         private bool isHostTypeConfigured() {
@@ -130,13 +131,18 @@ namespace QuickConnectPlugin {
             }
         }
 
+        private void toolStripMenuItemShowEntriesOfSubgroupsClick(object sender, EventArgs e) {
+            Debug.WriteLine("toolStripMenuItemShowEntriesOfSubgroupsClick");
+            this.treeViewAfterSelect(this, new TreeViewEventArgs(this.treeView.SelectedNode));
+        }
+
         private void treeViewAfterSelect(object sender, TreeViewEventArgs e) {
             Debug.WriteLine("treeViewAfterSelect");
             IPasswordChangerTreeNode treeNode = e.Node as IPasswordChangerTreeNode;
             if (treeNode != null) {
                 bool showPassword = this.showPasswordIsChecked();
                 this.listView.Items.Clear();
-                foreach (var pwEntry in treeNode.GetEntries()) {
+                foreach (var pwEntry in treeNode.GetEntries(this.toolStripMenuItemShowEntriesOfSubgroups.Checked)) {
                     PwEntryListViewItem item = new PwEntryListViewItem(pwEntry, showPassword);
                     this.listView.Items.Add(item);
                 }

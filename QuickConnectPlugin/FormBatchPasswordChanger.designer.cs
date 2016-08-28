@@ -307,15 +307,17 @@ namespace QuickConnectPlugin {
             // 
             // toolStripMenuItemShowEntriesOfSubgroups
             // 
+            this.toolStripMenuItemShowEntriesOfSubgroups.CheckOnClick = true;
             this.toolStripMenuItemShowEntriesOfSubgroups.Name = "toolStripMenuItemShowEntriesOfSubgroups";
             this.toolStripMenuItemShowEntriesOfSubgroups.Size = new System.Drawing.Size(215, 22);
             this.toolStripMenuItemShowEntriesOfSubgroups.Text = "Show Entries of Subgroups";
+            this.toolStripMenuItemShowEntriesOfSubgroups.Click += new System.EventHandler(this.toolStripMenuItemShowEntriesOfSubgroupsClick);
             // 
             // showPasswordsToolStripMenuItem
             // 
             this.showPasswordsToolStripMenuItem.CheckOnClick = true;
             this.showPasswordsToolStripMenuItem.Name = "showPasswordsToolStripMenuItem";
-            this.showPasswordsToolStripMenuItem.Size = new System.Drawing.Size(215, 22);
+            this.showPasswordsToolStripMenuItem.Size = new System.Drawing.Size(222, 22);
             this.showPasswordsToolStripMenuItem.Text = "Show Passwords";
             this.showPasswordsToolStripMenuItem.Click += new System.EventHandler(this.showPasswordsClick);
             // 

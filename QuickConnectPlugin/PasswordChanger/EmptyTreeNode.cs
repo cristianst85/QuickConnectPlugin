@@ -18,5 +18,9 @@ namespace QuickConnectPlugin.PasswordChanger {
         public ICollection<IPasswordChangerHostPwEntry> GetEntries() {
             return new Collection<IPasswordChangerHostPwEntry>();
         }
+
+        public ICollection<IPasswordChangerHostPwEntry> GetEntries(bool includeSubGroupEntries) {
+            return new Collection<IPasswordChangerHostPwEntry>();
+        }
     }
 }
