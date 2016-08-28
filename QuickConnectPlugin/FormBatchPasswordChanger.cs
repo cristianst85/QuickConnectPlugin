@@ -301,10 +301,6 @@ namespace QuickConnectPlugin {
             });
         }
 
-        private void buttonCancelClick(object sender, EventArgs e) {
-            this.Close();
-        }
-
         private void buttonShowHidePasswordClick(object sender, EventArgs e) {
             Debug.WriteLine("buttonShowHidePassword_Click");
             this.maskedTextBoxNewPassword.UseSystemPasswordChar = !this.maskedTextBoxNewPassword.UseSystemPasswordChar;
@@ -315,6 +311,8 @@ namespace QuickConnectPlugin {
             }
             else {
                 this.maskedTextBoxRepeatNewPassword.Text = String.Empty;
+                this.maskedTextBoxRepeatNewPassword.BackColor = Color.Empty;
+                this.checkControls();
             }
         }
 
@@ -328,6 +326,9 @@ namespace QuickConnectPlugin {
             Debug.WriteLine("checkPasswords");
             if (this.maskedTextBoxNewPassword.UseSystemPasswordChar) {
                 if (TextBoxUtils.HasText(this.maskedTextBoxNewPassword) && this.passwordsMatch()) {
+                    this.maskedTextBoxRepeatNewPassword.BackColor = Color.Empty;
+                }
+                else if (!TextBoxUtils.HasText(this.maskedTextBoxNewPassword) && !TextBoxUtils.HasText(this.maskedTextBoxRepeatNewPassword)) {
                     this.maskedTextBoxRepeatNewPassword.BackColor = Color.Empty;
                 }
                 else {

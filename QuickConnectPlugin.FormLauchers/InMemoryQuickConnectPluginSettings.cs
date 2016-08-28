@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 
-namespace QuickConnectPlugin.OptionsFormLauncher {
+namespace QuickConnectPlugin.FormLauchers {
 
     public class InMemoryQuickConnectPluginSettings : IQuickConnectPluginSettings {
 

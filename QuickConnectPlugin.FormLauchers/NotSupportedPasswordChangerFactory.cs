@@ -1,7 +1,7 @@
 ﻿using System;
 using QuickConnectPlugin.PasswordChanger;
 
-namespace QuickConnectPlugin.BatchPasswordChangerFormLaucher {
+namespace QuickConnectPlugin.FormLauchers {
 
     public class NotSupportedPasswordChangerFactory : IPasswordChangerFactory {
 

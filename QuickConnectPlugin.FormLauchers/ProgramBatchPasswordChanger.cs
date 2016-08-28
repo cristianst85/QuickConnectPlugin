@@ -8,9 +8,9 @@ using QuickConnectPlugin.PasswordChanger;
 using QuickConnectPlugin.PasswordChanger.Services;
 using QuickConnectPlugin.Tests;
 
-namespace QuickConnectPlugin.BatchPasswordChangerFormLaucher {
+namespace QuickConnectPlugin.FormLauchers {
 
-    static class Program {
+    static class ProgramBatchPasswordChanger {
 
         private static readonly string databasePath = Path.GetFullPath(@"..\..\..\QuickConnectPlugin.Tests.Resources\sample.kdbx");
         private static readonly string databasePassword = "12345678";

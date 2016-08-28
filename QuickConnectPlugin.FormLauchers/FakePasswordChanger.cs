@@ -3,14 +3,16 @@ using System.Diagnostics;
 using System.Threading;
 using QuickConnectPlugin.PasswordChanger;
 
-namespace QuickConnectPlugin.BatchPasswordChangerFormLaucher {
+namespace QuickConnectPlugin.FormLauchers {
 
     public class FakePasswordChanger : IPasswordChanger {
 
+        public int ThreadSleepDuration { get; set; }
         private HostType hostType;
 
         public FakePasswordChanger(HostType hostType) {
             this.hostType = hostType;
+            this.ThreadSleepDuration = 2000;
         }
 
         public void ChangePassword(string host, string username, string password, string newPassword) {
@@ -20,7 +22,7 @@ namespace QuickConnectPlugin.BatchPasswordChangerFormLaucher {
             Debug.WriteLine(String.Format("username: {0}", username));
             Debug.WriteLine(String.Format("password: {0}", password));
             Debug.WriteLine(String.Format("newPassword: {0}", newPassword));
-            Thread.Sleep(2000);
+            Thread.Sleep(this.ThreadSleepDuration);
         }
     }
 }
