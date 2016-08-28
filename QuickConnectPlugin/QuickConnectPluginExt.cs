@@ -119,7 +119,7 @@ namespace QuickConnectPlugin {
 
                 var pwChangerServiceFactory = new PasswordChangerServiceFactory(
                     new PasswordDatabase(this.pluginHost.Database),
-                    new DictionaryPasswordChangerFactory()
+                    pwChangerFactory
                 );
                 using (FormBatchPasswordChanger form = new FormBatchPasswordChanger(pwTreeNode, pwChangerServiceFactory)) {
                     form.ShowDialog(pluginHost.MainWindow);
