@@ -261,7 +261,7 @@
             this.groupBox6.Size = new System.Drawing.Size(290, 80);
             this.groupBox6.TabIndex = 8;
             this.groupBox6.TabStop = false;
-            this.groupBox6.Text = "VMware vSphere PowerCLI Status";
+            this.groupBox6.Text = "vSphere PowerCLI Status";
             // 
             // pictureBoxVSpherePowerCLIStatusIcon
             // 
@@ -282,9 +282,9 @@
             this.labelVSpherePowerCLIStatusMessage.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.labelVSpherePowerCLIStatusMessage.Name = "labelVSpherePowerCLIStatusMessage";
             this.labelVSpherePowerCLIStatusMessage.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.labelVSpherePowerCLIStatusMessage.Size = new System.Drawing.Size(151, 13);
+            this.labelVSpherePowerCLIStatusMessage.Size = new System.Drawing.Size(148, 13);
             this.labelVSpherePowerCLIStatusMessage.TabIndex = 8;
-            this.labelVSpherePowerCLIStatusMessage.Text = "vSphere Power CLI is {status}.";
+            this.labelVSpherePowerCLIStatusMessage.Text = "vSphere PowerCLI is {status}.";
             this.labelVSpherePowerCLIStatusMessage.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // groupBox5

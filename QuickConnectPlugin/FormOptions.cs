@@ -101,7 +101,7 @@ namespace QuickConnectPlugin {
 
             this.buttonApply.Enabled = false;
 
-            // Check if VMware VSphere Power CLI is installed.
+            // Check if VMware VSphere PowerCLI is installed.
             this.checkVSpherePowerCLIStatus();
             // Force settings validation.
             this.validateSettings();
