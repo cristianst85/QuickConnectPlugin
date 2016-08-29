@@ -10,6 +10,6 @@ namespace QuickConnectPlugin {
         vSphereClient = 3,
         PuttySSH = 4,
         PuttyTelnet = 5,
-		WinSCP = 6
+        WinSCP = 6
     }
 }
