@@ -2,7 +2,7 @@
 
  Added support for changing passwords for Windows and ESXi hosts.
  Bug fix: Stored credentials were not removed after connecting via RDP.
- Minor UI fixed.
+ Minor UI fixes.
 
 0.3.0-rc.4
 
