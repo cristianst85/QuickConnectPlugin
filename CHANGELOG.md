@@ -1,3 +1,9 @@
+0.4.0-rc.1
+
+ Added support for changing passwords for Windows and ESXi hosts.
+ Bug fix: Stored credentials were not removed after connecting via RDP.
+ Minor UI fixed.
+
 0.3.0-rc.4
 
  Added WinSCP support for connecting to linux hosts.

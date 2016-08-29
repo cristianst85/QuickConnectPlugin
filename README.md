@@ -28,9 +28,18 @@ Connection method and Additional options can be mapped to the same field. This w
 
 <p align="center"><img src="https://raw.github.com/cristianst85/QuickConnectPlugin/master/docs/screenshot.png" alt="QuickConnectPlugin" /></p>
 
+## Password Changer
+
+This feature allows you to change passwords for Windows and ESXi hosts directly from KeePass.
+
+### Requirements
+
+- [PsPasswd](https://technet.microsoft.com/en-us/sysinternals/bb897543.aspx) utility version 1.22 for Windows hosts.
+- [vSphere PowerCLI version 5.8.0](https://developercenter.vmware.com/tool/vsphere_powercli/5.8.0) for ESXi hosts.
+
 ## Security Considerations
 
-- Please take note that when launching *vSphere Client*,*PuTTY* or *WinSCP* the plugin exposes the password via command-line arguments and it is visible during the entire lifetime of the child process.
+- Please take note that when launching *vSphere Client*, *PuTTY*, *WinSCP* or [*PsPasswd*](https://technet.microsoft.com/en-us/sysinternals/bb897543.aspx) (via Password Changer) the plugin exposes the password via command-line arguments and it is visible during the entire lifetime of the child process.
 
 ## Repository
 
