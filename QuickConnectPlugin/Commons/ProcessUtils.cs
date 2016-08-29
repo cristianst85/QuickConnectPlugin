@@ -11,6 +11,8 @@ namespace QuickConnectPlugin.Commons {
                 Thread.Sleep(delay);
                 StartDetached(processCommand);
             };
+            Thread thread = new Thread(threadStart);
+            thread.Start();
         }
 
         public static void StartDetached(String processCommand) {

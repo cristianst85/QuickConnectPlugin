@@ -15,7 +15,6 @@ namespace QuickConnectPlugin.Tests {
 
         private PwDatabase pwDatabase;
 
-
         [SetUp]
         public void Setup() {
             Assert.IsTrue(File.Exists(databasePath));

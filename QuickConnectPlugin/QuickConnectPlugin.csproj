@@ -40,16 +40,72 @@
     <Reference Include="System" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
+    <Reference Include="VMware.Vim, Version=5.5.0.0, Culture=neutral, PublicKeyToken=10980b081e887e9f, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Program Files (x86)\VMware\Infrastructure\vSphere PowerCLI\VMware.Vim.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ArgumentsFormatters\CmdKeyRegisterArgumentsFormatter.cs" />
     <Compile Include="ArgumentsFormatters\WinScpArgumentsFormatter.cs" />
+    <Compile Include="Commons\EnumUtils.cs" />
+    <Compile Include="Commons\TextBoxUtils.cs" />
+    <Compile Include="FormBatchPasswordChanger.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormBatchPasswordChanger.designer.cs">
+      <DependentUpon>FormBatchPasswordChanger.cs</DependentUpon>
+    </Compile>
     <Compile Include="Commons\AssemblyUtils.cs" />
     <Compile Include="ArgumentsFormatters\CmdKeyUnregisterArgumentsFormatter.cs" />
+    <Compile Include="FormPasswordChanger.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormPasswordChanger.Designer.cs">
+      <DependentUpon>FormPasswordChanger.cs</DependentUpon>
+    </Compile>
     <Compile Include="IFieldMapper.cs" />
+    <Compile Include="IHasTitle.cs" />
     <Compile Include="IHostPwEntry.cs" />
+    <Compile Include="PasswordChanger\Services\PasswordChangerServiceWrapper.cs" />
+    <Compile Include="PasswordChanger\WindowsPasswordChangerFactory.cs" />
+    <Compile Include="PasswordChanger\IPasswordChangerGenericFactory.cs" />
+    <Compile Include="PasswordChanger\ESXiPasswordChangerFactory.cs" />
+    <Compile Include="PasswordChanger\DictionaryPasswordChangerFactory.cs" />
+    <Compile Include="PasswordChanger\IPasswordChangerHostPwEntry.cs" />
+    <Compile Include="PasswordChanger\IPasswordChangerTreeNode.cs" />
+    <Compile Include="PasswordChanger\EmptyTreeNode.cs" />
+    <Compile Include="PasswordChanger\NullPasswordChanger.cs" />
+    <Compile Include="PasswordChanger\NullPasswordChangerFactory.cs" />
+    <Compile Include="PasswordChanger\PasswordChangerHostPwEntry.cs" />
+    <Compile Include="PasswordChanger\PwEntryListViewItem.cs" />
+    <Compile Include="PasswordChanger\Services\IPasswordChangerServiceFactory.cs" />
+    <Compile Include="PasswordChanger\Services\PasswordChangerServiceFactory.cs" />
+    <Compile Include="Workers\CancelableWorker.cs" />
+    <Compile Include="Workers\ICancelable.cs" />
+    <Compile Include="Workers\Worker.cs" />
+    <Compile Include="PasswordChanger\BatchPasswordChangerEventArgs.cs" />
+    <Compile Include="PasswordChanger\BatchPasswordChangerErrorEventArgs.cs" />
+    <Compile Include="PasswordChanger\FixedHostTypeMapper.cs" />
+    <Compile Include="PasswordChanger\HostTypeMapper.cs" />
+    <Compile Include="PasswordChanger\IPasswordDatabase.cs" />
+    <Compile Include="PasswordChanger\PasswordChangerFactory.cs" />
+    <Compile Include="PasswordChanger\HostTypeUtils.cs" />
+    <Compile Include="PasswordChanger\IHostTypeMapper.cs" />
+    <Compile Include="PasswordChanger\PasswordDatabase.cs" />
+    <Compile Include="PasswordChanger\Services\PasswordChangerService.cs" />
+    <Compile Include="PasswordChanger\BatchPasswordChangerWorker.cs" />
+    <Compile Include="PasswordChanger\ESXiPasswordChanger.cs" />
+    <Compile Include="PasswordChanger\HostType.cs" />
+    <Compile Include="Workers\IWorker.cs" />
+    <Compile Include="PasswordChanger\Services\IPasswordChangerService.cs" />
+    <Compile Include="PasswordChanger\IPasswordChanger.cs" />
+    <Compile Include="PasswordChanger\IPasswordChangerFactory.cs" />
+    <Compile Include="PasswordChanger\PsPasswdWrapper.cs" />
+    <Compile Include="PasswordChanger\WindowsPasswordChanger.cs" />
     <Compile Include="PuttyOptions.cs" />
     <Compile Include="PuttyOptionsParser.cs" />
+    <Compile Include="PasswordChanger\PasswordChangerTreeNode.cs" />
     <Compile Include="RegistryPuttySessionFinder.cs" />
     <Compile Include="ArgumentsFormatters\IArgumentsFormatter.cs" />
     <Compile Include="Commons\ProcessUtils.cs" />
@@ -90,8 +146,14 @@
     <Compile Include="Services\IRegistryService.cs" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="FormBatchPasswordChanger.resx">
+      <DependentUpon>FormBatchPasswordChanger.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FormOptions.resx">
       <DependentUpon>FormOptions.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormPasswordChanger.resx">
+      <DependentUpon>FormPasswordChanger.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -103,11 +165,14 @@
     <Content Include="Resources\1454812927_remote.png" />
     <Content Include="Resources\1455997452_important.png" />
     <None Include="Resources\1466555752_Transfer Document.png" />
+    <None Include="Resources\1472349739_agt_action_success.png" />
     <Content Include="Resources\readme.txt" />
     <EmbeddedResource Include="FormAbout.resx">
       <DependentUpon>FormAbout.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -10,15 +10,10 @@ namespace QuickConnectPlugin.Tests {
         public String Password { get; set; }
         public string IPAddress { get; set; }
         public string AdditionalOptions { get; set; }
-
-        private IList<ConnectionMethodType> connectionMethods;
+        public ICollection<ConnectionMethodType> ConnectionMethods { get; private set; }
 
         public InMemoryHostPwEntry() {
-            this.connectionMethods = new List<ConnectionMethodType>();
-        }
-
-        public ICollection<ConnectionMethodType> ConnectionMethods {
-            get { return new Collection<ConnectionMethodType>(this.connectionMethods); }
+            this.ConnectionMethods = new List<ConnectionMethodType>();
         }
 
         public string GetPassword() {
@@ -35,6 +30,10 @@ namespace QuickConnectPlugin.Tests {
 
         public bool HasIPAddress {
             get { return String.IsNullOrEmpty(this.IPAddress); }
+        }
+
+        public void UpdatePassword(string newPassword) {
+            this.Password = newPassword;
         }
     }
 }

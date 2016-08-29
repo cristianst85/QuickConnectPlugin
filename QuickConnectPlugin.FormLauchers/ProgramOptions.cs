@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows.Forms;
 
-namespace QuickConnectPlugin.OptionsFormLauncher {
+namespace QuickConnectPlugin.FormLauchers {
 
-    public class Program {
+    public class ProgramOptions {
 
         [STAThread]
         static void Main(string[] args) {

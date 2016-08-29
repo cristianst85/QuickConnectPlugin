@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("QuickConnectPlugin.OptionsFormLauncher")]
+[assembly: AssemblyTitle("QuickConnectPlugin.FormLauchers")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("QuickConnectPlugin.OptionsFormLauncher")]
+[assembly: AssemblyProduct("QuickConnectPlugin.FormLauchers")]
 [assembly: AssemblyCopyright("Copyright ©  2016")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("089f1773-b424-4d8b-bae3-9702b3b0c2a6")]
+[assembly: Guid("05881e41-bdbb-443f-bc3d-7044a1c3d486")]
 
 // Version information for an assembly consists of the following four values:
 //

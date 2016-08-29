@@ -14,5 +14,10 @@ namespace QuickConnectPlugin.Tests {
         public void GetVSphereClientPath() {
             Assert.AreEqual(@"C:\Program Files (x86)\VMware\Infrastructure\Virtual Infrastructure Client\Launcher\VpxClient.exe", QuickConnectUtils.GetVSphereClientPath());
         }
+
+        [Test]
+        public void IsVSpherePowerCLIInstalled() {
+            Assert.IsTrue(QuickConnectUtils.IsVSpherePowerCLIInstalled());
+        }
     }
 }

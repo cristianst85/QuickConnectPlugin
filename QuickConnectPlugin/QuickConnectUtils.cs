@@ -35,8 +35,36 @@ namespace QuickConnectPlugin {
             }
         }
 
+        public static bool IsVSpherePowerCLIInstalled() {
+            RegistryKey regKey = null;
+            try {
+                regKey = Microsoft.Win32.Registry.LocalMachine.OpenSubKey("SOFTWARE\\Wow6432Node\\");
+                if (regKey == null) {
+                    regKey = Microsoft.Win32.Registry.LocalMachine.OpenSubKey("SOFTWARE\\");
+                }
+                if (regKey != null) {
+                    using (RegistryKey subRegKey = regKey.OpenSubKey("VMware, Inc.\\VMware vSphere PowerCLI\\")) {
+                        if (subRegKey != null) {
+                            String path = (String)subRegKey.GetValue("InstallPath", null);
+                            return !String.IsNullOrEmpty(path);
+                        }
+                        return false;
+                    }
+                }
+                return false;
+            }
+            catch {
+                throw;
+            }
+            finally {
+                if (regKey != null) {
+                    regKey.Close();
+                }
+            }
+        }
+
         public static bool IsOlderRemoteDesktopConnectionVersion() {
-            FileVersionInfo fvi = FileVersionInfo.GetVersionInfo(Environment.ExpandEnvironmentVariables(@"%SystemRoot%\system32\mstsc.exe"));
+            var fvi = FileVersionInfo.GetVersionInfo(Environment.ExpandEnvironmentVariables(@"%SystemRoot%\system32\mstsc.exe"));
             return new Version(fvi.ProductVersion) < new Version("6.0.6001");
         }
 
@@ -54,24 +82,18 @@ namespace QuickConnectPlugin {
             }
         }
 
-        public static String GetWinScpPath()
-        {
+        public static String GetWinScpPath() {
             String filePath64 = @"C:\Program Files (x86)\WinSCP\WinSCP.exe";
             String filePath32 = @"C:\Program Files\WinSCP\WinSCP.exe";
-            if (File.Exists(filePath64))
-            {
+            if (File.Exists(filePath64)) {
                 return filePath64;
             }
-            else if (File.Exists(filePath32))
-            {
+            else if (File.Exists(filePath32)) {
                 return filePath32;
             }
-            else
-            {
+            else {
                 return null;
             }
         }
-
-        
     }
 }
