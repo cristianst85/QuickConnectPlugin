@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Text;
 
 namespace QuickConnectPlugin.ArgumentsFormatters {
@@ -13,7 +12,6 @@ namespace QuickConnectPlugin.ArgumentsFormatters {
         }
 
         public String Format(IHostPwEntry hostPwEntry) {
-          
             StringBuilder sb = new StringBuilder(String.Format("\"{0}\" scp://{2}:{3}@{1}",
                 ExecutablePath,
                 hostPwEntry.IPAddress,

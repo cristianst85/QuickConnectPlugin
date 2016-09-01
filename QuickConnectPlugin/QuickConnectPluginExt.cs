@@ -203,7 +203,7 @@ namespace QuickConnectPlugin {
                                 FullScreen = true
                             };
                             ProcessUtils.StartDetached(argsFormatter.Format(hostPwEntry));
-                            ProcessUtils.StartDetached(new CmdKeyUnregisterArgumentsFormatter().Format(hostPwEntry), TimeSpan.FromSeconds(5));
+                            ProcessUtils.StartDetached(new CmdKeyUnregisterArgumentsFormatter() { IncludePath = true }.Format(hostPwEntry), TimeSpan.FromSeconds(5));
                         }
                         catch (Exception ex) {
                             log(ex);
@@ -228,7 +228,7 @@ namespace QuickConnectPlugin {
                               IsOlderVersion = RDCIsOlderVersion
                           };
                           ProcessUtils.StartDetached(argsFormatter.Format(hostPwEntry));
-                          ProcessUtils.StartDetached(new CmdKeyUnregisterArgumentsFormatter().Format(hostPwEntry), TimeSpan.FromSeconds(5));
+                          ProcessUtils.StartDetached(new CmdKeyUnregisterArgumentsFormatter() { IncludePath = true }.Format(hostPwEntry), TimeSpan.FromSeconds(5));
                       }
                       catch (Exception ex) {
                           log(ex);

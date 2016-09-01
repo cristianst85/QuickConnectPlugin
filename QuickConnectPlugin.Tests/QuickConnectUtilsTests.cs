@@ -2,6 +2,7 @@
 
 namespace QuickConnectPlugin.Tests {
 
+    [Ignore("IntegrationTest")]
     [TestFixture]
     public class QuickConnectUtilsTests {
 
