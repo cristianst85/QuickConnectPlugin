@@ -76,6 +76,7 @@ namespace QuickConnectPlugin {
             this.comboBoxHostType.SelectedIndexChanged += new EventHandler(checkControls);
 
             this.FormClosing += new FormClosingEventHandler(formClosing);
+            this.KeyDown += new KeyEventHandler(form_KeyPress);
         }
 
         private bool showPasswordIsChecked() {
@@ -347,6 +348,14 @@ namespace QuickConnectPlugin {
             else {
                 this.maskedTextBoxNewPassword.ResetBackColor();
                 this.maskedTextBoxRepeatNewPassword.ResetBackColor();
+            }
+        }
+
+        private void form_KeyPress(object sender, KeyEventArgs e) {
+            if (this.pwChangerWorker == null || !this.pwChangerWorker.IsRunning) {
+                if (e.KeyCode == Keys.Escape) {
+                    this.Close();
+                }
             }
         }
     }

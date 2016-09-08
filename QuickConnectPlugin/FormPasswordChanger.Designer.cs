@@ -109,6 +109,7 @@
             this.Controls.Add(this.buttonChangePassword);
             this.Controls.Add(this.groupBox);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.KeyPreview = true;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "FormPasswordChanger";

@@ -31,6 +31,7 @@ namespace QuickConnectPlugin {
             this.buttonChangePassword.Enabled = false;
 
             this.FormClosing += new FormClosingEventHandler(formClosing);
+            this.KeyDown += new KeyEventHandler(form_KeyPress);
         }
 
         private void changePasswordClick(object sender, EventArgs e) {
@@ -150,6 +151,14 @@ namespace QuickConnectPlugin {
                     "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning
                 );
                 e.Cancel = true;
+            }
+        }
+
+        private void form_KeyPress(object sender, KeyEventArgs e) {
+            if (this.pwChangerWorker == null || !this.pwChangerWorker.IsRunning) {
+                if (e.KeyCode == Keys.Escape) {
+                    this.Close();
+                }
             }
         }
     }
