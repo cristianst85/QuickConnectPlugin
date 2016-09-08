@@ -2,9 +2,9 @@
 
 namespace QuickConnectPlugin.PasswordChanger {
 
-    public static class HostTypeUtils {
+    public class HostTypeConverter : IHostTypeConverter {
 
-        public static HostType Convert(ConnectionMethodType connectionMethod) {
+        public virtual HostType Convert(ConnectionMethodType connectionMethod) {
             if (connectionMethod == ConnectionMethodType.RemoteDesktop || connectionMethod == ConnectionMethodType.RemoteDesktopConsole) {
                 return HostType.Windows;
             }

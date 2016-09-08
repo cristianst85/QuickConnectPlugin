@@ -5,19 +5,16 @@ using QuickConnectPlugin.PasswordChanger;
 namespace QuickConnectPlugin.Tests.PasswordChanger {
 
     [TestFixture]
-    public class HostTypeUtilsTests {
+    public class HostTypeSafeConverterTests {
 
         [TestCase(ConnectionMethodType.RemoteDesktop, HostType.Windows)]
         [TestCase(ConnectionMethodType.RemoteDesktopConsole, HostType.Windows)]
         [TestCase(ConnectionMethodType.vSphereClient, HostType.ESXi)]
         [TestCase(ConnectionMethodType.PuttySSH, HostType.Linux)]
+        [TestCase(ConnectionMethodType.PuttyTelnet, HostType.Unknown)]
+        [TestCase(ConnectionMethodType.Unknown, HostType.Unknown)]
         public void Convert(ConnectionMethodType connectionMethod, HostType expectedHostType) {
-            Assert.AreEqual(expectedHostType, HostTypeUtils.Convert(connectionMethod));
-        }
-
-        [TestCase(ConnectionMethodType.Unknown, ExpectedException = typeof(NotSupportedException))]
-        public void ConvertThrowsException(ConnectionMethodType connectionMethod) {
-            HostTypeUtils.Convert(connectionMethod);
+            Assert.AreEqual(expectedHostType, new HostTypeSafeConverter().Convert(connectionMethod));
         }
     }
 }

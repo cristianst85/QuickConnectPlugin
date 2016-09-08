@@ -63,6 +63,8 @@
     <Compile Include="IFieldMapper.cs" />
     <Compile Include="IHasTitle.cs" />
     <Compile Include="IHostPwEntry.cs" />
+    <Compile Include="PasswordChanger\HostTypeSafeConverter.cs" />
+    <Compile Include="PasswordChanger\IHostTypeConverter.cs" />
     <Compile Include="PasswordChanger\Services\PasswordChangerServiceWrapper.cs" />
     <Compile Include="PasswordChanger\WindowsPasswordChangerFactory.cs" />
     <Compile Include="PasswordChanger\IPasswordChangerGenericFactory.cs" />
@@ -86,7 +88,7 @@
     <Compile Include="PasswordChanger\HostTypeMapper.cs" />
     <Compile Include="PasswordChanger\IPasswordDatabase.cs" />
     <Compile Include="PasswordChanger\PasswordChangerFactory.cs" />
-    <Compile Include="PasswordChanger\HostTypeUtils.cs" />
+    <Compile Include="PasswordChanger\HostTypeConverter.cs" />
     <Compile Include="PasswordChanger\IHostTypeMapper.cs" />
     <Compile Include="PasswordChanger\PasswordDatabase.cs" />
     <Compile Include="PasswordChanger\Services\PasswordChangerService.cs" />

@@ -211,7 +211,7 @@ namespace QuickConnectPlugin {
                     Debug.WriteLine(String.Format("selectedEntries.Count: {0}", selectedEntries.Count));
                     var hostTypeMapper = this.checkBoxOverrideHostType.Checked && this.comboBoxHostType.SelectedIndex > -1 ?
                         (IHostTypeMapper)new FixedHostTypeMapper((HostType)this.comboBoxHostType.SelectedItem) :
-                        new HostTypeMapper();
+                        new HostTypeMapper(new HostTypeSafeConverter());
                     var passwordChangerService = this.pwChangerServiceFactory.Create(hostTypeMapper);
                     this.pwChangerWorker = new BatchPasswordChangerWorker(passwordChangerService, selectedEntries, maskedTextBoxNewPassword.Text);
                     var thread = new Thread(new ThreadStart(() => runBatchPasswordChangerWorker(passwordChangerService)));

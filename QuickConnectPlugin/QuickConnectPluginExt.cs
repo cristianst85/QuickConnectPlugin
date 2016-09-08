@@ -304,7 +304,7 @@ namespace QuickConnectPlugin {
 
         private ToolStripMenuItem createChangePasswordMenuItem(HostPwEntry hostPwEntry) {
             IPasswordChanger pwChanger = null;
-            var hostTypeMapper = new HostTypeMapper();
+            var hostTypeMapper = new HostTypeMapper(new HostTypeSafeConverter());
             var hostType = hostTypeMapper.Get(hostPwEntry);
             if (hostType == HostType.ESXi && QuickConnectUtils.IsVSpherePowerCLIInstalled()) {
                 pwChanger = new ESXiPasswordChanger();

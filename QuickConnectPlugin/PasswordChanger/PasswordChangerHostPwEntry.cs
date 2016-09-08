@@ -14,7 +14,7 @@ namespace QuickConnectPlugin.PasswordChanger {
 
         public HostType HostType {
             get {
-                return new HostTypeMapper().Get(this);
+                return new HostTypeMapper(new HostTypeSafeConverter()).Get(this);
             }
         }
     }

@@ -68,9 +68,10 @@
     <Compile Include="ConnectionMethodTypeUtilsTests.cs" />
     <Compile Include="FakePuttySessionFinder.cs" />
     <Compile Include="PasswordChanger\BatchPasswordChangerWorkerTests.cs" />
+    <Compile Include="PasswordChanger\HostTypeSafeConverterTests.cs" />
     <Compile Include="PasswordChanger\ESXiPasswordChangerTests.cs" />
     <Compile Include="PasswordChanger\MockPasswordChangerFactory.cs" />
-    <Compile Include="PasswordChanger\HostTypeUtilsTests.cs" />
+    <Compile Include="PasswordChanger\HostTypeConverterTests.cs" />
     <Compile Include="PasswordChanger\MockPasswordChanger.cs" />
     <Compile Include="PasswordChanger\MockPasswordDatabase.cs" />
     <Compile Include="PasswordChanger\PsPasswdWrapperTests.cs" />
