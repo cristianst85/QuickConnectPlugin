@@ -36,6 +36,10 @@ namespace QuickConnectPlugin {
         }
 
         public static bool IsVSpherePowerCLIInstalled() {
+            return !String.IsNullOrEmpty(GetVSpherePowerCLIPath());
+        }
+
+        public static string GetVSpherePowerCLIPath() {
             RegistryKey regKey = null;
             try {
                 regKey = Microsoft.Win32.Registry.LocalMachine.OpenSubKey("SOFTWARE\\Wow6432Node\\");
@@ -45,13 +49,12 @@ namespace QuickConnectPlugin {
                 if (regKey != null) {
                     using (RegistryKey subRegKey = regKey.OpenSubKey("VMware, Inc.\\VMware vSphere PowerCLI\\")) {
                         if (subRegKey != null) {
-                            String path = (String)subRegKey.GetValue("InstallPath", null);
-                            return !String.IsNullOrEmpty(path);
+                            return (String)subRegKey.GetValue("InstallPath", null);
                         }
-                        return false;
+                        return null;
                     }
                 }
-                return false;
+                return null;
             }
             catch {
                 throw;

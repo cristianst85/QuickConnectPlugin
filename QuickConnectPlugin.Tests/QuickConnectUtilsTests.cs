@@ -17,6 +17,11 @@ namespace QuickConnectPlugin.Tests {
         }
 
         [Test]
+        public void GetVSpherePowerCLIPath() {
+            Assert.AreEqual(@"C:\Program Files (x86)\VMware\Infrastructure\vSphere PowerCLI\", QuickConnectUtils.GetVSpherePowerCLIPath());
+        }
+
+        [Test]
         public void IsVSpherePowerCLIInstalled() {
             Assert.IsTrue(QuickConnectUtils.IsVSpherePowerCLIInstalled());
         }
