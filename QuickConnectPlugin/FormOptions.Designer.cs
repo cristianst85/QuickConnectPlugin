@@ -495,9 +495,10 @@
             this.Controls.Add(this.buttonApply);
             this.Controls.Add(this.tabControl);
             this.DoubleBuffered = true;
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Margin = new System.Windows.Forms.Padding(2);
             this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "FormOptions";
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
