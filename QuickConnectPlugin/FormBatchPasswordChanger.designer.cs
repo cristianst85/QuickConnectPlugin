@@ -29,7 +29,6 @@ namespace QuickConnectPlugin {
             this.textBox = new System.Windows.Forms.TextBox();
             this.treeView = new System.Windows.Forms.TreeView();
             this.splitContainer = new System.Windows.Forms.SplitContainer();
-            this.menuStrip2 = new System.Windows.Forms.MenuStrip();
             this.groupBox = new System.Windows.Forms.GroupBox();
             this.buttonShowHidePassword = new System.Windows.Forms.Button();
             this.checkBoxOverrideHostType = new System.Windows.Forms.CheckBox();
@@ -95,7 +94,6 @@ namespace QuickConnectPlugin {
             // splitContainer.Panel1
             // 
             this.splitContainer.Panel1.Controls.Add(this.treeView);
-            this.splitContainer.Panel1.Controls.Add(this.menuStrip2);
             // 
             // splitContainer.Panel2
             // 
@@ -104,14 +102,6 @@ namespace QuickConnectPlugin {
             this.splitContainer.Size = new System.Drawing.Size(795, 250);
             this.splitContainer.SplitterDistance = 208;
             this.splitContainer.TabIndex = 4;
-            // 
-            // menuStrip2
-            // 
-            this.menuStrip2.Location = new System.Drawing.Point(0, 0);
-            this.menuStrip2.Name = "menuStrip2";
-            this.menuStrip2.Size = new System.Drawing.Size(208, 24);
-            this.menuStrip2.TabIndex = 3;
-            this.menuStrip2.Text = "menuStrip2";
             // 
             // groupBox
             // 
@@ -317,7 +307,7 @@ namespace QuickConnectPlugin {
             // 
             this.showPasswordsToolStripMenuItem.CheckOnClick = true;
             this.showPasswordsToolStripMenuItem.Name = "showPasswordsToolStripMenuItem";
-            this.showPasswordsToolStripMenuItem.Size = new System.Drawing.Size(222, 22);
+            this.showPasswordsToolStripMenuItem.Size = new System.Drawing.Size(215, 22);
             this.showPasswordsToolStripMenuItem.Text = "Show Passwords";
             this.showPasswordsToolStripMenuItem.Click += new System.EventHandler(this.showPasswordsClick);
             // 
@@ -348,7 +338,6 @@ namespace QuickConnectPlugin {
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Batch Password Changer";
             this.splitContainer.Panel1.ResumeLayout(false);
-            this.splitContainer.Panel1.PerformLayout();
             this.splitContainer.Panel2.ResumeLayout(false);
             this.splitContainer.ResumeLayout(false);
             this.groupBox.ResumeLayout(false);
@@ -382,7 +371,6 @@ namespace QuickConnectPlugin {
         private System.Windows.Forms.CheckBox checkBoxOverrideHostType;
         private System.Windows.Forms.MenuStrip menuStrip;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemLog;
-        private MenuStrip menuStrip2;
         private ToolStripSeparator toolStripMenuItem1;
         private ToolStripMenuItem toolStripMenuItemSaveLogAs;
         private ToolStripMenuItem toolStripMenuItemClearLog;
