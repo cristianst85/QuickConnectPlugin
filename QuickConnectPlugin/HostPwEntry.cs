@@ -33,6 +33,9 @@ namespace QuickConnectPlugin {
         public string AdditionalOptions {
             get {
                 if (this.additionalOptions == null) {
+                    if (this.fieldsMapper.AdditionalOptions == null) {
+                        return null;
+                    }
                     this.additionalOptions = this.pwEntry.Strings.ReadSafe(this.fieldsMapper.AdditionalOptions);
                 }
                 return this.additionalOptions;

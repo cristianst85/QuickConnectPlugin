@@ -34,7 +34,6 @@ namespace QuickConnectPlugin.Tests {
                 HostAddress = "IP Address",
                 ConnectionMethod = "OS"
             };
-
         }
 
         [TearDown]
@@ -74,9 +73,9 @@ namespace QuickConnectPlugin.Tests {
             };
 
             var entry = new HostPwEntry(
-                 PwDatabaseUtils.FindEntryByTitle(this.pwDatabase, title, true),
-                 this.pwDatabase,
-                 this.fieldsMapper
+                    PwDatabaseUtils.FindEntryByTitle(this.pwDatabase, title, true),
+                    this.pwDatabase,
+                    this.fieldsMapper
             );
 
             Assert.AreEqual("root", entry.GetUsername());
@@ -85,6 +84,27 @@ namespace QuickConnectPlugin.Tests {
             CollectionAssert.AreEquivalent(expectedConnectionMethods, entry.ConnectionMethods);
             Assert.IsTrue(entry.HasIPAddress);
             Assert.IsTrue(entry.HasConnectionMethods);
+        }
+
+        [TestCase("Linux host sample", null)]
+        [TestCase("Linux host sample", "")]
+        [TestCase("Linux host sample", "FieldNameThatDoesNotExist")]
+        public void HostPwEntryGetAdditionalOptionsAssertDoesNotThrow(String title, String additionalOptionsFieldName) {
+            var fieldsMapper = new InMemoryFieldMapper() {
+                HostAddress = "IP Address",
+                ConnectionMethod = "OS",
+                AdditionalOptions = additionalOptionsFieldName
+            };
+
+            var entry = new HostPwEntry(
+                    PwDatabaseUtils.FindEntryByTitle(this.pwDatabase, title, true),
+                    this.pwDatabase,
+                    fieldsMapper
+            );
+
+            String additionalOptions = null;
+            Assert.DoesNotThrow(() => additionalOptions = entry.AdditionalOptions);
+            Assert.IsNullOrEmpty(additionalOptions);
         }
     }
 }

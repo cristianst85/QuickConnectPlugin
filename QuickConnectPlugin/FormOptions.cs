@@ -67,21 +67,21 @@ namespace QuickConnectPlugin {
             }
 
             if (String.IsNullOrEmpty(settings.HostAddressMapFieldName)) {
-                this.comboBoxHostAddressMapFieldName.SelectedValue = String.Empty;
+                this.comboBoxHostAddressMapFieldName.SelectedIndex = this.comboBoxHostAddressMapFieldName.FindStringExact(String.Empty);
             }
             else {
                 this.comboBoxHostAddressMapFieldName.SelectedIndex =
                     this.comboBoxHostAddressMapFieldName.FindStringExact(this.settings.HostAddressMapFieldName);
             }
             if (String.IsNullOrEmpty(settings.ConnectionMethodMapFieldName)) {
-                this.comboBoxConnectionMethodMapFieldName.SelectedValue = String.Empty;
+                this.comboBoxConnectionMethodMapFieldName.SelectedIndex = this.comboBoxConnectionMethodMapFieldName.FindStringExact(String.Empty);
             }
             else {
                 this.comboBoxConnectionMethodMapFieldName.SelectedIndex =
                     this.comboBoxConnectionMethodMapFieldName.FindStringExact(this.settings.ConnectionMethodMapFieldName);
             }
             if (String.IsNullOrEmpty(settings.AdditionalOptionsMapFieldName)) {
-                this.comboBoxAdditionalOptionsMapFieldName.SelectedValue = String.Empty;
+                this.comboBoxAdditionalOptionsMapFieldName.SelectedIndex = this.comboBoxAdditionalOptionsMapFieldName.FindStringExact(String.Empty);
             }
             else {
                 this.comboBoxAdditionalOptionsMapFieldName.SelectedIndex =
