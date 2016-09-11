@@ -62,7 +62,7 @@ namespace QuickConnectPlugin.PasswordChanger {
 
         private String internalChangePassword(String host, String username, String password, String account, String newPassword) {
             StringBuilder arguments = new StringBuilder();
-            arguments.AppendFormat("\\\\{0} -u {1} -p {2} {3} {4}", host, username, password, account, newPassword);
+            arguments.AppendFormat("\\\\{0} -u \"{1}\" -p \"{2}\" \"{3}\" \"{4}\"", host, username, password, account, newPassword);
             if (this.SuppressLicenseDialog) {
                 arguments.Append(" --accepteula");
             }
