@@ -23,6 +23,7 @@
         /// the contents of this method with the code editor.
         /// </summary>
         private void InitializeComponent() {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormAbout));
             this.label4 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.richTextBoxCopyright = new System.Windows.Forms.RichTextBox();
@@ -61,8 +62,7 @@
             this.richTextBoxCopyright.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.ForcedVertical;
             this.richTextBoxCopyright.Size = new System.Drawing.Size(255, 58);
             this.richTextBoxCopyright.TabIndex = 18;
-            this.richTextBoxCopyright.Text = "Menu items icons from Crystal Clear icon set\nCopyright (c) Everaldo Coelho, http:" +
-    "//www.everaldo.com/\nLicense: GNU Lesser General Public License v2.1 or later.";
+            this.richTextBoxCopyright.Text = resources.GetString("richTextBoxCopyright.Text");
             // 
             // linkLabelSource
             // 

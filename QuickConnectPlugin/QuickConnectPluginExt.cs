@@ -38,6 +38,7 @@ namespace QuickConnectPlugin {
         private EventHandler pluginMenuItemOptionsOnClickEventHandler;
         private EventHandler pluginMenuItemAboutOnClickEventHandler;
         private EventHandler pluginMenuItemBatchPasswordChangerOnClickEventHandler;
+        private ResolveEventHandler resourcesEventHandler;
         private List<ToolStripItem> menuItems = new List<ToolStripItem>();
 
         private bool? rdcIsOlderVersion;
@@ -116,6 +117,7 @@ namespace QuickConnectPlugin {
                         new PsPasswdWrapper(this.Settings.PsPasswdPath))
                     );
                 }
+                pwChangerFactory.Factories.Add(HostType.Linux, new LinuxPasswordChangerFactory());
 
                 var pwChangerServiceFactory = new PasswordChangerServiceFactory(
                     new PasswordDatabase(this.pluginHost.Database),
@@ -144,6 +146,9 @@ namespace QuickConnectPlugin {
             ContextMenuStrip entryContextMenu = pluginHost.MainWindow.EntryContextMenu;
             entryContextMenu.Opened += new EventHandler(entryContextMenu_Opened);
             entryContextMenu.Closed += new ToolStripDropDownClosedEventHandler(entryContextMenu_Closed);
+
+            resourcesEventHandler = new ResolveEventHandler(AssemblyUtils.AssemblyResolverFromResources);
+            AppDomain.CurrentDomain.AssemblyResolve += resourcesEventHandler;
 
             return true;
         }
@@ -317,6 +322,9 @@ namespace QuickConnectPlugin {
             ) {
                 pwChanger = new WindowsPasswordChanger(new PsPasswdWrapper(this.Settings.PsPasswdPath));
             }
+            else if (hostType == HostType.Linux) {
+                pwChanger = new LinuxPasswordChanger();
+            }
             var menuItem = new ToolStripMenuItem() {
                 Text = "Change Password...",
                 Enabled = hostPwEntry.HasIPAddress && pwChanger != null
@@ -361,6 +369,9 @@ namespace QuickConnectPlugin {
             }
             if (this.pluginMenuItemBatchPasswordChanger != null) {
                 this.pluginMenuItemBatchPasswordChanger.Click -= this.pluginMenuItemBatchPasswordChangerOnClickEventHandler;
+            }
+            if (this.resourcesEventHandler != null) {
+                AppDomain.CurrentDomain.ResourceResolve -= this.resourcesEventHandler;
             }
         }
     }

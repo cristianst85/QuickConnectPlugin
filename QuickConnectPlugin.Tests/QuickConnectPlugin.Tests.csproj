@@ -70,6 +70,7 @@
     <Compile Include="PasswordChanger\BatchPasswordChangerWorkerTests.cs" />
     <Compile Include="PasswordChanger\HostTypeSafeConverterTests.cs" />
     <Compile Include="PasswordChanger\ESXiPasswordChangerTests.cs" />
+    <Compile Include="PasswordChanger\LinuxPasswordChangerTests.cs" />
     <Compile Include="PasswordChanger\MockPasswordChangerFactory.cs" />
     <Compile Include="PasswordChanger\HostTypeConverterTests.cs" />
     <Compile Include="PasswordChanger\MockPasswordChanger.cs" />
@@ -93,18 +94,17 @@
     <Compile Include="Services\WindowsRegistryServiceTests.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\QuickConnectPlugin\QuickConnectPlugin.csproj">
-      <Project>{6027B153-E1DA-4272-9F9D-D870C27DB630}</Project>
-      <Name>QuickConnectPlugin</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\QuickConnectPlugin\QuickConnectPlugin.csproj">
+      <Project>{6027B153-E1DA-4272-9F9D-D870C27DB630}</Project>
+      <Name>QuickConnectPlugin</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

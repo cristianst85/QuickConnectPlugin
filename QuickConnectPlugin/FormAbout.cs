@@ -22,7 +22,7 @@ namespace QuickConnectPlugin {
             this.richTextBoxCopyright.LinkClicked += new LinkClickedEventHandler(richTextBoxCopyright_LinkClicked);
             this.linkLabelContact.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabelContact_LinkClicked);
             this.linkLabelSource.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabelSource_LinkClicked);
-
+            this.richTextBoxCopyright.Text = this.richTextBoxCopyright.Text.Replace("{sshNetLibVersion}", AssemblyUtils.GetVersion("Renci.SshNet").ToString());
         }
 
         [Conditional("DEBUG")]

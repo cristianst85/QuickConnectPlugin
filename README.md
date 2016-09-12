@@ -30,7 +30,7 @@ Connection method and Additional options can be mapped to the same field. This w
 
 ## Password Changer
 
-This feature allows you to change passwords for Windows and ESXi hosts directly from KeePass.
+This feature allows you to change passwords for Windows/Linux/ESXi hosts directly from KeePass.
 
 ### Requirements
 
@@ -57,3 +57,4 @@ You can download compiled binaries from [here](http://www.disruptivesoftware.ro/
 
 * The source code in this repository is released under the GNU GPLv2 or later license. See the [bundled LICENSE](https://github.com/cristianst85/QuickConnectPlugin/blob/master/LICENSE) file for details.
 * The menu items icons are from Crystal Clear icon set by [Everaldo Coelho](http://www.everaldo.com/) licensed under LGPL v2.1 or later.
+* Includes [SSH.NET](https://github.com/sshnet/SSH.NET) library copyrighted by RENCI and released under MIT License.
