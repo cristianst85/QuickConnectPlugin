@@ -1,3 +1,11 @@
+0.4.0-rc.2
+
+ Added support for changing passwords for Linux hosts.
+ Third-party library 'VMware.Vim.dll' (vShpere PowerCLI) is not mandatory when using the .plgx version of the plugin.
+ Bug fix (previously incomplete): Stored credentials were not removed after connecting via RDP.
+ Other minor bug fixes and improvements.
+ NOTE: .NET Framework 3.5 is now required when using the .dll version of the plugin.
+
 0.4.0-rc.1
 
  Added support for changing passwords for Windows and ESXi hosts.
