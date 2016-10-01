@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Text.RegularExpressions;
 using Renci.SshNet;
 using Renci.SshNet.Common;
 
@@ -20,18 +21,18 @@ namespace QuickConnectPlugin.PasswordChanger {
                         writer.WriteLine("sudo passwd");
                         processShellStream(shellStream, "New Password");
                         writer.WriteLine(newPassword);
-                        processShellStream(shellStream, "Reenter New Password");
+                        processShellStream(shellStream, "Re.*new password");
                         writer.WriteLine(newPassword);
-                        processShellStream(shellStream, "Password changed.");
+                        processShellStream(shellStream, "Password.*(changed|updated)");
                     }
                 }
             }
         }
 
-        private void processShellStream(ShellStream shellStream, String expectedString) {
-            var res = shellStream.Expect(expectedString, TimeSpan.FromSeconds(2));
+        private void processShellStream(ShellStream shellStream, String expectedPattern) {
+            var res = shellStream.Expect(new Regex(expectedPattern, RegexOptions.IgnoreCase), TimeSpan.FromSeconds(2));
             if (res == null) {
-                throw new Exception(String.Format("Error changing password. Expected '{0}' string from shell, but got null.", expectedString));
+                throw new Exception(String.Format("Error changing password. Expected '{0}' string/pattern from shell, but got null.", expectedPattern));
             }
         }
 
