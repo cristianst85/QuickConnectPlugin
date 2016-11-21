@@ -9,10 +9,18 @@ namespace QuickConnectPlugin.PasswordChanger {
     public class LinuxPasswordChanger : IPasswordChanger {
 
         public void ChangePassword(string host, string username, string password, string newPassword) {
-            KeyboardInteractiveAuthenticationMethod authMethod = new KeyboardInteractiveAuthenticationMethod(username);
-            authMethod.AuthenticationPrompt += new EventHandler<AuthenticationPromptEventArgs>((sender, e) => authenticationPrompted(sender, e, password));
 
-            ConnectionInfo connectionInfo = new ConnectionInfo(host, username, authMethod);
+            var keyboardInteractiveAuthenticationMethod = new KeyboardInteractiveAuthenticationMethod(username);
+            keyboardInteractiveAuthenticationMethod.AuthenticationPrompt += new EventHandler<AuthenticationPromptEventArgs>((sender, e) => authenticationPrompted(sender, e, password));
+
+            var passwordAuthenticationMethod = new PasswordAuthenticationMethod(username, password);
+
+            ConnectionInfo connectionInfo = new ConnectionInfo(host, username,
+                new AuthenticationMethod[] {  
+                    keyboardInteractiveAuthenticationMethod,
+                    passwordAuthenticationMethod
+                }
+            );
 
             using (SshClient sshclient = new SshClient(connectionInfo)) {
                 sshclient.Connect();
