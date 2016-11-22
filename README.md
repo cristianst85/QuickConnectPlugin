@@ -51,7 +51,9 @@ See [CHANGELOG](https://github.com/cristianst85/QuickConnectPlugin/blob/master/C
 
 ## Download
 
-You can download compiled binaries from [here](http://www.disruptivesoftware.ro/projects/QuickConnectPlugin/) and [here](https://github.com/cristianst85/QuickConnectPlugin/releases).
+You can download compiled binaries from [here](https://github.com/cristianst85/QuickConnectPlugin/releases/) and [here](http://www.disruptivesoftware.ro/projects/QuickConnectPlugin/).
+
+Also, _nightly builds_ are available [here](http://www.disruptivesoftware.ro/projects/QuickConnectPlugin/nightly/).
 
 ## License
 
