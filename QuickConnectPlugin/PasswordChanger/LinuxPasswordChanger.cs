@@ -31,7 +31,7 @@ namespace QuickConnectPlugin.PasswordChanger {
                         writer.WriteLine(newPassword);
                         processShellStream(shellStream, "Re.*new password");
                         writer.WriteLine(newPassword);
-                        processShellStream(shellStream, "Password.*(changed|updated)");
+                        processShellStream(shellStream, "Password.*(changed|updated)|all authentication tokens updated successfully");
                     }
                 }
             }
