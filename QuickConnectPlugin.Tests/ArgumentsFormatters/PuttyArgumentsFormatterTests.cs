@@ -1,4 +1,7 @@
-﻿using NUnit.Framework;
+﻿using System;
+using System.Collections.ObjectModel;
+using Moq;
+using NUnit.Framework;
 using QuickConnectPlugin.Tests;
 
 namespace QuickConnectPlugin.ArgumentsFormatters.Tests {
@@ -83,6 +86,23 @@ namespace QuickConnectPlugin.ArgumentsFormatters.Tests {
 
             PuttyArgumentsFormatter argumentsFormatter = new PuttyArgumentsFormatter("putty.exe", sessionFinder);
             Assert.AreEqual("\"putty.exe\" -telnet root@127.0.0.1", argumentsFormatter.Format(pwEntry));
+        }
+
+        [Test]
+        public void FormatWithKeyFile() {
+            InMemoryHostPwEntry pwEntry = new InMemoryHostPwEntry() {
+                Username = "root",
+                Password = "12345678",
+                IPAddress = "127.0.0.1",
+                AdditionalOptions = "key:\"C:\\Key Files\\PrivateKey.ppk\""
+            };
+            pwEntry.ConnectionMethods.Add(ConnectionMethodType.PuttySSH);
+
+            var mock = new Mock<IPuttySessionFinder>();
+            mock.Setup(m => m.Find(It.IsAny<String>())).Returns(new Collection<String>());
+
+            PuttyArgumentsFormatter argumentsFormatter = new PuttyArgumentsFormatter("putty.exe", mock.Object);
+            Assert.AreEqual("\"putty.exe\" -i \"C:\\Key Files\\PrivateKey.ppk\" -ssh root@127.0.0.1 -pw \"12345678\"", argumentsFormatter.Format(pwEntry));
         }
     }
 }

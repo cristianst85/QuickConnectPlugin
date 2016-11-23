@@ -323,7 +323,12 @@ namespace QuickConnectPlugin {
                 pwChanger = new WindowsPasswordChanger(new PsPasswdWrapper(this.Settings.PsPasswdPath));
             }
             else if (hostType == HostType.Linux) {
-                pwChanger = new LinuxPasswordChanger();
+                PuttyOptions puttyOptions = null;
+                bool success = PuttyOptionsParser.TryParse(hostPwEntry.AdditionalOptions, out puttyOptions);
+                // Disable change password menu item if authentication is done using SSH key file.
+                if (!success || (success && !puttyOptions.HasKeyFile())) {
+                    pwChanger = new LinuxPasswordChanger();
+                }
             }
             var menuItem = new ToolStripMenuItem() {
                 Text = "Change Password...",

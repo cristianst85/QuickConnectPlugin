@@ -21,6 +21,10 @@ namespace QuickConnectPlugin.ArgumentsFormatters {
             PuttyOptions options = null;
             bool success = PuttyOptionsParser.TryParse(hostPwEntry.AdditionalOptions, out options);
 
+            if (success && options.HasKeyFile()) {
+                sb.AppendFormat(" -i \"{0}\"", options.KeyFilePath);
+            }
+
             if (success && !String.IsNullOrEmpty(options.SessionName)) {
                 ICollection<String> sessionNames = this.PuttySessionFinder.Find(options.SessionName);
 
