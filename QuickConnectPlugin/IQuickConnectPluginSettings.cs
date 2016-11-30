@@ -29,10 +29,6 @@ namespace QuickConnectPlugin {
         /// </summary>
         String WinScpPath { get; set; }
         /// <summary>
-        /// Gets or sets a value indicating the path of the PsPasswd utility.
-        /// </summary>
-        String PsPasswdPath { get; set; }
-        /// <summary>
         /// Gets or sets a value indicating the field name from the KeePass 
         /// database that is used to get the remote host address (IP address 
         /// or hostname).

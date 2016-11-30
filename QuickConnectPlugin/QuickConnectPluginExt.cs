@@ -136,14 +136,8 @@ namespace QuickConnectPlugin {
                     if (QuickConnectUtils.IsVSpherePowerCLIInstalled()) {
                         pwChangerFactory.Factories.Add(HostType.ESXi, new PasswordChangerExFactory(new ESXiPasswordChangerFactory()));
                     }
-                    if (!String.IsNullOrEmpty(this.Settings.PsPasswdPath) &&
-                        File.Exists(this.Settings.PsPasswdPath) &&
-                        PsPasswdWrapper.IsPsPasswdUtility(this.Settings.PsPasswdPath) &&
-                        PsPasswdWrapper.IsSupportedVersion(this.Settings.PsPasswdPath)) {
-                        pwChangerFactory.Factories.Add(HostType.Windows, new PasswordChangerExFactory(new WindowsPasswordChangerFactory(
-                            new PsPasswdWrapper(this.Settings.PsPasswdPath)))
-                        );
-                    }
+
+                    pwChangerFactory.Factories.Add(HostType.Windows, new WindowsNativePasswordChangerExFactory(new WindowsNativePasswordChangerFactory()));
                     pwChangerFactory.Factories.Add(HostType.Linux, new LinuxPasswordChangerExFactory(new LinuxPasswordChangerFactory()));
 
                     var pwChangerServiceFactory = new PasswordChangerServiceFactory(
@@ -483,13 +477,10 @@ namespace QuickConnectPlugin {
             if (hostType == HostType.ESXi && QuickConnectUtils.IsVSpherePowerCLIInstalled()) {
                 pwChanger = new ESXiPasswordChanger();
             }
-            else if (hostType == HostType.Windows &&
-                                !String.IsNullOrEmpty(this.Settings.PsPasswdPath) &&
-                                File.Exists(this.Settings.PsPasswdPath) &&
-                                PsPasswdWrapper.IsPsPasswdUtility(this.Settings.PsPasswdPath) &&
-                                PsPasswdWrapper.IsSupportedVersion(this.Settings.PsPasswdPath)
-            ) {
-                pwChanger = new WindowsPasswordChanger(new PsPasswdWrapper(this.Settings.PsPasswdPath));
+            else if (hostType == HostType.Windows) {
+                WindowsPasswordChangerOptions options = null;
+                bool success = WindowsPasswordChangerOptions.TryParse(hostPwEntry.AdditionalOptions, out options);
+                pwChanger = new WindowsNativePasswordChanger(success ? options.Provider.Value : WindowsADSIProvider.None);
             }
             else if (hostType == HostType.Linux) {
                 PuttyOptions puttyOptions = null;
@@ -501,7 +492,7 @@ namespace QuickConnectPlugin {
                         sshPort = puttyOptions.Port;
                     }
                     pwChanger = new LinuxPasswordChanger() { SshPort = sshPort };
-                  }
+                }
             }
             var menuItem = new ToolStripMenuItem() {
                 Text = ChangePasswordMenuItemText,

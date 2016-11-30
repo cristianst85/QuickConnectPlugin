@@ -43,11 +43,6 @@
             this.groupBox6 = new System.Windows.Forms.GroupBox();
             this.pictureBoxVSpherePowerCLIStatusIcon = new System.Windows.Forms.PictureBox();
             this.labelVSpherePowerCLIStatusMessage = new System.Windows.Forms.Label();
-            this.groupBox5 = new System.Windows.Forms.GroupBox();
-            this.pictureBoxPsPasswdPathWarningIcon = new System.Windows.Forms.PictureBox();
-            this.labelPsPasswdPathWarningMessage = new System.Windows.Forms.Label();
-            this.buttonConfigurePsPasswdPath = new System.Windows.Forms.Button();
-            this.textBoxPsPasswdPath = new System.Windows.Forms.TextBox();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.checkBoxAddChangePasswordItem = new System.Windows.Forms.CheckBox();
             this.tabPage3 = new System.Windows.Forms.TabPage();
@@ -83,8 +78,6 @@
             this.tabPage2.SuspendLayout();
             this.groupBox6.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxVSpherePowerCLIStatusIcon)).BeginInit();
-            this.groupBox5.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxPsPasswdPathWarningIcon)).BeginInit();
             this.groupBox4.SuspendLayout();
             this.tabPage3.SuspendLayout();
             this.groupBox12.SuspendLayout();
@@ -269,7 +262,6 @@
             // tabPage2
             // 
             this.tabPage2.Controls.Add(this.groupBox6);
-            this.tabPage2.Controls.Add(this.groupBox5);
             this.tabPage2.Controls.Add(this.groupBox4);
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
@@ -283,7 +275,7 @@
             // 
             this.groupBox6.Controls.Add(this.pictureBoxVSpherePowerCLIStatusIcon);
             this.groupBox6.Controls.Add(this.labelVSpherePowerCLIStatusMessage);
-            this.groupBox6.Location = new System.Drawing.Point(3, 184);
+            this.groupBox6.Location = new System.Drawing.Point(3, 97);
             this.groupBox6.Name = "groupBox6";
             this.groupBox6.Size = new System.Drawing.Size(290, 80);
             this.groupBox6.TabIndex = 8;
@@ -313,60 +305,6 @@
             this.labelVSpherePowerCLIStatusMessage.TabIndex = 8;
             this.labelVSpherePowerCLIStatusMessage.Text = "vSphere PowerCLI is {status}.";
             this.labelVSpherePowerCLIStatusMessage.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // groupBox5
-            // 
-            this.groupBox5.Controls.Add(this.pictureBoxPsPasswdPathWarningIcon);
-            this.groupBox5.Controls.Add(this.labelPsPasswdPathWarningMessage);
-            this.groupBox5.Controls.Add(this.buttonConfigurePsPasswdPath);
-            this.groupBox5.Controls.Add(this.textBoxPsPasswdPath);
-            this.groupBox5.Location = new System.Drawing.Point(3, 97);
-            this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(290, 80);
-            this.groupBox5.TabIndex = 5;
-            this.groupBox5.TabStop = false;
-            this.groupBox5.Text = "PsPasswd Path";
-            // 
-            // pictureBoxPsPasswdPathWarningIcon
-            // 
-            this.pictureBoxPsPasswdPathWarningIcon.ErrorImage = null;
-            this.pictureBoxPsPasswdPathWarningIcon.Image = global::QuickConnectPlugin.Properties.Resources.important;
-            this.pictureBoxPsPasswdPathWarningIcon.Location = new System.Drawing.Point(19, 49);
-            this.pictureBoxPsPasswdPathWarningIcon.Margin = new System.Windows.Forms.Padding(2);
-            this.pictureBoxPsPasswdPathWarningIcon.Name = "pictureBoxPsPasswdPathWarningIcon";
-            this.pictureBoxPsPasswdPathWarningIcon.Size = new System.Drawing.Size(16, 16);
-            this.pictureBoxPsPasswdPathWarningIcon.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
-            this.pictureBoxPsPasswdPathWarningIcon.TabIndex = 7;
-            this.pictureBoxPsPasswdPathWarningIcon.TabStop = false;
-            // 
-            // labelPsPasswdPathWarningMessage
-            // 
-            this.labelPsPasswdPathWarningMessage.AutoSize = true;
-            this.labelPsPasswdPathWarningMessage.Location = new System.Drawing.Point(38, 51);
-            this.labelPsPasswdPathWarningMessage.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.labelPsPasswdPathWarningMessage.Name = "labelPsPasswdPathWarningMessage";
-            this.labelPsPasswdPathWarningMessage.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.labelPsPasswdPathWarningMessage.Size = new System.Drawing.Size(151, 13);
-            this.labelPsPasswdPathWarningMessage.TabIndex = 5;
-            this.labelPsPasswdPathWarningMessage.Text = "Specified path does not exists.";
-            this.labelPsPasswdPathWarningMessage.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // buttonConfigurePsPasswdPath
-            // 
-            this.buttonConfigurePsPasswdPath.Location = new System.Drawing.Point(207, 45);
-            this.buttonConfigurePsPasswdPath.Name = "buttonConfigurePsPasswdPath";
-            this.buttonConfigurePsPasswdPath.Size = new System.Drawing.Size(77, 24);
-            this.buttonConfigurePsPasswdPath.TabIndex = 4;
-            this.buttonConfigurePsPasswdPath.Text = "Configure...";
-            this.buttonConfigurePsPasswdPath.UseVisualStyleBackColor = true;
-            this.buttonConfigurePsPasswdPath.Click += new System.EventHandler(this.buttonConfigurePsPasswdPath_Click);
-            // 
-            // textBoxPsPasswdPath
-            // 
-            this.textBoxPsPasswdPath.Location = new System.Drawing.Point(19, 19);
-            this.textBoxPsPasswdPath.Name = "textBoxPsPasswdPath";
-            this.textBoxPsPasswdPath.Size = new System.Drawing.Size(265, 20);
-            this.textBoxPsPasswdPath.TabIndex = 0;
             // 
             // groupBox4
             // 
@@ -653,9 +591,6 @@
             this.groupBox6.ResumeLayout(false);
             this.groupBox6.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxVSpherePowerCLIStatusIcon)).EndInit();
-            this.groupBox5.ResumeLayout(false);
-            this.groupBox5.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxPsPasswdPathWarningIcon)).EndInit();
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
             this.tabPage3.ResumeLayout(false);
@@ -699,11 +634,6 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ComboBox comboBoxHostAddressMapFieldName;
         private System.Windows.Forms.TabPage tabPage2;
-        private System.Windows.Forms.GroupBox groupBox5;
-        private System.Windows.Forms.PictureBox pictureBoxPsPasswdPathWarningIcon;
-        private System.Windows.Forms.Label labelPsPasswdPathWarningMessage;
-        private System.Windows.Forms.Button buttonConfigurePsPasswdPath;
-        private System.Windows.Forms.TextBox textBoxPsPasswdPath;
         private System.Windows.Forms.GroupBox groupBox4;
         private System.Windows.Forms.CheckBox checkBoxAddChangePasswordItem;
         private System.Windows.Forms.GroupBox groupBox6;

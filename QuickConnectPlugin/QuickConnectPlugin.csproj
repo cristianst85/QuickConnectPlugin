@@ -46,6 +46,8 @@
       <HintPath>Resources\Renci.SshNet.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.DirectoryServices" />
+    <Reference Include="System.DirectoryServices.AccountManagement" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Web" />
     <Reference Include="System.Windows.Forms" />
@@ -80,6 +82,11 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="ShortcutKeys\KeysHelper.cs" />
+    <Compile Include="PasswordChanger\IWindowsNativePasswordChangerFactory.cs" />
+    <Compile Include="PasswordChanger\WindowsNativePasswordChangerEx.cs" />
+    <Compile Include="PasswordChanger\WindowsNativePasswordChangerFactory.cs" />
+    <Compile Include="PasswordChanger\WindowsPasswordChangerOptions.cs" />
+    <Compile Include="PasswordChanger\WindowsNativePasswordChanger.cs" />
     <Compile Include="PasswordChanger\ILinuxPasswordChanger.cs" />
     <Compile Include="PasswordChanger\ILinuxPasswordChangerFactory.cs" />
     <Compile Include="PasswordChanger\LinuxPasswordChangerExFactory.cs" />
@@ -111,6 +118,8 @@
     <Compile Include="Extensions\PwDatabaseExtensions.cs" />
     <Compile Include="Info.cs" />
     <Compile Include="Properties\GeneratedAssemblyInfo.cs" />
+    <Compile Include="PasswordChanger\WindowsADSIProvider.cs" />
+    <Compile Include="WindowsNativePasswordChangerExFactory.cs" />
     <Compile Include="AbstractQuickConnectPluginSettings.cs" />
     <Compile Include="Workers\CancelableWorker.cs" />
     <Compile Include="Workers\ICancelable.cs" />

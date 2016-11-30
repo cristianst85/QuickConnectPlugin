@@ -35,7 +35,6 @@ namespace QuickConnectPlugin {
             this.AddChangePasswordMenuItem = this.plugin.CustomConfig.GetBool(this.formatter.Format("AddChangePasswordMenuItem"), false);
             this.PuttyPath = this.plugin.CustomConfig.GetString(this.formatter.Format("SSHClientPath"), String.Empty);
             this.WinScpPath = this.plugin.CustomConfig.GetString(this.formatter.Format("WinScpPath"), String.Empty);
-            this.PsPasswdPath = this.plugin.CustomConfig.GetString(this.formatter.Format("PsPasswdPath"), String.Empty);
             this.HostAddressMapFieldName = this.plugin.CustomConfig.GetString(this.formatter.Format("HostAddressMapFieldName"), String.Empty);
             this.ConnectionMethodMapFieldName = this.plugin.CustomConfig.GetString(this.formatter.Format("ConnectionMethodMapFieldName"), String.Empty);
             this.AdditionalOptionsMapFieldName = this.plugin.CustomConfig.GetString(this.formatter.Format("AdditionalOptionsMapFieldName"), String.Empty);
@@ -67,7 +66,6 @@ namespace QuickConnectPlugin {
             this.plugin.CustomConfig.SetBool(this.formatter.Format("AddChangePasswordMenuItem"), this.AddChangePasswordMenuItem);
             this.plugin.CustomConfig.SetString(this.formatter.Format("SSHClientPath"), this.PuttyPath);
             this.plugin.CustomConfig.SetString(this.formatter.Format("WinScpPath"), this.WinScpPath);
-            this.plugin.CustomConfig.SetString(this.formatter.Format("PsPasswdPath"), this.PsPasswdPath);
             this.plugin.CustomConfig.SetString(this.formatter.Format("HostAddressMapFieldName"), this.HostAddressMapFieldName);
             this.plugin.CustomConfig.SetString(this.formatter.Format("ConnectionMethodMapFieldName"), this.ConnectionMethodMapFieldName);
             this.plugin.CustomConfig.SetString(this.formatter.Format("AdditionalOptionsMapFieldName"), this.AdditionalOptionsMapFieldName);
