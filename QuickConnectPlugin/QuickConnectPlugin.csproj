@@ -86,6 +86,7 @@
     <Compile Include="PasswordChanger\PwEntryListViewItem.cs" />
     <Compile Include="PasswordChanger\Services\IPasswordChangerServiceFactory.cs" />
     <Compile Include="PasswordChanger\Services\PasswordChangerServiceFactory.cs" />
+    <Compile Include="Extensions\PwDatabaseExtensions.cs" />
     <Compile Include="Workers\CancelableWorker.cs" />
     <Compile Include="Workers\ICancelable.cs" />
     <Compile Include="Workers\Worker.cs" />

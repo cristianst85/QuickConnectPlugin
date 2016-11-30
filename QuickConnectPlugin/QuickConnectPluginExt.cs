@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Windows.Forms;
 using KeePass.Plugins;
 using KeePassLib;
 using QuickConnectPlugin.ArgumentsFormatters;
 using QuickConnectPlugin.Commons;
+using QuickConnectPlugin.Extensions;
 using QuickConnectPlugin.KeePass;
 using QuickConnectPlugin.PasswordChanger;
 using QuickConnectPlugin.PasswordChanger.Services;
@@ -79,14 +81,7 @@ namespace QuickConnectPlugin {
                 List<String> fields = null;
                 // Check if database is open.
                 if (this.pluginHost.Database != null && this.pluginHost.Database.IsOpen) {
-                    fields = new List<String>();
-                    foreach (var pwEntry in this.pluginHost.Database.RootGroup.GetEntries(true)) {
-                        foreach (var str in pwEntry.Strings.GetKeys()) {
-                            if (!fields.Contains(str)) {
-                                fields.Add(str);
-                            }
-                        }
-                    }
+                    fields = this.pluginHost.Database.GetAllFields(true).ToList();
                     fields.Sort();
                 }
                 using (FormOptions form = new FormOptions(Title, this.Settings, fields)) {
