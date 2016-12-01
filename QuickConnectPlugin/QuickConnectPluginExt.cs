@@ -322,8 +322,12 @@ namespace QuickConnectPlugin {
                 bool success = PuttyOptionsParser.TryParse(hostPwEntry.AdditionalOptions, out puttyOptions);
                 // Disable change password menu item if authentication is done using SSH key file.
                 if (!success || (success && !puttyOptions.HasKeyFile())) {
-                    pwChanger = new LinuxPasswordChanger();
-                }
+                    int? sshPort = null;
+                    if (success) {
+                        sshPort = puttyOptions.Port;
+                    }
+                    pwChanger = new LinuxPasswordChanger() { SshPort = sshPort };
+                  }
             }
             var menuItem = new ToolStripMenuItem() {
                 Text = "Change Password...",

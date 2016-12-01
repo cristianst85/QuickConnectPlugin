@@ -8,6 +8,10 @@ namespace QuickConnectPlugin.PasswordChanger {
 
     public class LinuxPasswordChanger : IPasswordChanger {
 
+        public static readonly int DefaultSshPort = 22;
+
+        public int? SshPort { get; set; }
+
         public void ChangePassword(string host, string username, string password, string newPassword) {
 
             var keyboardInteractiveAuthenticationMethod = new KeyboardInteractiveAuthenticationMethod(username);
@@ -15,7 +19,13 @@ namespace QuickConnectPlugin.PasswordChanger {
 
             var passwordAuthenticationMethod = new PasswordAuthenticationMethod(username, password);
 
-            ConnectionInfo connectionInfo = new ConnectionInfo(host, username,
+            int port = DefaultSshPort;
+
+            if (this.SshPort.HasValue) {
+                port = this.SshPort.Value;
+            }
+
+            ConnectionInfo connectionInfo = new ConnectionInfo(host, port, username,
                 new AuthenticationMethod[] {  
                     keyboardInteractiveAuthenticationMethod,
                     passwordAuthenticationMethod
