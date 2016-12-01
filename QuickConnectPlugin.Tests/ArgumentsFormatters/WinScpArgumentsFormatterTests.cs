@@ -2,10 +2,10 @@
 using QuickConnectPlugin.ArgumentsFormatters;
 
 namespace QuickConnectPlugin.Tests.ArgumentsFormatters {
-    
+
     [TestFixture]
     public class WinScpArgumentsFormatterTests {
-    
+
         [Test]
         public void Format() {
             InMemoryHostPwEntry pwEntry = new InMemoryHostPwEntry() {
@@ -27,10 +27,21 @@ namespace QuickConnectPlugin.Tests.ArgumentsFormatters {
                 AdditionalOptions = "port:50000"
             };
 
-            pwEntry.ConnectionMethods.Add(ConnectionMethodType.WinSCP);
-
             WinScpArgumentsFormatter argumentsFormatter = new WinScpArgumentsFormatter("WinSCP.exe");
             Assert.AreEqual("\"WinSCP.exe\" scp://root:12345678@127.0.0.1:50000", argumentsFormatter.Format(pwEntry));
+        }
+
+        [Test]
+        public void FormatWithKeyFile() {
+            InMemoryHostPwEntry pwEntry = new InMemoryHostPwEntry() {
+                Username = "root",
+                Password = "12345678",
+                IPAddress = "127.0.0.1",
+                AdditionalOptions = "key:\"C:\\Key Files\\PrivateKey.ppk\""
+            };
+
+            WinScpArgumentsFormatter argumentsFormatter = new WinScpArgumentsFormatter("WinSCP.exe");
+            Assert.AreEqual("\"WinSCP.exe\" scp://root@127.0.0.1 -privatekey=\"C:\\Key Files\\PrivateKey.ppk\" -passphrase=\"12345678\"", argumentsFormatter.Format(pwEntry));
         }
     }
 }
