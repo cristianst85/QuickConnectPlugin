@@ -17,6 +17,14 @@ namespace QuickConnectPlugin.ArgumentsFormatters {
                 hostPwEntry.IPAddress,
                 hostPwEntry.GetUsername(),
                 hostPwEntry.GetPassword()));
+
+            PuttyOptions options = null;
+            bool success = PuttyOptionsParser.TryParse(hostPwEntry.AdditionalOptions, out options);
+
+            if (success && options.Port.HasValue) {
+                sb.AppendFormat(":{0}", options.Port);
+            }
+
             return sb.ToString();
         }
     }
