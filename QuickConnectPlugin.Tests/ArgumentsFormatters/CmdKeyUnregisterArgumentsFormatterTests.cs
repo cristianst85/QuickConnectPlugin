@@ -1,8 +1,8 @@
 ﻿using System;
 using NUnit.Framework;
-using QuickConnectPlugin.Tests;
+using QuickConnectPlugin.ArgumentsFormatters;
 
-namespace QuickConnectPlugin.ArgumentsFormatters.Tests {
+namespace QuickConnectPlugin.Tests.ArgumentsFormatters {
 
     [TestFixture]
     public class CmdKeyUnregisterArgumentsFormatterTests {

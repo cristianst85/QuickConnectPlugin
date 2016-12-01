@@ -2,9 +2,9 @@
 using System.Collections.ObjectModel;
 using Moq;
 using NUnit.Framework;
-using QuickConnectPlugin.Tests;
+using QuickConnectPlugin.ArgumentsFormatters;
 
-namespace QuickConnectPlugin.ArgumentsFormatters.Tests {
+namespace QuickConnectPlugin.Tests.ArgumentsFormatters {
 
     [TestFixture]
     public class PuttyArgumentsFormatterTests {
