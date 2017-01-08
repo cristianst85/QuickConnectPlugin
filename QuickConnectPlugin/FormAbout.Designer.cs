@@ -81,7 +81,7 @@
             this.labelVersion.Name = "labelVersion";
             this.labelVersion.Size = new System.Drawing.Size(259, 15);
             this.labelVersion.TabIndex = 11;
-            this.labelVersion.Text = "Version {version}.{build}.{revision}";
+            this.labelVersion.Text = "Version {version}";
             this.labelVersion.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // labelPluginName
