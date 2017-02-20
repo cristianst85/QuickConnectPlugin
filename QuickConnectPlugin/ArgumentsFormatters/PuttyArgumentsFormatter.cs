@@ -18,6 +18,17 @@ namespace QuickConnectPlugin.ArgumentsFormatters {
             StringBuilder sb = new StringBuilder();
             sb.AppendFormat("\"{0}\"", this.ExecutablePath);
 
+            string ipAddress = null;
+            string port = null;
+
+            if (hostPwEntry.IPAddress.Contains(":")) {
+                ipAddress = hostPwEntry.IPAddress.Substring(0, hostPwEntry.IPAddress.IndexOf(':'));
+                port = hostPwEntry.IPAddress.Substring(hostPwEntry.IPAddress.IndexOf(':') + 1);
+            }
+            else {
+                ipAddress = hostPwEntry.IPAddress;
+            }
+
             PuttyOptions options = null;
             bool success = PuttyOptionsParser.TryParse(hostPwEntry.AdditionalOptions, out options);
 
@@ -33,7 +44,11 @@ namespace QuickConnectPlugin.ArgumentsFormatters {
                 }
             }
 
-            if (success && options.Port.HasValue) {
+            if (port != null) {
+                sb.AppendFormat(" -P {0}", port);
+            }
+
+            if (port == null && success && options.Port.HasValue) {
                 sb.AppendFormat(" -P {0}", options.Port);
             }
 
@@ -44,7 +59,7 @@ namespace QuickConnectPlugin.ArgumentsFormatters {
                 sb.Append(" -telnet");
             }
 
-            sb.AppendFormat(" {0}@{1}", hostPwEntry.GetUsername(), hostPwEntry.IPAddress);
+            sb.AppendFormat(" {0}@{1}", hostPwEntry.GetUsername(), ipAddress);
 
             // Specifying the password via -pw switch only works with SSH protocol.
             // See: http://the.earth.li/~sgtatham/putty/0.65/htmldoc/Chapter3.html.
