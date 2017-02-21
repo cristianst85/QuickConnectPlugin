@@ -25,7 +25,17 @@ namespace QuickConnectPlugin.PasswordChanger {
                 port = this.SshPort.Value;
             }
 
-            ConnectionInfo connectionInfo = new ConnectionInfo(host, port, username,
+            string hostWithoutPort = null;
+
+            if (host.Contains(":")) {
+                hostWithoutPort = host.Substring(0, host.IndexOf(':'));
+                port = int.Parse(host.Substring(host.IndexOf(':') + 1));
+            }
+            else {
+                hostWithoutPort = host;
+            }
+
+            ConnectionInfo connectionInfo = new ConnectionInfo(hostWithoutPort, port, username,
                 new AuthenticationMethod[] {  
                     keyboardInteractiveAuthenticationMethod,
                     passwordAuthenticationMethod
