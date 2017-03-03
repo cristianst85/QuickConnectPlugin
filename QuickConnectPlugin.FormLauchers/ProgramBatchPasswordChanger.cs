@@ -42,7 +42,7 @@ namespace QuickConnectPlugin.FormLauchers {
 
             var pwChangerServiceFactory = new PasswordChangerServiceFactory(
                 new PasswordDatabase(pwDatabase),
-                new NotSupportedPasswordChangerFactory()
+                new FakePasswordChangerExFactoryThatThrowsException()
             );
 
             var formBatchPasswordChanger = new FormBatchPasswordChanger(treeNode, pwChangerServiceFactory);

@@ -8,9 +8,9 @@ namespace QuickConnectPlugin.PasswordChanger.Services {
     public class PasswordChangerServiceFactory : IPasswordChangerServiceFactory {
 
         private IPasswordDatabase passwordDatabase;
-        private IPasswordChangerFactory passwordChangerFactory;
+        private IPasswordChangerExFactory passwordChangerFactory;
 
-        public PasswordChangerServiceFactory(IPasswordDatabase passwordDatabase, IPasswordChangerFactory passwordChangerFactory) {
+        public PasswordChangerServiceFactory(IPasswordDatabase passwordDatabase, IPasswordChangerExFactory passwordChangerFactory) {
             this.passwordDatabase = passwordDatabase;
             this.passwordChangerFactory = passwordChangerFactory;
         }

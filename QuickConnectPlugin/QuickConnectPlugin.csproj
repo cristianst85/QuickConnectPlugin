@@ -68,6 +68,16 @@
     <Compile Include="IFieldMapper.cs" />
     <Compile Include="IHasTitle.cs" />
     <Compile Include="IHostPwEntry.cs" />
+    <Compile Include="PasswordChanger\ILinuxPasswordChanger.cs" />
+    <Compile Include="PasswordChanger\ILinuxPasswordChangerFactory.cs" />
+    <Compile Include="PasswordChanger\LinuxPasswordChangerExFactory.cs" />
+    <Compile Include="PasswordChanger\PasswordChangerExFactory.cs" />
+    <Compile Include="PasswordChanger\LinuxPasswordChangerEx.cs" />
+    <Compile Include="PasswordChanger\PasswordChangerEx.cs" />
+    <Compile Include="PasswordChanger\IPasswordChangerExGenericFactory.cs" />
+    <Compile Include="PasswordChanger\DictionaryPasswordChangerExFactory.cs" />
+    <Compile Include="PasswordChanger\IPasswordChangerEx.cs" />
+    <Compile Include="PasswordChanger\IPasswordChangerExFactory.cs" />
     <Compile Include="PasswordChanger\LinuxPasswordChangerFactory.cs" />
     <Compile Include="PasswordChanger\HostTypeSafeConverter.cs" />
     <Compile Include="PasswordChanger\IHostTypeConverter.cs" />
@@ -92,7 +102,6 @@
     <Compile Include="Workers\Worker.cs" />
     <Compile Include="PasswordChanger\BatchPasswordChangerEventArgs.cs" />
     <Compile Include="PasswordChanger\BatchPasswordChangerErrorEventArgs.cs" />
-    <Compile Include="PasswordChanger\FixedHostTypeMapper.cs" />
     <Compile Include="PasswordChanger\HostTypeMapper.cs" />
     <Compile Include="PasswordChanger\IPasswordDatabase.cs" />
     <Compile Include="PasswordChanger\PasswordChangerFactory.cs" />
@@ -152,6 +161,7 @@
     <Compile Include="Services\IRegistryService.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="PasswordChanger\FixedHostTypeMapper.cs" />
     <None Include="Resources\Renci.SshNet.dll" />
     <EmbeddedResource Include="FormBatchPasswordChanger.resx">
       <DependentUpon>FormBatchPasswordChanger.cs</DependentUpon>

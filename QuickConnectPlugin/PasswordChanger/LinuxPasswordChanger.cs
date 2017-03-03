@@ -6,7 +6,7 @@ using Renci.SshNet.Common;
 
 namespace QuickConnectPlugin.PasswordChanger {
 
-    public class LinuxPasswordChanger : IPasswordChanger {
+    public class LinuxPasswordChanger : ILinuxPasswordChanger {
 
         public static readonly int DefaultSshPort = 22;
 

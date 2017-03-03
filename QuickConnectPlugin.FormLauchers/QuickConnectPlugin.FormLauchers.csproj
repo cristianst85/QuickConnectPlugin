@@ -62,7 +62,7 @@
     <Compile Include="InMemoryQuickConnectPluginSettings.cs" />
     <Compile Include="ProgramOptions.cs" />
     <Compile Include="ProgramPasswordChanger.cs" />
-    <Compile Include="NotSupportedPasswordChangerFactory.cs" />
+    <Compile Include="FakePasswordChangerExFactoryThatThrowsException.cs" />
     <Compile Include="FakePasswordChanger.cs" />
     <Compile Include="FakePasswordChangerFactory.cs" />
     <Compile Include="ProgramBatchPasswordChanger.cs" />

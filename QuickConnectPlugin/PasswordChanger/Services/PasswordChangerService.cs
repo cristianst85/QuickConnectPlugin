@@ -5,11 +5,11 @@ namespace QuickConnectPlugin.PasswordChanger.Services {
     public class PasswordChangerService : IPasswordChangerService {
 
         private IPasswordDatabase passwordDatabase;
-        private IPasswordChangerFactory passwordChangerFactory;
+        private IPasswordChangerExFactory passwordChangerFactory;
         private IHostTypeMapper hostTypeMapper;
 
         public PasswordChangerService(IPasswordDatabase passwordDatabase,
-            IPasswordChangerFactory passwordChangerFactory,
+            IPasswordChangerExFactory passwordChangerFactory,
             IHostTypeMapper hostTypeMapper) {
             this.passwordDatabase = passwordDatabase;
             this.passwordChangerFactory = passwordChangerFactory;
@@ -18,11 +18,7 @@ namespace QuickConnectPlugin.PasswordChanger.Services {
 
         public void ChangePassword(IHostPwEntry hostPwEntry, String newPassword) {
             var passwordChanger = passwordChangerFactory.Create(this.hostTypeMapper.Get(hostPwEntry));
-            passwordChanger.ChangePassword(
-                hostPwEntry.IPAddress,
-                hostPwEntry.GetUsername(),
-                hostPwEntry.GetPassword(),
-                newPassword);
+            passwordChanger.ChangePassword(hostPwEntry, newPassword);
             hostPwEntry.UpdatePassword(newPassword);
         }
 
