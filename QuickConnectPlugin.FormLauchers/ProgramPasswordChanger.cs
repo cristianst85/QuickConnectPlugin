@@ -17,7 +17,7 @@ namespace QuickConnectPlugin.FormLauchers {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            var pwDatabase = new MockPasswordDatabase();
+            var pwDatabase = new FakePasswordDatabase();
             var hostPwEntry = new InMemoryHostPwEntry() {
                 Username = "admin",
                 Password = "pass",

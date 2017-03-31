@@ -99,20 +99,20 @@ namespace QuickConnectPlugin {
                 else {
                     pwTreeNode = new EmptyTreeNode("No database available.");
                 }
-                var pwChangerFactory = new DictionaryPasswordChangerFactory();
+                var pwChangerFactory = new DictionaryPasswordChangerExFactory();
 
                 if (QuickConnectUtils.IsVSpherePowerCLIInstalled()) {
-                    pwChangerFactory.Factories.Add(HostType.ESXi, new ESXiPasswordChangerFactory());
+                    pwChangerFactory.Factories.Add(HostType.ESXi, new PasswordChangerExFactory(new ESXiPasswordChangerFactory()));
                 }
                 if (!String.IsNullOrEmpty(this.Settings.PsPasswdPath) &&
                     File.Exists(this.Settings.PsPasswdPath) &&
                     PsPasswdWrapper.IsPsPasswdUtility(this.Settings.PsPasswdPath) &&
                     PsPasswdWrapper.IsSupportedVersion(this.Settings.PsPasswdPath)) {
-                    pwChangerFactory.Factories.Add(HostType.Windows, new WindowsPasswordChangerFactory(
-                        new PsPasswdWrapper(this.Settings.PsPasswdPath))
+                    pwChangerFactory.Factories.Add(HostType.Windows, new PasswordChangerExFactory(new WindowsPasswordChangerFactory(
+                        new PsPasswdWrapper(this.Settings.PsPasswdPath)))
                     );
                 }
-                pwChangerFactory.Factories.Add(HostType.Linux, new LinuxPasswordChangerFactory());
+                pwChangerFactory.Factories.Add(HostType.Linux, new LinuxPasswordChangerExFactory(new LinuxPasswordChangerFactory()));
 
                 var pwChangerServiceFactory = new PasswordChangerServiceFactory(
                     new PasswordDatabase(this.pluginHost.Database),

@@ -1,41 +1,64 @@
-﻿using NUnit.Framework;
+﻿using Moq;
+using NUnit.Framework;
 using QuickConnectPlugin.PasswordChanger;
 using QuickConnectPlugin.PasswordChanger.Services;
 
 namespace QuickConnectPlugin.Tests.PasswordChanger.Services {
-    
+
     [TestFixture]
     public class PasswordChangerServiceTests {
 
         [Test]
         public void ChangePassword() {
-            var passwordDatabase = new MockPasswordDatabase();
-            var passwordChangerFactory = new MockPasswordChangerFactory();
-            var hostTypeMapper = new FixedHostTypeMapper(HostType.Unknown);
-            var passwordChangerService = new PasswordChangerService(passwordDatabase, passwordChangerFactory, hostTypeMapper);
-            var hostPwEntry = new InMemoryHostPwEntry() { 
+            var passwordDatabaseMock = new Mock<IPasswordDatabase>();
+            var passwordChangerExFactoryMock = new Mock<IPasswordChangerExFactory>();
+            var passwordChangerExMock = new Mock<IPasswordChangerEx>();
+            passwordChangerExFactoryMock.Setup(x => x.Create(It.IsAny<HostType>())).Returns(passwordChangerExMock.Object);
+            var hostTypeMapperMock = new Mock<IHostTypeMapper>();
+            hostTypeMapperMock.Setup(x => x.Get(It.IsAny<IHostPwEntry>())).Returns(HostType.Unknown);
+
+            var passwordChangerService = new PasswordChangerService(
+                passwordDatabaseMock.Object,
+                passwordChangerExFactoryMock.Object,
+                hostTypeMapperMock.Object
+            );
+
+            var hostPwEntry = new InMemoryHostPwEntry() {
                 IPAddress = "localhost",
                 Username = "username",
                 Password = "password"
             };
+
             passwordChangerService.ChangePassword(hostPwEntry, "newPassword");
+
             Assert.AreEqual("newPassword", hostPwEntry.Password);
-            Assert.AreEqual(1, passwordChangerFactory.PasswordChanger.ChangePasswordCount);
-            Assert.AreEqual(hostPwEntry.IPAddress, passwordChangerFactory.PasswordChanger.Host);
-            Assert.AreEqual(hostPwEntry.Username, passwordChangerFactory.PasswordChanger.Username);
-            Assert.AreEqual("password", passwordChangerFactory.PasswordChanger.Password);
-            Assert.AreEqual(hostPwEntry.Password, passwordChangerFactory.PasswordChanger.NewPassword);
-            Assert.AreEqual(0, passwordDatabase.SaveCount);
+            passwordChangerExFactoryMock.Verify(v => v.Create(HostType.Unknown), Times.Once);
+            hostTypeMapperMock.Verify(v => v.Get(hostPwEntry), Times.Once);
+            passwordChangerExMock.Verify(v => v.ChangePassword(hostPwEntry, "newPassword"), Times.Once);
+            passwordDatabaseMock.Verify(v => v.Save(), Times.Never);
         }
 
         [Test]
         public void Save() {
-            var passwordDatabase = new MockPasswordDatabase();
-            var passwordChangerFactory = new MockPasswordChangerFactory();
-            var hostTypeMapper = new FixedHostTypeMapper(HostType.Unknown);
-            var passwordChangerService = new PasswordChangerService(passwordDatabase, passwordChangerFactory, hostTypeMapper);
+            var passwordDatabaseMock = new Mock<IPasswordDatabase>();
+            var passwordChangerExFactoryMock = new Mock<IPasswordChangerExFactory>();
+            var passwordChangerExMock = new Mock<IPasswordChangerEx>();
+            passwordChangerExFactoryMock.Setup(x => x.Create(It.IsAny<HostType>())).Returns(passwordChangerExMock.Object);
+            var hostTypeMapperMock = new Mock<IHostTypeMapper>();
+            hostTypeMapperMock.Setup(x => x.Get(It.IsAny<IHostPwEntry>())).Returns(HostType.Unknown);
+
+            var passwordChangerService = new PasswordChangerService(
+                 passwordDatabaseMock.Object,
+                 passwordChangerExFactoryMock.Object,
+                 hostTypeMapperMock.Object
+             );
+
             passwordChangerService.SaveDatabase();
-            Assert.AreEqual(1, passwordDatabase.SaveCount);
+
+            passwordChangerExFactoryMock.Verify(v => v.Create(It.IsAny<HostType>()), Times.Never);
+            hostTypeMapperMock.Verify(v => v.Get(It.IsAny<IHostPwEntry>()), Times.Never);
+            passwordChangerExFactoryMock.Verify(v => v.Create(It.IsAny<HostType>()), Times.Never);
+            passwordDatabaseMock.Verify(v => v.Save(), Times.Once);
         }
     }
 }

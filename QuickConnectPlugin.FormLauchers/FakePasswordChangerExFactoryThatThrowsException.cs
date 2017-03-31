@@ -3,9 +3,9 @@ using QuickConnectPlugin.PasswordChanger;
 
 namespace QuickConnectPlugin.FormLauchers {
 
-    public class NotSupportedPasswordChangerFactory : IPasswordChangerFactory {
+    public class FakePasswordChangerExFactoryThatThrowsException : IPasswordChangerExFactory {
 
-        public IPasswordChanger Create(HostType hostType) {
+        public IPasswordChangerEx Create(HostType hostType) {
             throw new NotSupportedException(hostType.ToString());
         }
     }
