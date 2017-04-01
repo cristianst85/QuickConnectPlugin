@@ -70,6 +70,7 @@
     <Compile Include="Extensions\PwDatabaseExtensionsTests.cs" />
     <Compile Include="FakePuttySessionFinder.cs" />
     <Compile Include="PasswordChanger\BatchPasswordChangerWorkerTests.cs" />
+    <Compile Include="PasswordChanger\HostTypeMapperTests.cs" />
     <Compile Include="PasswordChanger\HostTypeSafeConverterTests.cs" />
     <Compile Include="PasswordChanger\ESXiPasswordChangerTests.cs" />
     <Compile Include="PasswordChanger\LinuxPasswordChangerExTests.cs" />

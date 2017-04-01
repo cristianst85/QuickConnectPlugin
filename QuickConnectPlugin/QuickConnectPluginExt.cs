@@ -237,6 +237,26 @@ namespace QuickConnectPlugin {
                 );
                 menuItems.Add(menuItem);
             };
+            if (hostPwEntry.ConnectionMethods.Contains(ConnectionMethodType.vSphereClient)) {
+                var vSphereClientPath = QuickConnectUtils.GetVSphereClientPath();
+                var menuItem = new ToolStripMenuItem() {
+                    Text = OpenVSphereClientMenuItemText,
+                    Image = (System.Drawing.Image)QuickConnectPlugin.Properties.Resources.vmware,
+                    Enabled = hostPwEntry.HasIPAddress && !String.IsNullOrEmpty(vSphereClientPath)
+                };
+                menuItem.Click += new EventHandler(
+                    delegate(object obj, EventArgs ev) {
+                        try {
+                            IArgumentsFormatter argsFormatter = new VSphereClientArgumentsFormatter(vSphereClientPath);
+                            ProcessUtils.StartDetached(argsFormatter.Format(hostPwEntry));
+                        }
+                        catch (Exception ex) {
+                            log(ex);
+                        }
+                    }
+                );
+                menuItems.Add(menuItem);
+            }
             if (hostPwEntry.ConnectionMethods.Contains(ConnectionMethodType.PuttySSH) ||
                 hostPwEntry.ConnectionMethods.Contains(ConnectionMethodType.PuttyTelnet)) {
                 var sshClientPath = !String.IsNullOrEmpty(this.Settings.SSHClientPath) ? this.Settings.SSHClientPath : QuickConnectUtils.GetPuttyPath();
@@ -279,26 +299,6 @@ namespace QuickConnectPlugin {
                 );
                 menuItems.Add(winScpConsoleMenuItem);
             };
-            if (hostPwEntry.ConnectionMethods.Contains(ConnectionMethodType.vSphereClient)) {
-                var vSphereClientPath = QuickConnectUtils.GetVSphereClientPath();
-                var menuItem = new ToolStripMenuItem() {
-                    Text = OpenVSphereClientMenuItemText,
-                    Image = (System.Drawing.Image)QuickConnectPlugin.Properties.Resources.vmware,
-                    Enabled = hostPwEntry.HasIPAddress && !String.IsNullOrEmpty(vSphereClientPath)
-                };
-                menuItem.Click += new EventHandler(
-                    delegate(object obj, EventArgs ev) {
-                        try {
-                            IArgumentsFormatter argsFormatter = new VSphereClientArgumentsFormatter(vSphereClientPath);
-                            ProcessUtils.StartDetached(argsFormatter.Format(hostPwEntry));
-                        }
-                        catch (Exception ex) {
-                            log(ex);
-                        }
-                    }
-                );
-                menuItems.Add(menuItem);
-            }
             return menuItems;
         }
 

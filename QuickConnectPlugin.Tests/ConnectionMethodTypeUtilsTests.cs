@@ -34,6 +34,11 @@ namespace QuickConnectPlugin.Tests {
             yield return new TestCaseData("ESXi 5.1", new Collection<ConnectionMethodType> {
                 ConnectionMethodType.vSphereClient,
             });
+            yield return new TestCaseData("ESXi 5.1; ssh", new Collection<ConnectionMethodType> {
+                ConnectionMethodType.vSphereClient,
+                ConnectionMethodType.PuttySSH,
+                ConnectionMethodType.WinSCP
+            });
             yield return new TestCaseData("Linux", new Collection<ConnectionMethodType> {
                 ConnectionMethodType.PuttySSH,
                 ConnectionMethodType.WinSCP
