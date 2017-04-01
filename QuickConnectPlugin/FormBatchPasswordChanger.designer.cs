@@ -48,7 +48,6 @@ namespace QuickConnectPlugin {
             this.colorDialog1 = new System.Windows.Forms.ColorDialog();
             this.menuStrip = new System.Windows.Forms.MenuStrip();
             this.toolStripMenuItemLog = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripMenuItemSaveLogAs = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemClearLog = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemView = new System.Windows.Forms.ToolStripMenuItem();
@@ -262,28 +261,22 @@ namespace QuickConnectPlugin {
             // toolStripMenuItemLog
             // 
             this.toolStripMenuItemLog.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripMenuItem1,
             this.toolStripMenuItemSaveLogAs,
             this.toolStripMenuItemClearLog});
             this.toolStripMenuItemLog.Name = "toolStripMenuItemLog";
             this.toolStripMenuItemLog.Size = new System.Drawing.Size(37, 20);
             this.toolStripMenuItemLog.Text = "&File";
             // 
-            // toolStripMenuItem1
-            // 
-            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(143, 6);
-            // 
             // toolStripMenuItemSaveLogAs
             // 
             this.toolStripMenuItemSaveLogAs.Name = "toolStripMenuItemSaveLogAs";
-            this.toolStripMenuItemSaveLogAs.Size = new System.Drawing.Size(146, 22);
+            this.toolStripMenuItemSaveLogAs.Size = new System.Drawing.Size(152, 22);
             this.toolStripMenuItemSaveLogAs.Text = "&Save Log As...";
             // 
             // toolStripMenuItemClearLog
             // 
             this.toolStripMenuItemClearLog.Name = "toolStripMenuItemClearLog";
-            this.toolStripMenuItemClearLog.Size = new System.Drawing.Size(146, 22);
+            this.toolStripMenuItemClearLog.Size = new System.Drawing.Size(152, 22);
             this.toolStripMenuItemClearLog.Text = "Clear Log";
             // 
             // toolStripMenuItemView
@@ -372,7 +365,6 @@ namespace QuickConnectPlugin {
         private System.Windows.Forms.CheckBox checkBoxOverrideHostType;
         private System.Windows.Forms.MenuStrip menuStrip;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemLog;
-        private ToolStripSeparator toolStripMenuItem1;
         private ToolStripMenuItem toolStripMenuItemSaveLogAs;
         private ToolStripMenuItem toolStripMenuItemClearLog;
         private ProgressBar progressBar;
