@@ -15,6 +15,7 @@ namespace QuickConnectPlugin.Tests {
         private readonly string databasePassword = "12345678";
 
         private PwDatabase pwDatabase;
+        private IFieldMapper fieldsMapper;
 
         [SetUp]
         public void Setup() {
@@ -26,14 +27,19 @@ namespace QuickConnectPlugin.Tests {
             var key = new CompositeKey();
             key.AddUserKey(new KcpPassword(databasePassword));
 
-            pwDatabase = new PwDatabase();
-            pwDatabase.Open(ioConnectionInfo, key, null);
+            this.pwDatabase = new PwDatabase();
+            this.pwDatabase.Open(ioConnectionInfo, key, null);
+
+            this.fieldsMapper = new InMemoryFieldMapper() {
+                HostAddress = "IP Address",
+                ConnectionMethod = "OS"
+            };
         }
 
         [TearDown]
         public void Cleanup() {
-            if (pwDatabase != null) {
-                pwDatabase.Close();
+            if (this.pwDatabase != null) {
+                this.pwDatabase.Close();
             }
         }
 
@@ -45,7 +51,9 @@ namespace QuickConnectPlugin.Tests {
             };
 
             var entry = new HostPwEntry(
-                this.findEntryByTitle("Windows host sample", true), this.pwDatabase, "OS", "IP Address"
+                PwDatabaseUtils.FindEntryByTitle(this.pwDatabase, "Windows host sample", true),
+                this.pwDatabase,
+                this.fieldsMapper
             );
 
             Assert.AreEqual("Administrator", entry.GetUsername());
@@ -60,11 +68,14 @@ namespace QuickConnectPlugin.Tests {
         [TestCase("Linux host sample (with referenced fields)")]
         public void HostPwEntryWithAndWithoutReferencedFields(String title) {
             var expectedConnectionMethods = new Collection<ConnectionMethodType>() {
-                ConnectionMethodType.PuttySSH
+                ConnectionMethodType.PuttySSH,
+                ConnectionMethodType.WinSCP
             };
 
             var entry = new HostPwEntry(
-               this.findEntryByTitle(title, true), this.pwDatabase, "OS", "IP Address"
+                    PwDatabaseUtils.FindEntryByTitle(this.pwDatabase, title, true),
+                    this.pwDatabase,
+                    this.fieldsMapper
             );
 
             Assert.AreEqual("root", entry.GetUsername());
@@ -75,13 +86,25 @@ namespace QuickConnectPlugin.Tests {
             Assert.IsTrue(entry.HasConnectionMethods);
         }
 
-        private PwEntry findEntryByTitle(String title, bool recursive) {
-            foreach (PwEntry entry in this.pwDatabase.RootGroup.GetEntries(recursive).CloneShallowToList()) {
-                if (entry.Strings.Get("Title").ReadString().Equals(title)) {
-                    return entry;
-                }
-            }
-            return null;
+        [TestCase("Linux host sample", null)]
+        [TestCase("Linux host sample", "")]
+        [TestCase("Linux host sample", "FieldNameThatDoesNotExist")]
+        public void HostPwEntryGetAdditionalOptionsAssertDoesNotThrow(String title, String additionalOptionsFieldName) {
+            var fieldsMapper = new InMemoryFieldMapper() {
+                HostAddress = "IP Address",
+                ConnectionMethod = "OS",
+                AdditionalOptions = additionalOptionsFieldName
+            };
+
+            var entry = new HostPwEntry(
+                    PwDatabaseUtils.FindEntryByTitle(this.pwDatabase, title, true),
+                    this.pwDatabase,
+                    fieldsMapper
+            );
+
+            String additionalOptions = null;
+            Assert.DoesNotThrow(() => additionalOptions = entry.AdditionalOptions);
+            Assert.IsNullOrEmpty(additionalOptions);
         }
     }
 }

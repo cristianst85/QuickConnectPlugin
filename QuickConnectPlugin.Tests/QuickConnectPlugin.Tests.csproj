@@ -10,8 +10,9 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>QuickConnectPlugin.Tests</RootNamespace>
     <AssemblyName>QuickConnectPlugin.Tests</AssemblyName>
-    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -32,19 +33,74 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="KeePass">
-      <HintPath>C:\Program Files (x86)\KeePass Password Safe 2\KeePass.exe</HintPath>
+      <HintPath>..\libs\KeePass.exe</HintPath>
+    </Reference>
+    <Reference Include="Moq, Version=4.2.1510.2205, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
+      <HintPath>..\packages\Moq.4.2.1510.2205\lib\net35\Moq.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="nunit.core, Version=2.6.4.14350, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
+      <HintPath>..\packages\NUnitTestAdapter.2.0.0\lib\nunit.core.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="nunit.core.interfaces, Version=2.6.4.14350, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
+      <HintPath>..\packages\NUnitTestAdapter.2.0.0\lib\nunit.core.interfaces.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="nunit.framework, Version=2.6.4.14350, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\NUnit.2.6.4\lib\nunit.framework.dll</HintPath>
       <Private>True</Private>
+    </Reference>
+    <Reference Include="nunit.util, Version=2.6.4.14350, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
+      <HintPath>..\packages\NUnitTestAdapter.2.0.0\lib\nunit.util.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="NUnit.VisualStudio.TestAdapter, Version=2.0.0.0, Culture=neutral, PublicKeyToken=4cb40d35494691ac, processorArchitecture=MSIL">
+      <HintPath>..\packages\NUnitTestAdapter.2.0.0\lib\NUnit.VisualStudio.TestAdapter.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ArgumentsFormatters\CmdKeyRegisterArgumentsFormatterTests.cs" />
+    <Compile Include="ArgumentsFormatters\CmdKeyUnregisterArgumentsFormatterTests.cs" />
+    <Compile Include="ArgumentsFormatters\WinScpArgumentsFormatterTests.cs" />
     <Compile Include="ConnectionMethodTypeUtilsTests.cs" />
+    <Compile Include="Extensions\PwDatabaseExtensionsTests2.cs" />
+    <Compile Include="Extensions\PwDatabaseExtensionsTests.cs" />
+    <Compile Include="FakePuttySessionFinder.cs" />
+    <Compile Include="PasswordChanger\BatchPasswordChangerWorkerTests.cs" />
+    <Compile Include="PasswordChanger\HostTypeMapperTests.cs" />
+    <Compile Include="PasswordChanger\HostTypeSafeConverterTests.cs" />
+    <Compile Include="PasswordChanger\ESXiPasswordChangerTests.cs" />
+    <Compile Include="PasswordChanger\LinuxPasswordChangerExTests.cs" />
+    <Compile Include="PasswordChanger\LinuxPasswordChangerTests.cs" />
+    <Compile Include="PasswordChanger\HostTypeConverterTests.cs" />
+    <Compile Include="PasswordChanger\FakePasswordDatabase.cs" />
+    <Compile Include="PasswordChanger\PasswordChangerExTests.cs" />
+    <Compile Include="PasswordChanger\PsPasswdWrapperTests.cs" />
+    <Compile Include="PasswordChanger\Services\MockPasswordChangerService.cs" />
+    <Compile Include="PwDatabaseUtils.cs" />
+    <Compile Include="PwEntryTests.cs" />
+    <Compile Include="InMemoryFieldMapper.cs" />
     <Compile Include="HostPwEntryTests.cs" />
+    <Compile Include="InMemoryHostPwEntry.cs" />
+    <Compile Include="ArgumentsFormatters\PuttyArgumentsFormatterTests.cs" />
+    <Compile Include="PuttyOptionsParserTests.cs" />
+    <Compile Include="PuttySessionRegistryFinderTests.cs" />
     <Compile Include="QuickConnectUtilsTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ArgumentsFormatters\RemoteDesktopArgumentsFormatterTests.cs" />
+    <Compile Include="ArgumentsFormatters\VSphereClientArgumentsFormatterTests.cs" />
+    <Compile Include="Services\InMemoryRegistryService.cs" />
+    <Compile Include="PasswordChanger\Services\PasswordChangerServiceTests.cs" />
+    <Compile Include="Services\WindowsRegistryServiceTests.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\QuickConnectPlugin\QuickConnectPlugin.csproj">

@@ -15,10 +15,23 @@ namespace QuickConnectPlugin {
         /// </summary>
         bool CompatibleMode { get; set; }
         /// <summary>
-        /// Get or sets a value indicating the path of the SSH client path 
+        /// Gets or sets a value indicating whether the 'Change password'
+        /// menu item is shown in the entry context menu.
+        /// </summary>
+        bool AddChangePasswordMenuItem { get; set; }
+        /// <summary>
+        /// Gets or sets a value indicating the path of the SSH client 
         /// used for connecting to Linux hosts.
         /// </summary>
         String SSHClientPath { get; set; }
+        /// <summary>
+        /// Gets or sets a value indicating the path of the WinSCP client.
+        /// </summary>
+        String WinScpPath { get; set; }
+        /// <summary>
+        /// Gets or sets a value indicating the path of the PsPasswd utility.
+        /// </summary>
+        String PsPasswdPath { get; set; }
         /// <summary>
         /// Gets or sets a value indicating the field name from the KeePass 
         /// database that is used to get the remote host address (ip address 
@@ -31,6 +44,12 @@ namespace QuickConnectPlugin {
         /// connecting to the remote host.
         /// </summary>
         String ConnectionMethodMapFieldName { get; set; }
+        /// <summary>
+        /// Gets or sets a value indicating the field name from the KeePass
+        /// database that is used to specify additional options for the 
+        /// remote host client.
+        /// </summary>
+        String AdditionalOptionsMapFieldName { get; set; }
         /// <summary>
         /// Loads the plugin settings.
         /// </summary>

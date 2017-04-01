@@ -17,6 +17,7 @@ namespace QuickConnectPlugin.Tests {
         private static IEnumerable TestCases() {
             yield return new TestCaseData(null, new Collection<ConnectionMethodType> { });
             yield return new TestCaseData(String.Empty, new Collection<ConnectionMethodType> { });
+
             yield return new TestCaseData("Windows 2008 Server", new Collection<ConnectionMethodType> {
                 ConnectionMethodType.RemoteDesktop,
                 ConnectionMethodType.RemoteDesktopConsole
@@ -26,14 +27,35 @@ namespace QuickConnectPlugin.Tests {
                 ConnectionMethodType.RemoteDesktopConsole,
                 ConnectionMethodType.vSphereClient
             });
+            yield return new TestCaseData("RDP", new Collection<ConnectionMethodType> {
+                ConnectionMethodType.RemoteDesktop,
+                ConnectionMethodType.RemoteDesktopConsole
+            });
             yield return new TestCaseData("ESXi 5.1", new Collection<ConnectionMethodType> {
-                ConnectionMethodType.vSphereClient
+                ConnectionMethodType.vSphereClient,
+            });
+            yield return new TestCaseData("ESXi 5.1; ssh", new Collection<ConnectionMethodType> {
+                ConnectionMethodType.vSphereClient,
+                ConnectionMethodType.PuttySSH,
+                ConnectionMethodType.WinSCP
             });
             yield return new TestCaseData("Linux", new Collection<ConnectionMethodType> {
-                ConnectionMethodType.PuttySSH
+                ConnectionMethodType.PuttySSH,
+                ConnectionMethodType.WinSCP
             });
             yield return new TestCaseData("openSUSE 12.3", new Collection<ConnectionMethodType> {
-                ConnectionMethodType.PuttySSH
+                ConnectionMethodType.PuttySSH,
+                ConnectionMethodType.WinSCP
+            });
+            yield return new TestCaseData("SSH", new Collection<ConnectionMethodType> {
+                ConnectionMethodType.PuttySSH,
+                ConnectionMethodType.WinSCP
+            });
+            yield return new TestCaseData("OpenWrt", new Collection<ConnectionMethodType> {
+                ConnectionMethodType.PuttyTelnet
+            });
+            yield return new TestCaseData("Telnet", new Collection<ConnectionMethodType> {
+                ConnectionMethodType.PuttyTelnet
             });
         }
     }

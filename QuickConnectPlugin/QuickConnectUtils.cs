@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
 using Microsoft.Win32;
@@ -37,8 +35,39 @@ namespace QuickConnectPlugin {
             }
         }
 
+        public static bool IsVSpherePowerCLIInstalled() {
+            return !String.IsNullOrEmpty(GetVSpherePowerCLIPath());
+        }
+
+        public static string GetVSpherePowerCLIPath() {
+            RegistryKey regKey = null;
+            try {
+                regKey = Microsoft.Win32.Registry.LocalMachine.OpenSubKey("SOFTWARE\\Wow6432Node\\");
+                if (regKey == null) {
+                    regKey = Microsoft.Win32.Registry.LocalMachine.OpenSubKey("SOFTWARE\\");
+                }
+                if (regKey != null) {
+                    using (RegistryKey subRegKey = regKey.OpenSubKey("VMware, Inc.\\VMware vSphere PowerCLI\\")) {
+                        if (subRegKey != null) {
+                            return (String)subRegKey.GetValue("InstallPath", null);
+                        }
+                        return null;
+                    }
+                }
+                return null;
+            }
+            catch {
+                throw;
+            }
+            finally {
+                if (regKey != null) {
+                    regKey.Close();
+                }
+            }
+        }
+
         public static bool IsOlderRemoteDesktopConnectionVersion() {
-            FileVersionInfo fvi = FileVersionInfo.GetVersionInfo(Environment.ExpandEnvironmentVariables(@"%SystemRoot%\system32\mstsc.exe"));
+            var fvi = FileVersionInfo.GetVersionInfo(Environment.ExpandEnvironmentVariables(@"%SystemRoot%\system32\mstsc.exe"));
             return new Version(fvi.ProductVersion) < new Version("6.0.6001");
         }
 
@@ -56,34 +85,18 @@ namespace QuickConnectPlugin {
             }
         }
 
-        public static bool IsLinuxDistribution(String description) {
-            if (String.IsNullOrEmpty(description)) {
-                return false;
+        public static String GetWinScpPath() {
+            String filePath64 = @"C:\Program Files (x86)\WinSCP\WinSCP.exe";
+            String filePath32 = @"C:\Program Files\WinSCP\WinSCP.exe";
+            if (File.Exists(filePath64)) {
+                return filePath64;
             }
-            foreach (var name in LinuxDistributionsNames) {
-                if (description.ToLower().Contains(name.ToLower())) {
-                    return true;
-                }
+            else if (File.Exists(filePath32)) {
+                return filePath32;
             }
-            return false;
+            else {
+                return null;
+            }
         }
-
-        public static readonly ICollection<String> LinuxDistributionsNames = new Collection<String>() {
-            "openSUSE",
-            "SUSE",
-            "SLES",
-            "Red Hat",
-            "RHEL",
-            "CentOS",
-            "Debian",
-            "Gentoo",
-            "Ubuntu",
-            "Fedora",
-            "Mandriva",
-            "Mageia",
-            "Arch",
-            "Slackware",
-            "Mint"
-        };
     }
 }

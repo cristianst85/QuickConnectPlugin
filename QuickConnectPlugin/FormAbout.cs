@@ -13,21 +13,16 @@ namespace QuickConnectPlugin {
 
             Version version = AssemblyUtils.GetVersion();
 
-            this.labelVersion.Text = this.labelVersion.Text.Replace("{version}", String.Format("{0}.{1}", version.Major, version.Minor))
-                                               .Replace("{build}", version.Build.ToString());
-            this.addRevisionComponent(version);
-            this.labelVersion.Text = this.labelVersion.Text.Replace("{revision}", String.Empty).TrimEnd('.');
+            bool isDebug = false;
+            Debug.Assert(isDebug = true);
+            var strVersion = isDebug ? version.ToString() : version.ToString(3);
+            this.labelVersion.Text = this.labelVersion.Text.Replace("{version}", strVersion);
 
             this.KeyDown += new KeyEventHandler(formAbout_KeyPress);
             this.richTextBoxCopyright.LinkClicked += new LinkClickedEventHandler(richTextBoxCopyright_LinkClicked);
             this.linkLabelContact.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabelContact_LinkClicked);
             this.linkLabelSource.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabelSource_LinkClicked);
-
-        }
-
-        [Conditional("DEBUG")]
-        private void addRevisionComponent(Version version) {
-            this.labelVersion.Text = this.labelVersion.Text.Replace("{revision}", version.Revision.ToString());
+            this.richTextBoxCopyright.Text = this.richTextBoxCopyright.Text.Replace("{sshNetLibVersion}", AssemblyUtils.GetVersion("Renci.SshNet").ToString());
         }
 
         private void formAbout_KeyPress(object sender, KeyEventArgs e) {

@@ -23,6 +23,7 @@
         /// the contents of this method with the code editor.
         /// </summary>
         private void InitializeComponent() {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormAbout));
             this.label4 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.richTextBoxCopyright = new System.Windows.Forms.RichTextBox();
@@ -61,8 +62,7 @@
             this.richTextBoxCopyright.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.ForcedVertical;
             this.richTextBoxCopyright.Size = new System.Drawing.Size(255, 58);
             this.richTextBoxCopyright.TabIndex = 18;
-            this.richTextBoxCopyright.Text = "Menu items icons from Crystal Clear icon set\nCopyright (c) Everaldo Coelho, http:" +
-    "//www.everaldo.com/\nLicense: GNU Lesser General Public License v2.1 or later.";
+            this.richTextBoxCopyright.Text = resources.GetString("richTextBoxCopyright.Text");
             // 
             // linkLabelSource
             // 
@@ -81,7 +81,7 @@
             this.labelVersion.Name = "labelVersion";
             this.labelVersion.Size = new System.Drawing.Size(259, 15);
             this.labelVersion.TabIndex = 11;
-            this.labelVersion.Text = "Version {version}.{build}.{revision}";
+            this.labelVersion.Text = "Version {version}";
             this.labelVersion.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // labelPluginName
@@ -121,7 +121,7 @@
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(256, 15);
             this.label3.TabIndex = 12;
-            this.label3.Text = "Copyright (c) 2016, Cristian Stoica.\r\n";
+            this.label3.Text = "Copyright (c) 2016-2017, Cristian Stoica.\r\n";
             this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // FormAbout
@@ -138,8 +138,10 @@
             this.Controls.Add(this.label5);
             this.Controls.Add(this.linkLabelContact);
             this.Controls.Add(this.label3);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.KeyPreview = true;
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "FormAbout";
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;

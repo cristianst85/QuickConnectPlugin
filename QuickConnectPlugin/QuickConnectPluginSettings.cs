@@ -8,12 +8,16 @@ namespace QuickConnectPlugin {
 
         public bool Enabled { get; set; }
         public bool CompatibleMode { get; set; }
-        public String SSHClientPath { get; set; }
-        public String HostAddressMapFieldName { get; set; }
-        public String ConnectionMethodMapFieldName { get; set; }
+        public bool AddChangePasswordMenuItem { get; set; }
+        public string SSHClientPath { get; set; }
+        public string WinScpPath { get; set; }
+        public string PsPasswdPath { get; set; }
+        public string HostAddressMapFieldName { get; set; }
+        public string ConnectionMethodMapFieldName { get; set; }
+        public string AdditionalOptionsMapFieldName { get; set; }
 
-        private ICustomConfigPropertyNameFormatter propertyNameFormatter;
-        private IPluginHost pluginHost;
+        private ICustomConfigPropertyNameFormatter formatter;
+        private IPluginHost plugin;
 
         public static QuickConnectPluginSettings Load(IPluginHost pluginHost, ICustomConfigPropertyNameFormatter propertyNameFormatter) {
             QuickConnectPluginSettings options = new QuickConnectPluginSettings(pluginHost, propertyNameFormatter);
@@ -22,30 +26,38 @@ namespace QuickConnectPlugin {
         }
 
         private QuickConnectPluginSettings(IPluginHost pluginHost, ICustomConfigPropertyNameFormatter propertyNameFormatter) {
-            this.pluginHost = pluginHost;
-            this.propertyNameFormatter = propertyNameFormatter;
+            this.plugin = pluginHost;
+            this.formatter = propertyNameFormatter;
         }
 
         /// <summary>
         /// Loads the plugin settings from the KeePass configuration file.
         /// </summary>
         public void Load() {
-            this.Enabled = this.pluginHost.CustomConfig.GetBool(this.propertyNameFormatter.Format("Enabled"), true);
-            this.CompatibleMode = this.pluginHost.CustomConfig.GetBool(this.propertyNameFormatter.Format("CompatibleMode"), false);
-            this.SSHClientPath = this.pluginHost.CustomConfig.GetString(this.propertyNameFormatter.Format("SSHClientPath"), String.Empty);
-            this.HostAddressMapFieldName = this.pluginHost.CustomConfig.GetString(this.propertyNameFormatter.Format("HostAddressMapFieldName"), String.Empty);
-            this.ConnectionMethodMapFieldName = this.pluginHost.CustomConfig.GetString(this.propertyNameFormatter.Format("ConnectionMethodMapFieldName"), String.Empty);
+            this.Enabled = this.plugin.CustomConfig.GetBool(this.formatter.Format("Enabled"), true);
+            this.CompatibleMode = this.plugin.CustomConfig.GetBool(this.formatter.Format("CompatibleMode"), false);
+            this.AddChangePasswordMenuItem = this.plugin.CustomConfig.GetBool(this.formatter.Format("AddChangePasswordMenuItem"), false);
+            this.SSHClientPath = this.plugin.CustomConfig.GetString(this.formatter.Format("SSHClientPath"), String.Empty);
+            this.WinScpPath = this.plugin.CustomConfig.GetString(this.formatter.Format("WinScpPath"), String.Empty);
+            this.PsPasswdPath = this.plugin.CustomConfig.GetString(this.formatter.Format("PsPasswdPath"), String.Empty);
+            this.HostAddressMapFieldName = this.plugin.CustomConfig.GetString(this.formatter.Format("HostAddressMapFieldName"), String.Empty);
+            this.ConnectionMethodMapFieldName = this.plugin.CustomConfig.GetString(this.formatter.Format("ConnectionMethodMapFieldName"), String.Empty);
+            this.AdditionalOptionsMapFieldName = this.plugin.CustomConfig.GetString(this.formatter.Format("AdditionalOptionsMapFieldName"), String.Empty);
         }
 
         /// <summary>
         /// Saves the plugin settings to the KeePass configuration file.
         /// </summary>
         public void Save() {
-            this.pluginHost.CustomConfig.SetBool(this.propertyNameFormatter.Format("Enabled"), this.Enabled);
-            this.pluginHost.CustomConfig.SetBool(this.propertyNameFormatter.Format("CompatibleMode"), this.CompatibleMode);
-            this.pluginHost.CustomConfig.SetString(this.propertyNameFormatter.Format("SSHClientPath"), this.SSHClientPath);
-            this.pluginHost.CustomConfig.SetString(this.propertyNameFormatter.Format("HostAddressMapFieldName"), this.HostAddressMapFieldName);
-            this.pluginHost.CustomConfig.SetString(this.propertyNameFormatter.Format("ConnectionMethodMapFieldName"), this.ConnectionMethodMapFieldName);
+            this.plugin.CustomConfig.SetBool(this.formatter.Format("Enabled"), this.Enabled);
+            this.plugin.CustomConfig.SetBool(this.formatter.Format("CompatibleMode"), this.CompatibleMode);
+            this.plugin.CustomConfig.SetBool(this.formatter.Format("AddChangePasswordMenuItem"), this.AddChangePasswordMenuItem);
+            this.plugin.CustomConfig.SetString(this.formatter.Format("SSHClientPath"), this.SSHClientPath);
+            this.plugin.CustomConfig.SetString(this.formatter.Format("WinScpPath"), this.WinScpPath);
+            this.plugin.CustomConfig.SetString(this.formatter.Format("PsPasswdPath"), this.PsPasswdPath);
+            this.plugin.CustomConfig.SetString(this.formatter.Format("HostAddressMapFieldName"), this.HostAddressMapFieldName);
+            this.plugin.CustomConfig.SetString(this.formatter.Format("ConnectionMethodMapFieldName"), this.ConnectionMethodMapFieldName);
+            this.plugin.CustomConfig.SetString(this.formatter.Format("AdditionalOptionsMapFieldName"), this.AdditionalOptionsMapFieldName);
         }
     }
 }

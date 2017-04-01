@@ -2,16 +2,17 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using KeePassLib;
+using KeePassLib.Security;
 
 namespace QuickConnectPlugin {
 
-    public class HostPwEntry {
+    public class HostPwEntry : IHostPwEntry {
 
         private String ipAddress;
         public String IPAddress {
             get {
                 if (this.ipAddress == null) {
-                    this.ipAddress = this.pwEntry.Strings.ReadSafe(this.hostAddressFieldName);
+                    this.ipAddress = this.pwEntry.Strings.ReadSafe(this.fieldsMapper.HostAddress);
                 }
                 return ipAddress;
             }
@@ -21,23 +22,34 @@ namespace QuickConnectPlugin {
         public ICollection<ConnectionMethodType> ConnectionMethods {
             get {
                 if (this.connectionMethods == null) {
-                    var value = this.pwEntry.Strings.ReadSafe(this.connectionMethodFieldName);
+                    var value = this.pwEntry.Strings.ReadSafe(this.fieldsMapper.ConnectionMethod);
                     this.connectionMethods = new List<ConnectionMethodType>(ConnectionMethodTypeUtils.GetConnectionMethodsFromString(value));
                 }
                 return new Collection<ConnectionMethodType>(this.connectionMethods);
             }
         }
 
+        private string additionalOptions = null;
+        public string AdditionalOptions {
+            get {
+                if (this.additionalOptions == null) {
+                    if (this.fieldsMapper.AdditionalOptions == null) {
+                        return null;
+                    }
+                    this.additionalOptions = this.pwEntry.Strings.ReadSafe(this.fieldsMapper.AdditionalOptions);
+                }
+                return this.additionalOptions;
+            }
+        }
+
         private PwEntry pwEntry;
         private PwDatabase pwDatabase;
-        private String connectionMethodFieldName;
-        private String hostAddressFieldName;
+        private IFieldMapper fieldsMapper;
 
-        public HostPwEntry(PwEntry pwEntry, PwDatabase pwDatabase, String connectionMethodFieldName, String hostAddressFieldName) {
+        public HostPwEntry(PwEntry pwEntry, PwDatabase pwDatabase, IFieldMapper fieldMapper) {
             this.pwEntry = pwEntry;
             this.pwDatabase = pwDatabase;
-            this.connectionMethodFieldName = connectionMethodFieldName;
-            this.hostAddressFieldName = hostAddressFieldName;
+            this.fieldsMapper = fieldMapper;
         }
 
         public bool HasIPAddress {
@@ -52,12 +64,22 @@ namespace QuickConnectPlugin {
             }
         }
 
+        public String Title {
+            get {
+                return this.pwEntry.Strings.Get("Title").ReadString();
+            }
+        }
+
         public String GetUsername() {
             return PwEntryUtils.ReadCompiledSafeString(this.pwDatabase, this.pwEntry, "UserName");
         }
 
         public String GetPassword() {
             return PwEntryUtils.ReadCompiledSafeString(this.pwDatabase, this.pwEntry, "Password");
+        }
+
+        public void UpdatePassword(string newPassword) {
+            this.pwDatabase.RootGroup.FindEntry(this.pwEntry.Uuid, true).Strings.Set("Password", new ProtectedString(true, newPassword));
         }
     }
 }
