@@ -1,3 +1,10 @@
+0.4.1
+ 
+ Improved compatibility with KPEntryTemplates plugin.
+ Added support for using SSH key files to connect via PuTTY/WinSCP.
+ Improved support for changing passwords for Linux hosts.
+ Other minor bug fixes and improvements.
+
 0.4.0-rc.2
 
  Added support for changing passwords for Linux hosts.
