@@ -59,5 +59,6 @@ namespace QuickConnectPlugin {
         /// </summary>
         void Save();
 
+        string RdpPlusPath { get; set; }
     }
 }

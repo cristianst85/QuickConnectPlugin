@@ -7,5 +7,6 @@ namespace QuickConnectPlugin {
         String HostAddress { get; }
         String ConnectionMethod { get; }
         String AdditionalOptions { get; }
+        
     }
 }

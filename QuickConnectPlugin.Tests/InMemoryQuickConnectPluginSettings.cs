@@ -14,6 +14,7 @@ namespace QuickConnectPlugin.FormLauchers {
         public string HostAddressMapFieldName { get; set; }
         public string ConnectionMethodMapFieldName { get; set; }
         public string AdditionalOptionsMapFieldName { get; set; }
+        public string RdpPlusLocation { get; set; }
 
         public void Load() {
             Debug.WriteLine(this.GetType().Name + ".Load()");

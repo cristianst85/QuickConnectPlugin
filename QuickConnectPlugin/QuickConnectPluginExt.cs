@@ -199,7 +199,7 @@ namespace QuickConnectPlugin {
                     delegate(object obj, EventArgs ev) {
                         try {
                             ProcessUtils.Start(CmdKeyRegisterArgumentsFormatter.CmdKeyPath, new CmdKeyRegisterArgumentsFormatter().Format(hostPwEntry));
-                            IArgumentsFormatter argsFormatter = new RemoteDesktopArgumentsFormatter() {
+                            IArgumentsFormatter argsFormatter = new RemoteDesktopArgumentsFormatter(Settings) {
                                 FullScreen = true
                             };
                             ProcessUtils.StartDetached(argsFormatter.Format(hostPwEntry));
@@ -222,7 +222,7 @@ namespace QuickConnectPlugin {
                   delegate(object obj, EventArgs ev) {
                       try {
                           ProcessUtils.Start(CmdKeyRegisterArgumentsFormatter.CmdKeyPath, new CmdKeyRegisterArgumentsFormatter().Format(hostPwEntry));
-                          IArgumentsFormatter argsFormatter = new RemoteDesktopArgumentsFormatter() {
+                          IArgumentsFormatter argsFormatter = new RemoteDesktopArgumentsFormatter(Settings) {
                               FullScreen = true,
                               UseConsole = true,
                               IsOlderVersion = RDCIsOlderVersion

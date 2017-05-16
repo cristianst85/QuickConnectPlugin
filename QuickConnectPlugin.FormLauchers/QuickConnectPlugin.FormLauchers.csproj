@@ -59,7 +59,6 @@
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="InMemoryQuickConnectPluginSettings.cs" />
     <Compile Include="ProgramOptions.cs" />
     <Compile Include="ProgramPasswordChanger.cs" />
     <Compile Include="FakePasswordChangerExFactoryThatThrowsException.cs" />

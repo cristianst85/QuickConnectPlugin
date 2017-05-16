@@ -3,4 +3,8 @@
   <PropertyGroup>
     <ProjectView>ProjectFiles</ProjectView>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
+    <StartAction>Program</StartAction>
+    <StartProgram>e:\Data\Sources\OpenSource\KeePass-QuickConnectPlugin\QuickConnectPlugin\bin\Debug\KeePass.exe</StartProgram>
+  </PropertyGroup>
 </Project>

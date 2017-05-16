@@ -61,6 +61,11 @@
             this.buttonApply = new System.Windows.Forms.Button();
             this.buttonCancel = new System.Windows.Forms.Button();
             this.buttonOK = new System.Windows.Forms.Button();
+            this.groupBox7 = new System.Windows.Forms.GroupBox();
+            this.buttonConfigureRdpPlusPath = new System.Windows.Forms.Button();
+            this.textBoxRdpPlusPath = new System.Windows.Forms.TextBox();
+            this.pictureBoxRdpPlusPathWarningIcon = new System.Windows.Forms.PictureBox();
+            this.labelRdpPlusPathWarningMessage = new System.Windows.Forms.Label();
             this.tabControl.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -76,39 +81,47 @@
             this.groupBox4.SuspendLayout();
             this.tabPage3.SuspendLayout();
             this.groupBox12.SuspendLayout();
+            this.groupBox7.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxRdpPlusPathWarningIcon)).BeginInit();
             this.SuspendLayout();
             // 
             // tabControl
             // 
+            this.tabControl.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.tabControl.Controls.Add(this.tabPage1);
             this.tabControl.Controls.Add(this.tabPage2);
             this.tabControl.Controls.Add(this.tabPage3);
             this.tabControl.Location = new System.Drawing.Point(12, 12);
             this.tabControl.Name = "tabControl";
             this.tabControl.SelectedIndex = 0;
-            this.tabControl.Size = new System.Drawing.Size(305, 294);
+            this.tabControl.Size = new System.Drawing.Size(305, 372);
             this.tabControl.TabIndex = 0;
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.groupBox7);
             this.tabPage1.Controls.Add(this.groupBox3);
             this.tabPage1.Controls.Add(this.groupBox2);
             this.tabPage1.Controls.Add(this.groupBox1);
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(297, 268);
+            this.tabPage1.Size = new System.Drawing.Size(297, 346);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "General";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
             // groupBox3
             // 
+            this.groupBox3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox3.Controls.Add(this.pictureBoxWinScpPathWarningIcon);
             this.groupBox3.Controls.Add(this.labelWinScpPathWarningMessage);
             this.groupBox3.Controls.Add(this.buttonConfigureWinScpPath);
             this.groupBox3.Controls.Add(this.textBoxWinScpPath);
-            this.groupBox3.Location = new System.Drawing.Point(3, 184);
+            this.groupBox3.Location = new System.Drawing.Point(3, 164);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(290, 80);
             this.groupBox3.TabIndex = 8;
@@ -156,11 +169,13 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox2.Controls.Add(this.pictureBoxSSHClientPathWarningIcon);
             this.groupBox2.Controls.Add(this.labelSSHClientPathWarningMessage);
             this.groupBox2.Controls.Add(this.buttonConfigureSSHClientPath);
             this.groupBox2.Controls.Add(this.textBoxSSHClientPath);
-            this.groupBox2.Location = new System.Drawing.Point(3, 97);
+            this.groupBox2.Location = new System.Drawing.Point(3, 78);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(290, 80);
             this.groupBox2.TabIndex = 4;
@@ -210,11 +225,13 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox1.Controls.Add(this.checkBoxCompatibleMode);
             this.groupBox1.Controls.Add(this.checkBoxEnable);
             this.groupBox1.Location = new System.Drawing.Point(3, 1);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(290, 90);
+            this.groupBox1.Size = new System.Drawing.Size(290, 71);
             this.groupBox1.TabIndex = 1;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Settings";
@@ -254,6 +271,8 @@
             // 
             // groupBox6
             // 
+            this.groupBox6.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox6.Controls.Add(this.pictureBoxVSpherePowerCLIStatusIcon);
             this.groupBox6.Controls.Add(this.labelVSpherePowerCLIStatusMessage);
             this.groupBox6.Location = new System.Drawing.Point(3, 184);
@@ -289,6 +308,8 @@
             // 
             // groupBox5
             // 
+            this.groupBox5.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox5.Controls.Add(this.pictureBoxPsPasswdPathWarningIcon);
             this.groupBox5.Controls.Add(this.labelPsPasswdPathWarningMessage);
             this.groupBox5.Controls.Add(this.buttonConfigurePsPasswdPath);
@@ -343,6 +364,8 @@
             // 
             // groupBox4
             // 
+            this.groupBox4.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox4.Controls.Add(this.checkBoxAddChangePasswordItem);
             this.groupBox4.Location = new System.Drawing.Point(3, 1);
             this.groupBox4.Name = "groupBox4";
@@ -373,6 +396,8 @@
             // 
             // groupBox12
             // 
+            this.groupBox12.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox12.Controls.Add(this.comboBoxAdditionalOptionsMapFieldName);
             this.groupBox12.Controls.Add(this.label3);
             this.groupBox12.Controls.Add(this.labelWarningMessage);
@@ -454,7 +479,8 @@
             // 
             // buttonApply
             // 
-            this.buttonApply.Location = new System.Drawing.Point(238, 313);
+            this.buttonApply.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonApply.Location = new System.Drawing.Point(238, 391);
             this.buttonApply.Name = "buttonApply";
             this.buttonApply.Size = new System.Drawing.Size(75, 23);
             this.buttonApply.TabIndex = 1;
@@ -464,8 +490,9 @@
             // 
             // buttonCancel
             // 
+            this.buttonCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.buttonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.buttonCancel.Location = new System.Drawing.Point(157, 313);
+            this.buttonCancel.Location = new System.Drawing.Point(157, 391);
             this.buttonCancel.Name = "buttonCancel";
             this.buttonCancel.Size = new System.Drawing.Size(75, 23);
             this.buttonCancel.TabIndex = 2;
@@ -474,8 +501,9 @@
             // 
             // buttonOK
             // 
+            this.buttonOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.buttonOK.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.buttonOK.Location = new System.Drawing.Point(76, 313);
+            this.buttonOK.Location = new System.Drawing.Point(76, 391);
             this.buttonOK.Name = "buttonOK";
             this.buttonOK.Size = new System.Drawing.Size(75, 23);
             this.buttonOK.TabIndex = 3;
@@ -483,13 +511,67 @@
             this.buttonOK.UseVisualStyleBackColor = true;
             this.buttonOK.Click += new System.EventHandler(this.buttonOK_Click);
             // 
+            // groupBox7
+            // 
+            this.groupBox7.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox7.Controls.Add(this.pictureBoxRdpPlusPathWarningIcon);
+            this.groupBox7.Controls.Add(this.labelRdpPlusPathWarningMessage);
+            this.groupBox7.Controls.Add(this.buttonConfigureRdpPlusPath);
+            this.groupBox7.Controls.Add(this.textBoxRdpPlusPath);
+            this.groupBox7.Location = new System.Drawing.Point(3, 250);
+            this.groupBox7.Name = "groupBox7";
+            this.groupBox7.Size = new System.Drawing.Size(290, 80);
+            this.groupBox7.TabIndex = 9;
+            this.groupBox7.TabStop = false;
+            this.groupBox7.Text = "Rdp+ Path (Optional)";
+            // 
+            // buttonConfigureRdpPlusPath
+            // 
+            this.buttonConfigureRdpPlusPath.Location = new System.Drawing.Point(207, 44);
+            this.buttonConfigureRdpPlusPath.Name = "buttonConfigureRdpPlusPath";
+            this.buttonConfigureRdpPlusPath.Size = new System.Drawing.Size(77, 24);
+            this.buttonConfigureRdpPlusPath.TabIndex = 4;
+            this.buttonConfigureRdpPlusPath.Text = "Configure...";
+            this.buttonConfigureRdpPlusPath.UseVisualStyleBackColor = true;
+            this.buttonConfigureRdpPlusPath.Click += new System.EventHandler(this.buttonConfigureRdpPlusPath_Click);
+            // 
+            // textBoxRdpPlusPath
+            // 
+            this.textBoxRdpPlusPath.Location = new System.Drawing.Point(19, 19);
+            this.textBoxRdpPlusPath.Name = "textBoxRdpPlusPath";
+            this.textBoxRdpPlusPath.Size = new System.Drawing.Size(265, 20);
+            this.textBoxRdpPlusPath.TabIndex = 0;
+            // 
+            // pictureBoxRdpPlusPathWarningIcon
+            // 
+            this.pictureBoxRdpPlusPathWarningIcon.ErrorImage = null;
+            this.pictureBoxRdpPlusPathWarningIcon.Image = global::QuickConnectPlugin.Properties.Resources.important;
+            this.pictureBoxRdpPlusPathWarningIcon.Location = new System.Drawing.Point(19, 48);
+            this.pictureBoxRdpPlusPathWarningIcon.Name = "pictureBoxRdpPlusPathWarningIcon";
+            this.pictureBoxRdpPlusPathWarningIcon.Size = new System.Drawing.Size(16, 16);
+            this.pictureBoxRdpPlusPathWarningIcon.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            this.pictureBoxRdpPlusPathWarningIcon.TabIndex = 9;
+            this.pictureBoxRdpPlusPathWarningIcon.TabStop = false;
+            // 
+            // labelRdpPlusPathWarningMessage
+            // 
+            this.labelRdpPlusPathWarningMessage.AutoSize = true;
+            this.labelRdpPlusPathWarningMessage.Location = new System.Drawing.Point(38, 50);
+            this.labelRdpPlusPathWarningMessage.Name = "labelRdpPlusPathWarningMessage";
+            this.labelRdpPlusPathWarningMessage.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.labelRdpPlusPathWarningMessage.Size = new System.Drawing.Size(151, 13);
+            this.labelRdpPlusPathWarningMessage.TabIndex = 8;
+            this.labelRdpPlusPathWarningMessage.Text = "Specified path does not exists.";
+            this.labelRdpPlusPathWarningMessage.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
             // FormOptions
             // 
             this.AcceptButton = this.buttonOK;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.buttonCancel;
-            this.ClientSize = new System.Drawing.Size(329, 342);
+            this.ClientSize = new System.Drawing.Size(329, 420);
             this.Controls.Add(this.buttonOK);
             this.Controls.Add(this.buttonCancel);
             this.Controls.Add(this.buttonApply);
@@ -526,6 +608,9 @@
             this.tabPage3.ResumeLayout(false);
             this.groupBox12.ResumeLayout(false);
             this.groupBox12.PerformLayout();
+            this.groupBox7.ResumeLayout(false);
+            this.groupBox7.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxRdpPlusPathWarningIcon)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -570,5 +655,10 @@
         private System.Windows.Forms.GroupBox groupBox6;
         private System.Windows.Forms.PictureBox pictureBoxVSpherePowerCLIStatusIcon;
         private System.Windows.Forms.Label labelVSpherePowerCLIStatusMessage;
+        private System.Windows.Forms.GroupBox groupBox7;
+        private System.Windows.Forms.Button buttonConfigureRdpPlusPath;
+        private System.Windows.Forms.TextBox textBoxRdpPlusPath;
+        private System.Windows.Forms.PictureBox pictureBoxRdpPlusPathWarningIcon;
+        private System.Windows.Forms.Label labelRdpPlusPathWarningMessage;
     }
 }

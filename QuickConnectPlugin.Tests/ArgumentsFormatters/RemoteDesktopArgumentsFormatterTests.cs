@@ -1,6 +1,7 @@
 ﻿using System;
 using NUnit.Framework;
 using QuickConnectPlugin.ArgumentsFormatters;
+using QuickConnectPlugin.FormLauchers;
 
 namespace QuickConnectPlugin.Tests.ArgumentsFormatters {
 
@@ -15,8 +16,8 @@ namespace QuickConnectPlugin.Tests.ArgumentsFormatters {
                 IPAddress = "127.0.0.1"
             };
             pwEntry.ConnectionMethods.Add(ConnectionMethodType.RemoteDesktop);
-
-            RemoteDesktopArgumentsFormatter argumentsFormatter = new RemoteDesktopArgumentsFormatter();
+            InMemoryQuickConnectPluginSettings pluginSettings = new InMemoryQuickConnectPluginSettings();
+            RemoteDesktopArgumentsFormatter argumentsFormatter = new RemoteDesktopArgumentsFormatter(pluginSettings);
             Assert.AreEqual(String.Format("\"{0}\" /v:127.0.0.1", RemoteDesktopArgumentsFormatter.RemoteDesktopClientPath), argumentsFormatter.Format(pwEntry));
         }
 
@@ -28,8 +29,8 @@ namespace QuickConnectPlugin.Tests.ArgumentsFormatters {
                 IPAddress = "127.0.0.1"
             };
             pwEntry.ConnectionMethods.Add(ConnectionMethodType.RemoteDesktop);
-
-            RemoteDesktopArgumentsFormatter argumentsFormatter = new RemoteDesktopArgumentsFormatter() {
+            InMemoryQuickConnectPluginSettings pluginSettings = new InMemoryQuickConnectPluginSettings();
+            RemoteDesktopArgumentsFormatter argumentsFormatter = new RemoteDesktopArgumentsFormatter(pluginSettings) {
                 UseConsole = true
             };
             Assert.AreEqual(String.Format("\"{0}\" /v:127.0.0.1 /admin", RemoteDesktopArgumentsFormatter.RemoteDesktopClientPath), argumentsFormatter.Format(pwEntry));
@@ -43,8 +44,8 @@ namespace QuickConnectPlugin.Tests.ArgumentsFormatters {
                 IPAddress = "127.0.0.1"
             };
             pwEntry.ConnectionMethods.Add(ConnectionMethodType.RemoteDesktop);
-
-            RemoteDesktopArgumentsFormatter argumentsFormatter = new RemoteDesktopArgumentsFormatter() {
+            InMemoryQuickConnectPluginSettings pluginSettings = new InMemoryQuickConnectPluginSettings();
+            RemoteDesktopArgumentsFormatter argumentsFormatter = new RemoteDesktopArgumentsFormatter(pluginSettings) {
                 UseConsole = true,
                 IsOlderVersion = true
             };
@@ -59,8 +60,8 @@ namespace QuickConnectPlugin.Tests.ArgumentsFormatters {
                 IPAddress = "127.0.0.1"
             };
             pwEntry.ConnectionMethods.Add(ConnectionMethodType.RemoteDesktop);
-
-            RemoteDesktopArgumentsFormatter argumentsFormatter = new RemoteDesktopArgumentsFormatter() {
+            InMemoryQuickConnectPluginSettings pluginSettings = new InMemoryQuickConnectPluginSettings();
+            RemoteDesktopArgumentsFormatter argumentsFormatter = new RemoteDesktopArgumentsFormatter(pluginSettings) {
                 FullScreen = true
             };
             Assert.AreEqual(String.Format("\"{0}\" /v:127.0.0.1 /f", RemoteDesktopArgumentsFormatter.RemoteDesktopClientPath), argumentsFormatter.Format(pwEntry));

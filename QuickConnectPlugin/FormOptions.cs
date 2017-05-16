@@ -29,6 +29,9 @@ namespace QuickConnectPlugin {
             this.textBoxWinScpPath.Text = settings.WinScpPath;
             this.textBoxWinScpPath.Select(this.textBoxWinScpPath.Text.Length, 0);
 
+            this.textBoxRdpPlusPath.Text = settings.RdpPlusPath;
+            this.textBoxRdpPlusPath.Select(this.textBoxRdpPlusPath.Text.Length, 0);
+
             this.textBoxPsPasswdPath.Text = settings.PsPasswdPath;
             this.textBoxPsPasswdPath.Select(this.textBoxPsPasswdPath.Text.Length, 0);
 
@@ -94,6 +97,7 @@ namespace QuickConnectPlugin {
             this.checkBoxAddChangePasswordItem.CheckedChanged += new EventHandler(settingsChanged);
             this.textBoxSSHClientPath.TextChanged += new EventHandler(settingsChanged);
             this.textBoxWinScpPath.TextChanged += new EventHandler(settingsChanged);
+            this.textBoxRdpPlusPath.TextChanged += new EventHandler(settingsChanged);
             this.textBoxPsPasswdPath.TextChanged += new EventHandler(settingsChanged);
             this.comboBoxHostAddressMapFieldName.SelectedIndexChanged += new EventHandler(settingsChanged);
             this.comboBoxConnectionMethodMapFieldName.SelectedIndexChanged += new EventHandler(settingsChanged);
@@ -125,6 +129,7 @@ namespace QuickConnectPlugin {
             this.settings.AddChangePasswordMenuItem = this.checkBoxAddChangePasswordItem.Checked;
             this.settings.SSHClientPath = this.textBoxSSHClientPath.Text;
             this.settings.WinScpPath = this.textBoxWinScpPath.Text;
+            this.settings.RdpPlusPath = this.textBoxRdpPlusPath.Text;
             this.settings.PsPasswdPath = this.textBoxPsPasswdPath.Text;
             this.settings.HostAddressMapFieldName = (String)this.comboBoxHostAddressMapFieldName.SelectedItem;
             this.settings.ConnectionMethodMapFieldName = (String)this.comboBoxConnectionMethodMapFieldName.SelectedItem;
@@ -150,6 +155,16 @@ namespace QuickConnectPlugin {
             }
             else {
                 this.textBoxWinScpPath.BackColor = default(Color);
+                return true;
+            }
+        }
+
+        private bool isRdpPlusPathValid() {
+            if (this.textBoxRdpPlusPath.Text.Length == 0 || !File.Exists(this.textBoxRdpPlusPath.Text)) {
+                // Allow path to be empty.
+                return (this.textBoxRdpPlusPath.Text.Length == 0);
+            } else {
+                this.textBoxRdpPlusPath.BackColor = default(Color);
                 return true;
             }
         }
@@ -200,7 +215,11 @@ namespace QuickConnectPlugin {
             this.pictureBoxWinScpPathWarningIcon.Visible = !isValidWinScpPath;
             this.labelWinScpPathWarningMessage.Visible = !isValidWinScpPath;
 
-            return isValidSSHClientPath && isValidWinScpPath && isPsPasswdPathValid();
+            bool isValidRdpPlusPath = isRdpPlusPathValid();
+            this.pictureBoxRdpPlusPathWarningIcon.Visible = !isValidRdpPlusPath;
+            this.labelRdpPlusPathWarningMessage.Visible = !isValidRdpPlusPath;
+
+            return isValidSSHClientPath && isValidWinScpPath && isValidRdpPlusPath && isPsPasswdPathValid();
         }
 
         private void buttonConfigureSSHClientPath_Click(object sender, EventArgs e) {
@@ -267,6 +286,26 @@ namespace QuickConnectPlugin {
             );
             if (status) {
                 this.pictureBoxVSpherePowerCLIStatusIcon.Image = global::QuickConnectPlugin.Properties.Resources.success;
+            }
+        }
+
+        private void buttonConfigureRdpPlusPath_Click(object sender, EventArgs e) {
+            using (OpenFileDialog openFileDialog = new OpenFileDialog()) {
+                openFileDialog.Multiselect = false;
+                if (File.Exists(this.textBoxRdpPlusPath.Text))
+                {
+                    openFileDialog.InitialDirectory = Path.GetDirectoryName(this.textBoxRdpPlusPath.Text);
+                    openFileDialog.FileName = Path.GetFileName(this.textBoxRdpPlusPath.Text);
+                }
+                openFileDialog.CheckFileExists = true;
+                openFileDialog.CheckPathExists = true;
+                openFileDialog.Filter = "Rdp+ executable (*.exe)|*.exe|All files (*.*)|*.*";
+                openFileDialog.Title = "Select Rdp+ Path";
+                DialogResult result = openFileDialog.ShowDialog();
+                if (result == DialogResult.OK && !String.IsNullOrEmpty(openFileDialog.FileName)) {
+                    this.textBoxRdpPlusPath.Text = openFileDialog.FileName;
+                    this.textBoxRdpPlusPath.Select(this.textBoxRdpPlusPath.Text.Length, 0);
+                }
             }
         }
     }
