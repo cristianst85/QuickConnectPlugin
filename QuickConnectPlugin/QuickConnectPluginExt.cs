@@ -198,12 +198,16 @@ namespace QuickConnectPlugin {
                 menuItem.Click += new EventHandler(
                     delegate(object obj, EventArgs ev) {
                         try {
-                            ProcessUtils.Start(CmdKeyRegisterArgumentsFormatter.CmdKeyPath, new CmdKeyRegisterArgumentsFormatter().Format(hostPwEntry));
+                            if (string.IsNullOrEmpty(Settings.RdpPlusPath)) {
+                                ProcessUtils.Start(CmdKeyRegisterArgumentsFormatter.CmdKeyPath, new CmdKeyRegisterArgumentsFormatter().Format(hostPwEntry));
+                            }
                             IArgumentsFormatter argsFormatter = new RemoteDesktopArgumentsFormatter(Settings) {
                                 FullScreen = true
                             };
                             ProcessUtils.StartDetached(argsFormatter.Format(hostPwEntry));
-                            ProcessUtils.StartDetached(new CmdKeyUnregisterArgumentsFormatter() { IncludePath = true }.Format(hostPwEntry), TimeSpan.FromSeconds(5));
+                            if (string.IsNullOrEmpty(Settings.RdpPlusPath)) {
+                                ProcessUtils.StartDetached(new CmdKeyUnregisterArgumentsFormatter() { IncludePath = true }.Format(hostPwEntry), TimeSpan.FromSeconds(5));
+                            }
                         }
                         catch (Exception ex) {
                             log(ex);
@@ -221,14 +225,18 @@ namespace QuickConnectPlugin {
                 menuItem.Click += new EventHandler(
                   delegate(object obj, EventArgs ev) {
                       try {
-                          ProcessUtils.Start(CmdKeyRegisterArgumentsFormatter.CmdKeyPath, new CmdKeyRegisterArgumentsFormatter().Format(hostPwEntry));
+                          if (string.IsNullOrEmpty(Settings.RdpPlusPath)) {
+                              ProcessUtils.Start(CmdKeyRegisterArgumentsFormatter.CmdKeyPath, new CmdKeyRegisterArgumentsFormatter().Format(hostPwEntry));
+                          }
                           IArgumentsFormatter argsFormatter = new RemoteDesktopArgumentsFormatter(Settings) {
                               FullScreen = true,
                               UseConsole = true,
                               IsOlderVersion = RDCIsOlderVersion
                           };
                           ProcessUtils.StartDetached(argsFormatter.Format(hostPwEntry));
-                          ProcessUtils.StartDetached(new CmdKeyUnregisterArgumentsFormatter() { IncludePath = true }.Format(hostPwEntry), TimeSpan.FromSeconds(5));
+                          if (string.IsNullOrEmpty(Settings.RdpPlusPath)) {
+                              ProcessUtils.StartDetached(new CmdKeyUnregisterArgumentsFormatter() { IncludePath = true }.Format(hostPwEntry), TimeSpan.FromSeconds(5));
+                          }
                       }
                       catch (Exception ex) {
                           log(ex);
