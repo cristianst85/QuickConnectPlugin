@@ -41,8 +41,10 @@ namespace QuickConnectPlugin.ArgumentsFormatters {
                 }
             }
 
-            sb.AppendFormat(" /u:\"{0}\"", hostPwEntry.GetUsername());
-            sb.AppendFormat(" /p:\"{0}\"", hostPwEntry.GetPassword());
+            if (xUseRdpPlus) {
+                sb.AppendFormat(" /u:\"{0}\"", hostPwEntry.GetUsername());
+                sb.AppendFormat(" /p:\"{0}\"", hostPwEntry.GetPassword());
+            }
 
             if (xUseRdpPlus) {
                 RdpPlusOptions options;
