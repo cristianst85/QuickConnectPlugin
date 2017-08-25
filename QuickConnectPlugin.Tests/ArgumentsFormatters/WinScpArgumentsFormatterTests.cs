@@ -15,7 +15,7 @@ namespace QuickConnectPlugin.Tests.ArgumentsFormatters {
             };
 
             WinScpArgumentsFormatter argumentsFormatter = new WinScpArgumentsFormatter("WinSCP.exe");
-            Assert.AreEqual("\"WinSCP.exe\" scp://root:12345678@127.0.0.1", argumentsFormatter.Format(pwEntry));
+            Assert.AreEqual("\"WinSCP.exe\" scp://root:\"12345678\"@127.0.0.1", argumentsFormatter.Format(pwEntry));
         }
 
         [Test]
@@ -28,7 +28,7 @@ namespace QuickConnectPlugin.Tests.ArgumentsFormatters {
             };
 
             WinScpArgumentsFormatter argumentsFormatter = new WinScpArgumentsFormatter("WinSCP.exe");
-            Assert.AreEqual("\"WinSCP.exe\" scp://root:12345678@127.0.0.1:50000", argumentsFormatter.Format(pwEntry));
+            Assert.AreEqual("\"WinSCP.exe\" scp://root:\"12345678\"@127.0.0.1:50000", argumentsFormatter.Format(pwEntry));
         }
 
         [Test]
@@ -53,7 +53,7 @@ namespace QuickConnectPlugin.Tests.ArgumentsFormatters {
             };
 
             WinScpArgumentsFormatter argumentsFormatter = new WinScpArgumentsFormatter("WinSCP.exe");
-            Assert.AreEqual("\"WinSCP.exe\" scp://root:12345678@127.0.0.1:2222", argumentsFormatter.Format(pwEntry));
+            Assert.AreEqual("\"WinSCP.exe\" scp://root:\"12345678\"@127.0.0.1:2222", argumentsFormatter.Format(pwEntry));
         }
     }
 }

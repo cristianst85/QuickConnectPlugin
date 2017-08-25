@@ -18,7 +18,7 @@ namespace QuickConnectPlugin.ArgumentsFormatters {
             StringBuilder sb = new StringBuilder(String.Format("\"{0}\" scp://{1}", ExecutablePath, hostPwEntry.GetUsername()));
 
             if (!success || (success && !options.HasKeyFile())) {
-                sb.AppendFormat(":{0}", hostPwEntry.GetPassword());
+                sb.AppendFormat(":\"{0}\"", hostPwEntry.GetPassword());
             }
 
             sb.AppendFormat("@{0}", hostPwEntry.IPAddress);
