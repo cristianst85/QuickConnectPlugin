@@ -1,3 +1,7 @@
+0.4.2
+
+ Bug fix: Passwords are enclosed in double quotes with WinSCP. Fixes an issue with passwords that contain special characters.
+
 0.4.1
 
  Improved compatibility with KPEntryTemplates plugin.
@@ -42,7 +46,7 @@
 
 0.2.5
 
- Bug fix: Passwords are enclosed in double quotes with PuTTY. Fixes an issue with passwords that contains white-spaces.
+ Bug fix: Passwords are enclosed in double quotes with PuTTY. Fixes an issue with passwords that contain white-spaces.
 
 0.2.4
 
