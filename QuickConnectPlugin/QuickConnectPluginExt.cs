@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
+using System.Security.Permissions;
 using System.Windows.Forms;
 using KeePass.Plugins;
 using KeePassLib;
@@ -17,7 +18,7 @@ using QuickConnectPlugin.Services;
 
 namespace QuickConnectPlugin {
 
-    public class QuickConnectPluginExt : Plugin {
+    public class QuickConnectPluginExt : Plugin, IDisposable {
 
         public const String Title = "QuickConnect";
 
@@ -41,7 +42,7 @@ namespace QuickConnectPlugin {
         private EventHandler pluginMenuItemAboutOnClickEventHandler;
         private EventHandler pluginMenuItemBatchPasswordChangerOnClickEventHandler;
         private ResolveEventHandler resourcesEventHandler;
-        private List<ToolStripItem> menuItems = new List<ToolStripItem>();
+        private DisposableList<ToolStripItem> menuItems;
 
         private bool? rdcIsOlderVersion;
         private bool RDCIsOlderVersion {
@@ -61,6 +62,10 @@ namespace QuickConnectPlugin {
             }
         }
 
+        private bool disposed;
+
+        [PermissionSetAttribute(SecurityAction.Demand, Name = "FullTrust")]
+        [PermissionSetAttribute(SecurityAction.InheritanceDemand, Name = "FullTrust")]
         public override bool Initialize(IPluginHost pluginHost) {
 
             Debug.Assert(pluginHost != null);
@@ -154,9 +159,11 @@ namespace QuickConnectPlugin {
             }
             PwEntry[] selectedEntries = this.pluginHost.MainWindow.GetSelectedEntries();
             if (selectedEntries != null && selectedEntries.Length == 1) {
+                this.menuItems = new DisposableList<ToolStripItem>();
                 HostPwEntry hostPwEntry = new HostPwEntry(selectedEntries[0], this.pluginHost.Database, this.fieldsMapper);
+                var menuItem = this.createChangePasswordMenuItem(hostPwEntry);
                 if (hostPwEntry.HasConnectionMethods) {
-                    this.menuItems.AddRange(this.createMenuItems(hostPwEntry));
+                    menuItems.AddRange(this.createMenuItems(hostPwEntry));
                     if (this.Settings.CompatibleMode) {
                         this.menuItems.Insert(0, new ToolStripSeparator());
                     }
@@ -165,11 +172,11 @@ namespace QuickConnectPlugin {
                     }
                     if (this.Settings.AddChangePasswordMenuItem) {
                         if (this.Settings.CompatibleMode) {
-                            this.menuItems.Insert(0, this.createChangePasswordMenuItem(hostPwEntry));
+                            this.menuItems.Insert(0, menuItem);
                             this.menuItems.Insert(0, new ToolStripSeparator());
                         }
                         else {
-                            this.menuItems.Add(this.createChangePasswordMenuItem(hostPwEntry));
+                            this.menuItems.Add(menuItem);
                             this.menuItems.Add(new ToolStripSeparator());
                         }
                     }
@@ -187,8 +194,9 @@ namespace QuickConnectPlugin {
             }
         }
 
-        private ICollection<ToolStripItem> createMenuItems(HostPwEntry hostPwEntry) {
-            var menuItems = new Collection<ToolStripItem>();
+        [SuppressMessage("Microsoft.Reliability", "CA2000:DisposeObjectsBeforeLosingScope", Justification = "ToolStripItem objects are disposed inside entryContextMenu_Closed method")]
+        private DisposableList<ToolStripItem> createMenuItems(HostPwEntry hostPwEntry) {
+            var menuItems = new DisposableList<ToolStripItem>();
             if (hostPwEntry.ConnectionMethods.Contains(ConnectionMethodType.RemoteDesktop)) {
                 var menuItem = new ToolStripMenuItem() {
                     Text = OpenRemoteDesktopMenuItemText,
@@ -302,6 +310,7 @@ namespace QuickConnectPlugin {
             return menuItems;
         }
 
+        [SuppressMessage("Microsoft.Reliability", "CA2000:DisposeObjectsBeforeLosingScope", Justification = "ToolStripMenuItem object is disposed inside entryContextMenu_Closed method")]
         private ToolStripMenuItem createChangePasswordMenuItem(HostPwEntry hostPwEntry) {
             IPasswordChanger pwChanger = null;
             var hostTypeMapper = new HostTypeMapper(new HostTypeSafeConverter());
@@ -338,8 +347,9 @@ namespace QuickConnectPlugin {
                     try {
                         var pwDatabase = new PasswordDatabase(this.pluginHost.Database);
                         var pwChangerService = new PasswordChangerServiceWrapper(pwDatabase, pwChanger);
-                        var formPasswordChange = new FormPasswordChanger(hostPwEntry, pwChangerService);
-                        formPasswordChange.ShowDialog();
+                        using (var formPasswordChange = new FormPasswordChanger(hostPwEntry, pwChangerService)) {
+                            formPasswordChange.ShowDialog();
+                        }
                     }
                     catch (Exception ex) {
                         log(ex);
@@ -350,10 +360,13 @@ namespace QuickConnectPlugin {
         }
 
         private void entryContextMenu_Closed(object sender, ToolStripDropDownClosedEventArgs e) {
-            foreach (var menuItem in this.menuItems) {
-                this.pluginHost.MainWindow.EntryContextMenu.Items.Remove(menuItem);
+            if (this.menuItems != null) {
+                foreach (var menuItem in this.menuItems) {
+                    this.pluginHost.MainWindow.EntryContextMenu.Items.Remove(menuItem);
+                }
+                this.menuItems.Dispose();
+                this.menuItems = null;
             }
-            this.menuItems.Clear();
         }
 
         private void log(Exception ex) {
@@ -361,6 +374,8 @@ namespace QuickConnectPlugin {
             MessageBox.Show(String.Format("Error while launching process.\n\nError details: {0}", ex.ToString()), PluginName, MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
 
+        [PermissionSetAttribute(SecurityAction.Demand, Name = "FullTrust")]
+        [PermissionSetAttribute(SecurityAction.InheritanceDemand, Name = "FullTrust")]
         public override void Terminate() {
             if (this.pluginMenuItem != null) {
                 this.pluginHost.MainWindow.ToolsMenu.DropDownItems.Remove(pluginMenuItem);
@@ -376,6 +391,39 @@ namespace QuickConnectPlugin {
             }
             if (this.resourcesEventHandler != null) {
                 AppDomain.CurrentDomain.ResourceResolve -= this.resourcesEventHandler;
+            }
+        }
+
+        public void Dispose() {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing) {
+            if (!this.disposed) {
+                if (disposing) {
+                    if (this.pluginMenuItem != null) {
+                        this.pluginMenuItem.Dispose();
+                        this.pluginMenuItem = null;
+                    }
+                    if (this.pluginMenuItemAbout != null) {
+                        this.pluginMenuItemAbout.Dispose();
+                        this.pluginMenuItemAbout = null;
+                    }
+                    if (this.pluginMenuItemOptions != null) {
+                        this.pluginMenuItemOptions.Dispose();
+                        this.pluginMenuItemOptions = null;
+                    }
+                    if (this.pluginMenuItemBatchPasswordChanger != null) {
+                        this.pluginMenuItemBatchPasswordChanger.Dispose();
+                        this.pluginMenuItemBatchPasswordChanger = null;
+                    }
+                    if (this.menuItems != null) {
+                        this.menuItems.Dispose();
+                        this.menuItems = null;
+                    }
+                    this.disposed = true;
+                }
             }
         }
     }

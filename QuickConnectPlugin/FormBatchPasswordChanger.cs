@@ -53,7 +53,7 @@ namespace QuickConnectPlugin {
             this.treeView.Nodes[0].Expand();
             this.treeView.AfterSelect += new TreeViewEventHandler(treeViewAfterSelect);
 
-            ContextMenuStrip listViewContextMenuStrip = new ContextMenuStrip();
+            this.listViewContextMenuStrip = new ContextMenuStrip();
             listViewContextMenuStrip.Items.Add("Select all");
             listViewContextMenuStrip.Items.Add("Deselect all");
             listViewContextMenuStrip.Items[0].Click += new EventHandler(selectAllClick);

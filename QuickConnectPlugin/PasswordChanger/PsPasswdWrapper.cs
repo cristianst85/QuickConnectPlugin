@@ -1,20 +1,23 @@
 ﻿using System;
 using System.Diagnostics;
 using System.IO;
+using System.Security.Permissions;
 using System.Text;
 
 namespace QuickConnectPlugin.PasswordChanger {
 
     public class PsPasswdWrapper {
 
-        public static readonly String SupportedVersion = "1.22";
-        public static readonly String PsPasswdProductName = "Sysinternals PsPasswd";
-        public static readonly String PsPasswdMD5Checksum = "18592F7B8D0CA68CC90A5511180AF8C0";
+        public const String SupportedVersion = "1.22";
+        public const String PsPasswdProductName = "Sysinternals PsPasswd";
+        public const String PsPasswdMD5Checksum = "18592F7B8D0CA68CC90A5511180AF8C0";
 
         public String Path { get; private set; }
 
         public bool SuppressLicenseDialog { get; set; }
 
+        [PermissionSetAttribute(SecurityAction.LinkDemand, Name = "FullTrust")]
+        [PermissionSetAttribute(SecurityAction.InheritanceDemand, Name = "FullTrust")]
         public PsPasswdWrapper(String psPasswdPath) {
             if (!File.Exists(psPasswdPath)) {
                 throw new FileNotFoundException("The specified file was not found.");
@@ -28,15 +31,15 @@ namespace QuickConnectPlugin.PasswordChanger {
             this.Path = psPasswdPath;
         }
 
-        public static bool IsSupportedVersion(String psPasswdPath) {
+        internal static bool IsSupportedVersion(String psPasswdPath) {
             return SupportedVersion.Equals(FileVersionInfo.GetVersionInfo(psPasswdPath).FileVersion);
         }
 
-        public static bool IsPsPasswdUtility(String pspasswdPath) {
+        internal static bool IsPsPasswdUtility(String pspasswdPath) {
             return PsPasswdProductName.Equals(FileVersionInfo.GetVersionInfo(pspasswdPath).ProductName);
         }
 
-        public void ChangePassword(String host, String username, String password, String account, String newPassword) {
+        internal void ChangePassword(String host, String username, String password, String account, String newPassword) {
             if (String.IsNullOrEmpty(host)) {
                 throw new ArgumentException("Host cannot be null or an empty string.");
             }

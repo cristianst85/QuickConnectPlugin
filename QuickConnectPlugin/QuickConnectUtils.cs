@@ -5,9 +5,9 @@ using Microsoft.Win32;
 
 namespace QuickConnectPlugin {
 
-    public static class QuickConnectUtils {
+    internal static class QuickConnectUtils {
 
-        public static String GetVSphereClientPath() {
+        internal static String GetVSphereClientPath() {
             RegistryKey regKey = null;
             try {
                 regKey = Microsoft.Win32.Registry.LocalMachine.OpenSubKey("SOFTWARE\\Wow6432Node\\");
@@ -35,11 +35,11 @@ namespace QuickConnectPlugin {
             }
         }
 
-        public static bool IsVSpherePowerCLIInstalled() {
+        internal static bool IsVSpherePowerCLIInstalled() {
             return !String.IsNullOrEmpty(GetVSpherePowerCLIPath());
         }
 
-        public static string GetVSpherePowerCLIPath() {
+        internal static string GetVSpherePowerCLIPath() {
             RegistryKey regKey = null;
             try {
                 regKey = Microsoft.Win32.Registry.LocalMachine.OpenSubKey("SOFTWARE\\Wow6432Node\\");
@@ -66,12 +66,12 @@ namespace QuickConnectPlugin {
             }
         }
 
-        public static bool IsOlderRemoteDesktopConnectionVersion() {
+        internal static bool IsOlderRemoteDesktopConnectionVersion() {
             var fvi = FileVersionInfo.GetVersionInfo(Environment.ExpandEnvironmentVariables(@"%SystemRoot%\system32\mstsc.exe"));
             return new Version(fvi.ProductVersion) < new Version("6.0.6001");
         }
 
-        public static String GetPuttyPath() {
+        internal static String GetPuttyPath() {
             String filePath64 = @"C:\Program Files (x86)\PuTTY\putty.exe";
             String filePath32 = @"C:\Program Files\PuTTY\putty.exe";
             if (File.Exists(filePath64)) {
@@ -85,7 +85,7 @@ namespace QuickConnectPlugin {
             }
         }
 
-        public static String GetWinScpPath() {
+        internal static String GetWinScpPath() {
             String filePath64 = @"C:\Program Files (x86)\WinSCP\WinSCP.exe";
             String filePath32 = @"C:\Program Files\WinSCP\WinSCP.exe";
             if (File.Exists(filePath64)) {

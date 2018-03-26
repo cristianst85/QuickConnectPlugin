@@ -49,6 +49,7 @@
   <ItemGroup>
     <Compile Include="ArgumentsFormatters\CmdKeyRegisterArgumentsFormatter.cs" />
     <Compile Include="ArgumentsFormatters\WinScpArgumentsFormatter.cs" />
+    <Compile Include="Commons\DisposableList.cs" />
     <Compile Include="Commons\EnumUtils.cs" />
     <Compile Include="Commons\TextBoxUtils.cs" />
     <Compile Include="FormBatchPasswordChanger.cs">

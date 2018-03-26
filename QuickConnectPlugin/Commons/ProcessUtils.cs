@@ -4,7 +4,7 @@ using System.Threading;
 
 namespace QuickConnectPlugin.Commons {
 
-    public static class ProcessUtils {
+    internal static class ProcessUtils {
 
         public static void StartDetached(String processCommand, TimeSpan delay) {
             ThreadStart threadStart = delegate() {

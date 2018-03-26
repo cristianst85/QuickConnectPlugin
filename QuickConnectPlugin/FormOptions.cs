@@ -2,11 +2,14 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
+using System.Security.Permissions;
 using System.Windows.Forms;
 using QuickConnectPlugin.PasswordChanger;
 
 namespace QuickConnectPlugin {
 
+    [PermissionSetAttribute(SecurityAction.Demand, Name = "FullTrust")]
+    [PermissionSetAttribute(SecurityAction.InheritanceDemand, Name = "FullTrust")]
     public partial class FormOptions : Form {
 
         private IQuickConnectPluginSettings settings;

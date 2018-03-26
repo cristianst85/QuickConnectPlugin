@@ -1,5 +1,9 @@
-﻿namespace QuickConnectPlugin.PasswordChanger {
+﻿using System.Security.Permissions;
 
+namespace QuickConnectPlugin.PasswordChanger {
+
+    [PermissionSetAttribute(SecurityAction.Demand, Name = "FullTrust")]
+    [PermissionSetAttribute(SecurityAction.InheritanceDemand, Name = "FullTrust")]
     public class WindowsPasswordChanger : IPasswordChanger {
 
         private PsPasswdWrapper wrapper;

@@ -373,5 +373,6 @@ namespace QuickConnectPlugin {
         private ColumnHeader hostType;
         private ToolStripMenuItem showPasswordsToolStripMenuItem;
         private Button buttonShowHidePassword;
+        private ContextMenuStrip listViewContextMenuStrip;
     }
 }

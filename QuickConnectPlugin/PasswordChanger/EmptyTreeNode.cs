@@ -1,10 +1,17 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Runtime.Serialization;
 using System.Windows.Forms;
 
 namespace QuickConnectPlugin.PasswordChanger {
 
+    [Serializable]
     public class EmptyTreeNode : TreeNode, IPasswordChangerTreeNode {
+
+        protected EmptyTreeNode(SerializationInfo serializationInfo, StreamingContext context)
+            : base(serializationInfo, context) {
+        }
 
         public EmptyTreeNode(string message)
             : base(message) {

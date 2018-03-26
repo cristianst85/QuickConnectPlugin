@@ -1,14 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 using System.Windows.Forms;
 
 namespace QuickConnectPlugin.PasswordChanger {
 
+    [Serializable]
     public class PwEntryListViewItem : ListViewItem {
 
         private const String PasswordMaskText = "******";
 
         public IPasswordChangerHostPwEntry PwEntry { get; private set; }
+
+        protected PwEntryListViewItem(SerializationInfo serializationInfo, StreamingContext context)
+            : base(serializationInfo, context) {
+        }
 
         public PwEntryListViewItem(IPasswordChangerHostPwEntry pwEntry, bool showPassword)
             : base(

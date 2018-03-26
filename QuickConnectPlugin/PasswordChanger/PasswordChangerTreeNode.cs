@@ -1,15 +1,22 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Runtime.Serialization;
 using System.Windows.Forms;
 using KeePassLib;
 
 namespace QuickConnectPlugin.PasswordChanger {
 
+    [Serializable]
     public class PasswordChangerTreeNode : TreeNode, IPasswordChangerTreeNode {
 
         private PwGroup pwGroup;
         private PwDatabase pwDatabase;
         private IFieldMapper fieldMapper;
+
+        protected PasswordChangerTreeNode(SerializationInfo serializationInfo, StreamingContext context)
+            : base(serializationInfo, context) {
+        }
 
         private PasswordChangerTreeNode(PwGroup pwGroup, PwDatabase pwDatabase, IFieldMapper fieldMapper)
             : base(pwGroup.Name) {
