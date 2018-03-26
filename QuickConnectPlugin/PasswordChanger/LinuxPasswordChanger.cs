@@ -1,5 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
+using System.Linq;
+using System.Text;
 using System.Text.RegularExpressions;
 using Renci.SshNet;
 using Renci.SshNet.Common;
@@ -9,10 +13,14 @@ namespace QuickConnectPlugin.PasswordChanger {
     public class LinuxPasswordChanger : ILinuxPasswordChanger {
 
         public static readonly int DefaultSshPort = 22;
+        public static readonly int DefaultTimeout = 4;
 
         public int? SshPort { get; set; }
+        public int Timeout { get; set; }
 
         public void ChangePassword(string host, string username, string password, string newPassword) {
+
+            this.Timeout = DefaultTimeout;
 
             var keyboardInteractiveAuthenticationMethod = new KeyboardInteractiveAuthenticationMethod(username);
             keyboardInteractiveAuthenticationMethod.AuthenticationPrompt += new EventHandler<AuthenticationPromptEventArgs>((sender, e) => authenticationPrompted(sender, e, password));
@@ -42,25 +50,51 @@ namespace QuickConnectPlugin.PasswordChanger {
                 }
             );
 
+            var messages = new Collection<String>(); ;
+
             using (SshClient sshclient = new SshClient(connectionInfo)) {
                 sshclient.Connect();
                 using (var shellStream = sshclient.CreateShellStream("xterm", 80, 24, 800, 600, 1024)) {
+                    shellStream.DataReceived += new EventHandler<ShellDataEventArgs>((s, e) => {
+                        var message = Encoding.UTF8.GetString(e.Data)
+                            .Trim('\n').Trim('\r').Trim().
+                            Replace("\n", " / ").
+                            Replace("\r", String.Empty).TrimEnd(':');
+                        // Keep only relevant messages - ignore shell prompt lines.
+                        if (!(message.Contains("@") || message.EndsWith("/>") || message.EndsWith("]$") || String.IsNullOrEmpty(message))) {
+                            messages.Add(message);
+                        }
+                    });
                     using (var writer = new StreamWriter(shellStream) { AutoFlush = true }) {
-                        writer.WriteLine("sudo passwd");
-                        processShellStream(shellStream, "New Password");
-                        writer.WriteLine(newPassword);
-                        processShellStream(shellStream, "Re.*new password");
-                        writer.WriteLine(newPassword);
-                        processShellStream(shellStream, "Password.*(changed|updated)|all authentication tokens updated successfully");
+                        writer.WriteLine("passwd");
+                        // Non-root user must enter the current password first.
+                        processShellStream(shellStream, @"\(current\) UNIX password", writer, password, true, messages);
+                        processShellStream(shellStream, "New password", writer, newPassword, false, messages);
+                        processShellStream(shellStream, "Re.*new password", writer, newPassword, false, messages);
+                        processShellStream(shellStream, "Password.*(changed|updated)|all authentication tokens updated successfully", null, null, false, messages);
                     }
                 }
             }
         }
 
-        private void processShellStream(ShellStream shellStream, String expectedPattern) {
-            var res = shellStream.Expect(new Regex(expectedPattern, RegexOptions.IgnoreCase), TimeSpan.FromSeconds(2));
-            if (res == null) {
-                throw new Exception(String.Format("Error changing password. Expected '{0}' string/pattern from shell, but got null.", expectedPattern));
+        private void processShellStream(ShellStream shellStream, String expectedRegexPattern, StreamWriter writer, string input, bool isOptional, ICollection<string> messages) {
+            bool wasExecuted = false;
+            Action<string> action = (x) => {
+                if (writer != null && input != null) {
+                    writer.WriteLine(input);
+                };
+                wasExecuted = true;
+                messages.Clear();
+            };
+            var expectAction = new ExpectAction(new Regex(expectedRegexPattern, RegexOptions.IgnoreCase), action);
+            shellStream.Expect(TimeSpan.FromSeconds(Timeout), expectAction);
+            // Shell output is always null when the action was not executed.
+            if (!(isOptional || wasExecuted)) {
+                var message = messages.LastOrDefault();
+                if (messages.Count > 1) {
+                    message = string.Format("{0} / {1}", messages.First(), messages.Last());
+                }
+                throw new Exception(String.Format("Error changing password. Got '{0}' from shell which didn't match the expected '{1}' regex pattern.", message, expectedRegexPattern));
             }
         }
 
