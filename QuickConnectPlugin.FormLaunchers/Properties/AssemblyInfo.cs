@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("QuickConnectPlugin.FormLauchers")]
+[assembly: AssemblyTitle("QuickConnectPlugin.FormLaunchers")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("QuickConnectPlugin.FormLauchers")]
+[assembly: AssemblyProduct("QuickConnectPlugin.FormLaunchers")]
 [assembly: AssemblyCopyright("Copyright ©  2016-2017")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

@@ -8,14 +8,14 @@
     <ProjectGuid>{DC5F4E07-5083-4A7E-B253-F14D67A54708}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>QuickConnectPlugin.FormLauchers</RootNamespace>
-    <AssemblyName>QuickConnectPlugin.FormLauchers</AssemblyName>
+    <RootNamespace>QuickConnectPlugin.FormLaunchers</RootNamespace>
+    <AssemblyName>QuickConnectPlugin.FormLaunchers</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup>
-    <StartupObject>QuickConnectPlugin.FormLauchers.ProgramPasswordChanger</StartupObject>
+    <StartupObject>QuickConnectPlugin.FormLaunchers.ProgramPasswordChanger</StartupObject>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
     <DebugSymbols>true</DebugSymbols>

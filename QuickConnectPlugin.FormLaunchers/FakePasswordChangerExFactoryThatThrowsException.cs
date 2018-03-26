@@ -1,7 +1,7 @@
 ﻿using System;
 using QuickConnectPlugin.PasswordChanger;
 
-namespace QuickConnectPlugin.FormLauchers {
+namespace QuickConnectPlugin.FormLaunchers {
 
     public class FakePasswordChangerExFactoryThatThrowsException : IPasswordChangerExFactory {
 

@@ -5,7 +5,7 @@ using QuickConnectPlugin.PasswordChanger.Services;
 using QuickConnectPlugin.Tests;
 using QuickConnectPlugin.Tests.PasswordChanger;
 
-namespace QuickConnectPlugin.FormLauchers {
+namespace QuickConnectPlugin.FormLaunchers {
 
     static class ProgramPasswordChanger {
 

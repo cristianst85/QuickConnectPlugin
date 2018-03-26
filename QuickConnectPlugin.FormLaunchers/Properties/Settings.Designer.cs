@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace QuickConnectPlugin.FormLauchers.Properties {
+namespace QuickConnectPlugin.FormLaunchers.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]

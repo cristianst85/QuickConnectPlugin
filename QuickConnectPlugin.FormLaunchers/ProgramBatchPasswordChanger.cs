@@ -8,7 +8,7 @@ using QuickConnectPlugin.PasswordChanger;
 using QuickConnectPlugin.PasswordChanger.Services;
 using QuickConnectPlugin.Tests;
 
-namespace QuickConnectPlugin.FormLauchers {
+namespace QuickConnectPlugin.FormLaunchers {
 
     static class ProgramBatchPasswordChanger {
 

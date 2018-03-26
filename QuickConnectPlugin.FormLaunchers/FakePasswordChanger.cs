@@ -3,7 +3,7 @@ using System.Diagnostics;
 using System.Threading;
 using QuickConnectPlugin.PasswordChanger;
 
-namespace QuickConnectPlugin.FormLauchers {
+namespace QuickConnectPlugin.FormLaunchers {
 
     public class FakePasswordChanger : IPasswordChanger {
 

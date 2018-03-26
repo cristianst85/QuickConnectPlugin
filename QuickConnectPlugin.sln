@@ -14,7 +14,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		VERSION = VERSION
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuickConnectPlugin.FormLauchers", "QuickConnectPlugin.FormLauchers\QuickConnectPlugin.FormLauchers.csproj", "{DC5F4E07-5083-4A7E-B253-F14D67A54708}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuickConnectPlugin.FormLaunchers", "QuickConnectPlugin.FormLaunchers\QuickConnectPlugin.FormLaunchers.csproj", "{DC5F4E07-5083-4A7E-B253-F14D67A54708}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
