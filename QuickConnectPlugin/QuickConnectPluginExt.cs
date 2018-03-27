@@ -83,58 +83,61 @@ namespace QuickConnectPlugin {
             pluginMenuItemOptions = new ToolStripMenuItem("Options...");
             pluginMenuItemOptions.Click += new EventHandler(
                 pluginMenuItemOptionsOnClickEventHandler = delegate(object obj, EventArgs ev) {
-                List<String> fields = null;
-                // Check if database is open.
-                if (this.pluginHost.Database != null && this.pluginHost.Database.IsOpen) {
-                    fields = this.pluginHost.Database.GetAllFields(true).ToList();
-                    fields.Sort();
+                    List<String> fields = null;
+                    // Check if database is open.
+                    if (this.pluginHost.Database != null && this.pluginHost.Database.IsOpen) {
+                        fields = this.pluginHost.Database.GetAllFields(true).ToList();
+                        fields.Sort();
+                    }
+                    using (FormOptions form = new FormOptions(Title, this.Settings, fields)) {
+                        form.ShowDialog(pluginHost.MainWindow);
+                    }
                 }
-                using (FormOptions form = new FormOptions(Title, this.Settings, fields)) {
-                    form.ShowDialog(pluginHost.MainWindow);
-                }
-            });
+            );
             pluginMenuItemBatchPasswordChanger = new ToolStripMenuItem("Batch Password Changer...");
             pluginMenuItemBatchPasswordChanger.Click += new EventHandler(
                 pluginMenuItemBatchPasswordChangerOnClickEventHandler = delegate(object obj, EventArgs ev) {
-                IPasswordChangerTreeNode pwTreeNode = null;
-                // Check if database is open.
-                if (this.pluginHost.Database != null && this.pluginHost.Database.IsOpen) {
-                    pwTreeNode = PasswordChangerTreeNode.Build(pluginHost.Database, fieldsMapper);
-                }
-                else {
-                    pwTreeNode = new EmptyTreeNode("No database available.");
-                }
-                var pwChangerFactory = new DictionaryPasswordChangerExFactory();
+                    IPasswordChangerTreeNode pwTreeNode = null;
+                    // Check if database is open.
+                    if (this.pluginHost.Database != null && this.pluginHost.Database.IsOpen) {
+                        pwTreeNode = PasswordChangerTreeNode.Build(pluginHost.Database, fieldsMapper);
+                    }
+                    else {
+                        pwTreeNode = new EmptyTreeNode("No database available.");
+                    }
+                    var pwChangerFactory = new DictionaryPasswordChangerExFactory();
 
-                if (QuickConnectUtils.IsVSpherePowerCLIInstalled()) {
-                    pwChangerFactory.Factories.Add(HostType.ESXi, new PasswordChangerExFactory(new ESXiPasswordChangerFactory()));
-                }
-                if (!String.IsNullOrEmpty(this.Settings.PsPasswdPath) &&
-                    File.Exists(this.Settings.PsPasswdPath) &&
-                    PsPasswdWrapper.IsPsPasswdUtility(this.Settings.PsPasswdPath) &&
-                    PsPasswdWrapper.IsSupportedVersion(this.Settings.PsPasswdPath)) {
-                    pwChangerFactory.Factories.Add(HostType.Windows, new PasswordChangerExFactory(new WindowsPasswordChangerFactory(
-                        new PsPasswdWrapper(this.Settings.PsPasswdPath)))
+                    if (QuickConnectUtils.IsVSpherePowerCLIInstalled()) {
+                        pwChangerFactory.Factories.Add(HostType.ESXi, new PasswordChangerExFactory(new ESXiPasswordChangerFactory()));
+                    }
+                    if (!String.IsNullOrEmpty(this.Settings.PsPasswdPath) &&
+                        File.Exists(this.Settings.PsPasswdPath) &&
+                        PsPasswdWrapper.IsPsPasswdUtility(this.Settings.PsPasswdPath) &&
+                        PsPasswdWrapper.IsSupportedVersion(this.Settings.PsPasswdPath)) {
+                        pwChangerFactory.Factories.Add(HostType.Windows, new PasswordChangerExFactory(new WindowsPasswordChangerFactory(
+                            new PsPasswdWrapper(this.Settings.PsPasswdPath)))
+                        );
+                    }
+                    pwChangerFactory.Factories.Add(HostType.Linux, new LinuxPasswordChangerExFactory(new LinuxPasswordChangerFactory()));
+
+                    var pwChangerServiceFactory = new PasswordChangerServiceFactory(
+                        new PasswordDatabase(this.pluginHost.Database),
+                        pwChangerFactory
                     );
+                    using (FormBatchPasswordChanger form = new FormBatchPasswordChanger(pwTreeNode, pwChangerServiceFactory)) {
+                        form.ShowDialog(pluginHost.MainWindow);
+                    }
                 }
-                pwChangerFactory.Factories.Add(HostType.Linux, new LinuxPasswordChangerExFactory(new LinuxPasswordChangerFactory()));
-
-                var pwChangerServiceFactory = new PasswordChangerServiceFactory(
-                    new PasswordDatabase(this.pluginHost.Database),
-                    pwChangerFactory
-                );
-                using (FormBatchPasswordChanger form = new FormBatchPasswordChanger(pwTreeNode, pwChangerServiceFactory)) {
-                    form.ShowDialog(pluginHost.MainWindow);
-                }
-            });
+            );
             pluginMenuItemAbout = new ToolStripMenuItem("About");
             pluginMenuItemAbout.Click += new EventHandler(
                 pluginMenuItemAboutOnClickEventHandler = delegate(object obj, EventArgs ev) {
-                using (FormAbout form = new FormAbout()) {
-                    form.Text = form.Text.Replace("{title}", Title);
-                    form.ShowDialog(pluginHost.MainWindow);
+                    using (FormAbout form = new FormAbout()) {
+                        form.Text = form.Text.Replace("{title}", Title);
+                        form.ShowDialog(pluginHost.MainWindow);
+                    }
                 }
-            });
+            );
             pluginMenuItem = new ToolStripMenuItem(String.Format("{0}", Title));
             pluginMenuItem.DropDownItems.Add(pluginMenuItemBatchPasswordChanger);
             pluginMenuItem.DropDownItems.Add(pluginMenuItemOptions);
@@ -161,7 +164,7 @@ namespace QuickConnectPlugin {
             if (selectedEntries != null && selectedEntries.Length == 1) {
                 this.menuItems = new DisposableList<ToolStripItem>();
                 HostPwEntry hostPwEntry = new HostPwEntry(selectedEntries[0], this.pluginHost.Database, this.fieldsMapper);
-                var menuItem = this.createChangePasswordMenuItem(hostPwEntry);
+                var changePasswordMenuItem = this.createChangePasswordMenuItem(hostPwEntry);
                 if (hostPwEntry.HasConnectionMethods) {
                     menuItems.AddRange(this.createMenuItems(hostPwEntry));
                     if (this.Settings.CompatibleMode) {
@@ -172,11 +175,11 @@ namespace QuickConnectPlugin {
                     }
                     if (this.Settings.AddChangePasswordMenuItem) {
                         if (this.Settings.CompatibleMode) {
-                            this.menuItems.Insert(0, menuItem);
+                            this.menuItems.Insert(0, changePasswordMenuItem);
                             this.menuItems.Insert(0, new ToolStripSeparator());
                         }
                         else {
-                            this.menuItems.Add(menuItem);
+                            this.menuItems.Add(changePasswordMenuItem);
                             this.menuItems.Add(new ToolStripSeparator());
                         }
                     }
@@ -211,7 +214,9 @@ namespace QuickConnectPlugin {
                                 FullScreen = true
                             };
                             ProcessUtils.StartDetached(argsFormatter.Format(hostPwEntry));
-                            ProcessUtils.StartDetached(new CmdKeyUnregisterArgumentsFormatter() { IncludePath = true }.Format(hostPwEntry), TimeSpan.FromSeconds(5));
+                            ProcessUtils.StartDetached(new CmdKeyUnregisterArgumentsFormatter() {
+                                IncludePath = true
+                            }.Format(hostPwEntry), TimeSpan.FromSeconds(5));
                         }
                         catch (Exception ex) {
                             log(ex);
@@ -227,21 +232,24 @@ namespace QuickConnectPlugin {
                     Enabled = hostPwEntry.HasIPAddress
                 };
                 menuItem.Click += new EventHandler(
-                  delegate(object obj, EventArgs ev) {
-                      try {
-                          ProcessUtils.Start(CmdKeyRegisterArgumentsFormatter.CmdKeyPath, new CmdKeyRegisterArgumentsFormatter().Format(hostPwEntry));
-                          IArgumentsFormatter argsFormatter = new RemoteDesktopArgumentsFormatter() {
-                              FullScreen = true,
-                              UseConsole = true,
-                              IsOlderVersion = RDCIsOlderVersion
-                          };
-                          ProcessUtils.StartDetached(argsFormatter.Format(hostPwEntry));
-                          ProcessUtils.StartDetached(new CmdKeyUnregisterArgumentsFormatter() { IncludePath = true }.Format(hostPwEntry), TimeSpan.FromSeconds(5));
-                      }
-                      catch (Exception ex) {
-                          log(ex);
-                      }
-                  }
+                    delegate(object obj, EventArgs ev) {
+                        try {
+                            ProcessUtils.Start(CmdKeyRegisterArgumentsFormatter.CmdKeyPath, new CmdKeyRegisterArgumentsFormatter()
+                                .Format(hostPwEntry));
+                            IArgumentsFormatter argsFormatter = new RemoteDesktopArgumentsFormatter() {
+                                FullScreen = true,
+                                UseConsole = true,
+                                IsOlderVersion = RDCIsOlderVersion
+                            };
+                            ProcessUtils.StartDetached(argsFormatter.Format(hostPwEntry));
+                            ProcessUtils.StartDetached(new CmdKeyUnregisterArgumentsFormatter() {
+                                IncludePath = true
+                            }.Format(hostPwEntry), TimeSpan.FromSeconds(5));
+                        }
+                        catch (Exception ex) {
+                            log(ex);
+                        }
+                    }
                 );
                 menuItems.Add(menuItem);
             };
