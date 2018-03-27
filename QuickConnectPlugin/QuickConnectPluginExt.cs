@@ -30,6 +30,9 @@ namespace QuickConnectPlugin {
         private const String OpenVSphereClientMenuItemText = "Open vSphere Client";
         private const String OpenSSHConsoleMenuItemText = "Open PuTTY Console";
         private const String OpenWinScpMenuItemText = "Open WinSCP";
+        private const String ChangePasswordMenuItemText = "Change Password...";
+
+        private static readonly TimeSpan RemoveCredentialsDelay = TimeSpan.FromSeconds(5);
 
         private IPluginHost pluginHost = null;
         private IFieldMapper fieldsMapper = null;
@@ -215,8 +218,8 @@ namespace QuickConnectPlugin {
                             };
                             ProcessUtils.StartDetached(argsFormatter.Format(hostPwEntry));
                             ProcessUtils.StartDetached(new CmdKeyUnregisterArgumentsFormatter() {
-                                IncludePath = true
-                            }.Format(hostPwEntry), TimeSpan.FromSeconds(5));
+                                IncludePath = true 
+                            }.Format(hostPwEntry), RemoveCredentialsDelay);
                         }
                         catch (Exception ex) {
                             log(ex);
@@ -244,7 +247,7 @@ namespace QuickConnectPlugin {
                             ProcessUtils.StartDetached(argsFormatter.Format(hostPwEntry));
                             ProcessUtils.StartDetached(new CmdKeyUnregisterArgumentsFormatter() {
                                 IncludePath = true
-                            }.Format(hostPwEntry), TimeSpan.FromSeconds(5));
+                            }.Format(hostPwEntry), RemoveCredentialsDelay);
                         }
                         catch (Exception ex) {
                             log(ex);
@@ -347,7 +350,7 @@ namespace QuickConnectPlugin {
                   }
             }
             var menuItem = new ToolStripMenuItem() {
-                Text = "Change Password...",
+                Text = ChangePasswordMenuItemText,
                 Enabled = hostPwEntry.HasIPAddress && pwChanger != null
             };
             menuItem.Click += new EventHandler(
