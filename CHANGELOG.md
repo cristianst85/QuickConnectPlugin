@@ -1,3 +1,9 @@
+0.4.3
+
+ Bug fix: Password changing for Linux hosts for non-root users was not working.
+ Bug fix: Shell output is included in the error message when changing the password for Linux hosts fails (was always null).
+ Other code optimizations and improvements.
+
 0.4.2
 
  Bug fix: Passwords are enclosed in double quotes with WinSCP. Fixes an issue with passwords that contain special characters.
