@@ -1,6 +1,8 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27428.2015
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuickConnectPlugin", "QuickConnectPlugin\QuickConnectPlugin.csproj", "{6027B153-E1DA-4272-9F9D-D870C27DB630}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuickConnectPlugin.Tests", "QuickConnectPlugin.Tests\QuickConnectPlugin.Tests.csproj", "{6B58F95D-3205-4B21-820F-87BD5FAF5F84}"
@@ -59,5 +61,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {72C6C1D6-FEF5-4EBF-85C8-A13671ECB87F}
 	EndGlobalSection
 EndGlobal
