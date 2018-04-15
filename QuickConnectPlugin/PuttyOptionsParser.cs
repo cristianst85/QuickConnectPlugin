@@ -13,7 +13,7 @@ namespace QuickConnectPlugin {
             if (str == null) {
                 return false;
             }
-            if (str.Trim(' ').Length == 0) {
+            if (str.Trim().Length == 0) {
                 return false;
             }
             String[] tokens = str.Split(';');

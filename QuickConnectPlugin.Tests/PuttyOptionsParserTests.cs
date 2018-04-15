@@ -9,6 +9,7 @@ namespace QuickConnectPlugin.Tests {
 
         [TestCase(null)]
         [TestCase("")]
+        [TestCase(" ")]
         public void TryParseReturnsFalse(String optionsString) {
             PuttyOptions options;
             Assert.IsFalse(PuttyOptionsParser.TryParse(optionsString, out options));
