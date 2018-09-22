@@ -1,7 +1,7 @@
 @echo off
 
-set KEEPASS_PATH="C:\Program Files (x86)\KeePass Password Safe 2\KeePass.exe"
 set PROJECT_PATH=%~dp0
+set KEEPASS_PATH="%PROJECT_PATH%\libs\KeePass.exe"
 set SOURCE_PATH=%PROJECT_PATH%QuickConnectPlugin
 
 cd /d "%PROJECT_PATH%"
