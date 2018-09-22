@@ -67,6 +67,7 @@
     <Compile Include="ArgumentsFormatters\CmdKeyRegisterArgumentsFormatterTests.cs" />
     <Compile Include="ArgumentsFormatters\CmdKeyUnregisterArgumentsFormatterTests.cs" />
     <Compile Include="ArgumentsFormatters\WinScpArgumentsFormatterTests.cs" />
+    <Compile Include="Commons\AssemblyUtilsTests.cs" />
     <Compile Include="ConnectionMethodTypeUtilsTests.cs" />
     <Compile Include="Extensions\PwDatabaseExtensionsTests2.cs" />
     <Compile Include="Extensions\PwDatabaseExtensionsTests.cs" />
