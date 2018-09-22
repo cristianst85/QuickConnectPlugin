@@ -68,6 +68,13 @@ namespace QuickConnectPlugin {
         private bool disposed;
 
         [PermissionSetAttribute(SecurityAction.Demand, Name = "FullTrust")]
+        public QuickConnectPluginExt() {
+            // Workaround for Plugin Compatibility Check changes in KeePass 2.40.
+            // https://sourceforge.net/p/keepass/discussion/329220/thread/3c8b8128/
+            resourcesEventHandler = new ResolveEventHandler(AssemblyUtils.AssemblyResolverFromResources);
+            AppDomain.CurrentDomain.AssemblyResolve += resourcesEventHandler;
+        }
+
         [PermissionSetAttribute(SecurityAction.InheritanceDemand, Name = "FullTrust")]
         public override bool Initialize(IPluginHost pluginHost) {
 
@@ -152,9 +159,6 @@ namespace QuickConnectPlugin {
             ContextMenuStrip entryContextMenu = pluginHost.MainWindow.EntryContextMenu;
             entryContextMenu.Opened += new EventHandler(entryContextMenu_Opened);
             entryContextMenu.Closed += new ToolStripDropDownClosedEventHandler(entryContextMenu_Closed);
-
-            resourcesEventHandler = new ResolveEventHandler(AssemblyUtils.AssemblyResolverFromResources);
-            AppDomain.CurrentDomain.AssemblyResolve += resourcesEventHandler;
 
             return true;
         }
