@@ -3,7 +3,7 @@ using QuickConnectPlugin.Services;
 
 namespace QuickConnectPlugin.Tests.Services {
 
-    [Ignore]
+    [Ignore("IntegrationTest")]
     [TestFixture]
     public class WindowsRegistryServiceTests {
 

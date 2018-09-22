@@ -10,16 +10,19 @@ namespace QuickConnectPlugin.Tests {
     [TestFixture]
     public class PwEntryTests {
 
-        private readonly string databasePath = Path.GetFullPath(@"..\..\..\QuickConnectPlugin.Tests.Resources\sample.kdbx");
+        private readonly string databasePath = @"..\..\..\QuickConnectPlugin.Tests.Resources\sample.kdbx";
         private readonly string databasePassword = "12345678";
 
         private PwDatabase pwDatabase;
 
         [SetUp]
         public void Setup() {
-            Assert.IsTrue(File.Exists(databasePath));
-            var ioConnectionInfo = new IOConnectionInfo() {
-                Path = databasePath
+            var fullDatabasePath = Path.Combine(TestContext.CurrentContext.TestDirectory, databasePath);
+
+            Assert.IsTrue(File.Exists(fullDatabasePath));
+            var ioConnectionInfo = new IOConnectionInfo()
+            {
+                Path = fullDatabasePath
             };
 
             var key = new CompositeKey();

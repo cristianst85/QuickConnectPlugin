@@ -15,9 +15,9 @@ namespace QuickConnectPlugin.Tests.PasswordChanger {
             Assert.AreEqual(expectedHostType, new HostTypeConverter().Convert(connectionMethod));
         }
 
-        [TestCase(ConnectionMethodType.Unknown, ExpectedException = typeof(NotSupportedException))]
+        [TestCase(ConnectionMethodType.Unknown)]
         public void ConvertThrowsException(ConnectionMethodType connectionMethod) {
-            new HostTypeConverter().Convert(connectionMethod);
+            Assert.Throws<NotSupportedException>(() => new HostTypeConverter().Convert(connectionMethod));
         }
     }
 }

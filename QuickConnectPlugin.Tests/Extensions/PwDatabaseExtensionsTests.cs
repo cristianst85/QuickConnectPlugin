@@ -12,7 +12,7 @@ namespace QuickConnectPlugin.Tests.Extensions {
     [TestFixture("sample-templates.kdbx")]
     public class PwDatabaseExtensionsTests {
 
-        private readonly string databaseFilePath = Path.GetFullPath(@"..\..\..\QuickConnectPlugin.Tests.Resources\");
+        private readonly string databaseDirectory = @"..\..\..\QuickConnectPlugin.Tests.Resources\";
         private readonly string databasePassword = "12345678";
 
         private String databaseFileName;
@@ -24,11 +24,12 @@ namespace QuickConnectPlugin.Tests.Extensions {
 
         [SetUp]
         public void Setup() {
-            var path = Path.Combine(Path.GetFullPath(databaseFilePath), databaseFileName);
+            var fullDatabasePath = Path.Combine(TestContext.CurrentContext.TestDirectory, Path.Combine(databaseDirectory, databaseFileName));
 
-            Assert.IsTrue(File.Exists(path));
-            var ioConnectionInfo = new IOConnectionInfo() {
-                Path = path
+            Assert.IsTrue(File.Exists(fullDatabasePath));
+            var ioConnectionInfo = new IOConnectionInfo()
+            {
+                Path = fullDatabasePath
             };
 
             var key = new CompositeKey();

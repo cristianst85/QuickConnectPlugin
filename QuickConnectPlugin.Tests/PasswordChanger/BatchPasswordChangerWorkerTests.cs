@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using Moq;
-using NUnit.Core;
 using NUnit.Framework;
 using QuickConnectPlugin.PasswordChanger;
 using QuickConnectPlugin.PasswordChanger.Services;

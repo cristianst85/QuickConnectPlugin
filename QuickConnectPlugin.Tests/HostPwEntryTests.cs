@@ -11,7 +11,7 @@ namespace QuickConnectPlugin.Tests {
     [TestFixture]
     public class HostPwEntryTests {
 
-        private readonly string databasePath = Path.GetFullPath(@"..\..\..\QuickConnectPlugin.Tests.Resources\sample.kdbx");
+        private readonly string databasePath = @"..\..\..\QuickConnectPlugin.Tests.Resources\sample.kdbx";
         private readonly string databasePassword = "12345678";
 
         private PwDatabase pwDatabase;
@@ -19,9 +19,11 @@ namespace QuickConnectPlugin.Tests {
 
         [SetUp]
         public void Setup() {
-            Assert.IsTrue(File.Exists(databasePath));
+            var fullDatabasePath = Path.Combine(TestContext.CurrentContext.TestDirectory, databasePath);
+
+            Assert.IsTrue(File.Exists(fullDatabasePath));
             var ioConnectionInfo = new IOConnectionInfo() {
-                Path = databasePath
+                Path = fullDatabasePath
             };
 
             var key = new CompositeKey();
@@ -104,7 +106,7 @@ namespace QuickConnectPlugin.Tests {
 
             String additionalOptions = null;
             Assert.DoesNotThrow(() => additionalOptions = entry.AdditionalOptions);
-            Assert.IsNullOrEmpty(additionalOptions);
+            Assert.That(additionalOptions, Is.Null.Or.Empty);
         }
     }
 }
