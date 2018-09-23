@@ -38,7 +38,7 @@
       <ExecutableExtension>.exe</ExecutableExtension>
       <HintPath>..\libs\KeePass.exe</HintPath>
     </Reference>
-    <Reference Include="Renci.SshNet, Version=2016.0.0.0, Culture=neutral, PublicKeyToken=1cee9f8bde3db106, processorArchitecture=MSIL">
+    <Reference Include="Renci.SshNet, Version=2016.1.0.0, Culture=neutral, PublicKeyToken=1cee9f8bde3db106, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>Resources\Renci.SshNet.dll</HintPath>
     </Reference>
