@@ -21,7 +21,7 @@ IF EXIST .\QuickConnectPlugin\obj\ (
 )
 
 echo Building PLGX file...
-%KEEPASS_PATH% --plgx-prereq-net:3.5 --plgx-create "%SOURCE_PATH%"
+%KEEPASS_PATH% --plgx-prereq-kp:2.40 --plgx-prereq-net:3.5 --plgx-create "%SOURCE_PATH%"
 
 
 echo Moving PLGX file to build directory...
