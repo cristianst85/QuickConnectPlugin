@@ -110,5 +110,22 @@ namespace QuickConnectPlugin.Tests {
             Assert.DoesNotThrow(() => additionalOptions = entry.AdditionalOptions);
             Assert.That(additionalOptions, Is.Null.Or.Empty);
         }
+
+        [TestCase("Generic sample", "2018-10-10T00:35:45+03:00")]
+        public void UpdateLastModificationTime(String title, string lastModificationTime) {
+            // Arrange
+            var pwEntry = PwDatabaseUtils.FindEntryByTitle(this.pwDatabase, title, true);
+            Assert.IsNotNull(pwEntry);
+
+            var hostPwEntry = new HostPwEntry(pwEntry,  this.pwDatabase,  fieldsMapper);
+            Assert.That(hostPwEntry.LastModificationTime.ToUniversalTime(), Is.EqualTo(DateTime.Parse(lastModificationTime).ToUniversalTime()));
+
+            // Act
+            var utcNow = DateTime.UtcNow;
+            hostPwEntry.LastModificationTime = utcNow;
+
+            // Assert
+            Assert.AreEqual(utcNow, hostPwEntry.LastModificationTime.ToUniversalTime());
+        }
     }
 }
