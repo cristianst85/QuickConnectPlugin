@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using DisruptiveSoftware.Time.Clocks;
 using QuickConnectPlugin.Commons;
 
 namespace QuickConnectPlugin.PasswordChanger.Services {
@@ -9,14 +10,16 @@ namespace QuickConnectPlugin.PasswordChanger.Services {
 
         private IPasswordDatabase passwordDatabase;
         private IPasswordChangerExFactory passwordChangerFactory;
+        private IClock clock;
 
-        public PasswordChangerServiceFactory(IPasswordDatabase passwordDatabase, IPasswordChangerExFactory passwordChangerFactory) {
+        public PasswordChangerServiceFactory(IPasswordDatabase passwordDatabase, IPasswordChangerExFactory passwordChangerFactory, IClock clock) {
             this.passwordDatabase = passwordDatabase;
             this.passwordChangerFactory = passwordChangerFactory;
+            this.clock = clock;
         }
 
         public IPasswordChangerService Create(IHostTypeMapper hostTypeMapper) {
-            return new PasswordChangerService(this.passwordDatabase, this.passwordChangerFactory, hostTypeMapper);
+            return new PasswordChangerService(this.passwordDatabase, this.passwordChangerFactory, hostTypeMapper, this.clock);
         }
 
         public ICollection<HostType> GetSupported() {

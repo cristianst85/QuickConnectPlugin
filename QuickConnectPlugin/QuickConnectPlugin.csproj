@@ -52,6 +52,8 @@
     <Compile Include="Commons\DisposableList.cs" />
     <Compile Include="Commons\EnumUtils.cs" />
     <Compile Include="Commons\TextBoxUtils.cs" />
+    <Compile Include="DisruptiveSoftware.Time\Clocks\IClock.cs" />
+    <Compile Include="DisruptiveSoftware.Time\Clocks\SystemClock.cs" />
     <Compile Include="FormBatchPasswordChanger.cs">
       <SubType>Form</SubType>
     </Compile>

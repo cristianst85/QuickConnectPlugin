@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Windows.Forms;
+using DisruptiveSoftware.Time.Clocks;
 using KeePassLib;
 using KeePassLib.Keys;
 using KeePassLib.Serialization;
@@ -42,7 +43,8 @@ namespace QuickConnectPlugin.FormLaunchers {
 
             var pwChangerServiceFactory = new PasswordChangerServiceFactory(
                 new PasswordDatabase(pwDatabase),
-                new FakePasswordChangerExFactoryThatThrowsException()
+                new FakePasswordChangerExFactoryThatThrowsException(),
+                new SystemClock()
             );
 
             var formBatchPasswordChanger = new FormBatchPasswordChanger(treeNode, pwChangerServiceFactory);

@@ -64,11 +64,12 @@ namespace QuickConnectPlugin.Tests {
             CollectionAssert.AreEquivalent(expectedConnectionMethods, entry.ConnectionMethods);
             Assert.IsTrue(entry.HasIPAddress);
             Assert.IsTrue(entry.HasConnectionMethods);
+            Assert.AreEqual(DateTime.Parse("2016-03-16 23:19:53"), entry.LastModificationTime);
         }
 
-        [TestCase("Linux host sample")]
-        [TestCase("Linux host sample (with referenced fields)")]
-        public void HostPwEntryWithAndWithoutReferencedFields(String title) {
+        [TestCase("Linux host sample", "2016-03-18 21:05:15")]
+        [TestCase("Linux host sample (with referenced fields)", "2016-03-16 23:19:24")]
+        public void HostPwEntryWithAndWithoutReferencedFields(String title, String lastModificationTime) {
             var expectedConnectionMethods = new Collection<ConnectionMethodType>() {
                 ConnectionMethodType.PuttySSH,
                 ConnectionMethodType.WinSCP
@@ -86,6 +87,7 @@ namespace QuickConnectPlugin.Tests {
             CollectionAssert.AreEquivalent(expectedConnectionMethods, entry.ConnectionMethods);
             Assert.IsTrue(entry.HasIPAddress);
             Assert.IsTrue(entry.HasConnectionMethods);
+            Assert.AreEqual(DateTime.Parse(lastModificationTime), entry.LastModificationTime);
         }
 
         [TestCase("Linux host sample", null)]

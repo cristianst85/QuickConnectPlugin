@@ -78,6 +78,15 @@ namespace QuickConnectPlugin {
             return PwEntryUtils.ReadCompiledSafeString(this.pwDatabase, this.pwEntry, "Password");
         }
 
+        public DateTime LastModificationTime {
+            get  {
+                return this.pwEntry.LastModificationTime;
+            }
+            set {
+                this.pwEntry.LastModificationTime = value;
+            }
+        }
+
         public void UpdatePassword(string newPassword) {
             this.pwDatabase.RootGroup.FindEntry(this.pwEntry.Uuid, true).Strings.Set("Password", new ProtectedString(true, newPassword));
         }

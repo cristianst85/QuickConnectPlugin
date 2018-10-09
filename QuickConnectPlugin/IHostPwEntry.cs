@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace QuickConnectPlugin {
 
@@ -11,5 +12,6 @@ namespace QuickConnectPlugin {
         string IPAddress { get; }
         string AdditionalOptions { get; }
         void UpdatePassword(string newPassword);
+        DateTime LastModificationTime { get; set; }
     }
 }

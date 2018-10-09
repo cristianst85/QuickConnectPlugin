@@ -83,6 +83,7 @@
     <Compile Include="PasswordChanger\PasswordChangerExTests.cs" />
     <Compile Include="PasswordChanger\PsPasswdWrapperTests.cs" />
     <Compile Include="PasswordChanger\Services\MockPasswordChangerService.cs" />
+    <Compile Include="PasswordChanger\Services\PasswordChangerServiceWrapperTests.cs" />
     <Compile Include="PwDatabaseUtils.cs" />
     <Compile Include="PwEntryTests.cs" />
     <Compile Include="InMemoryFieldMapper.cs" />

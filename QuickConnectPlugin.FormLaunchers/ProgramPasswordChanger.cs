@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
+using DisruptiveSoftware.Time.Clocks;
 using QuickConnectPlugin.PasswordChanger;
 using QuickConnectPlugin.PasswordChanger.Services;
 using QuickConnectPlugin.Tests;
@@ -25,7 +26,7 @@ namespace QuickConnectPlugin.FormLaunchers {
             };
             hostPwEntry.ConnectionMethods.Add(ConnectionMethodType.RemoteDesktop);
             var pwChanger = new FakePasswordChanger(HostType.Windows) { ThreadSleepDuration = 20000 };
-            var pwChangerService = new PasswordChangerServiceWrapper(pwDatabase, pwChanger);
+            var pwChangerService = new PasswordChangerServiceWrapper(pwDatabase, pwChanger, new SystemClock());
             var formPasswordChange = new FormPasswordChanger(hostPwEntry, pwChangerService);
             Application.Run(formPasswordChange);
         }

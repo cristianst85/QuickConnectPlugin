@@ -11,6 +11,7 @@ namespace QuickConnectPlugin.Tests {
         public string IPAddress { get; set; }
         public string AdditionalOptions { get; set; }
         public ICollection<ConnectionMethodType> ConnectionMethods { get; private set; }
+        public DateTime LastModificationTime { get; set; }
 
         public InMemoryHostPwEntry() {
             this.ConnectionMethods = new List<ConnectionMethodType>();

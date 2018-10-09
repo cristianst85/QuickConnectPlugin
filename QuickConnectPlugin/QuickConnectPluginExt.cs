@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Security.Permissions;
 using System.Windows.Forms;
+using DisruptiveSoftware.Time.Clocks;
 using KeePass.Plugins;
 using KeePassLib;
 using QuickConnectPlugin.ArgumentsFormatters;
@@ -132,7 +133,8 @@ namespace QuickConnectPlugin {
 
                     var pwChangerServiceFactory = new PasswordChangerServiceFactory(
                         new PasswordDatabase(this.pluginHost.Database),
-                        pwChangerFactory
+                        pwChangerFactory,
+                        new SystemClock()
                     );
                     using (FormBatchPasswordChanger form = new FormBatchPasswordChanger(pwTreeNode, pwChangerServiceFactory)) {
                         form.ShowDialog(pluginHost.MainWindow);
@@ -361,7 +363,7 @@ namespace QuickConnectPlugin {
                 delegate(object obj, EventArgs ev) {
                     try {
                         var pwDatabase = new PasswordDatabase(this.pluginHost.Database);
-                        var pwChangerService = new PasswordChangerServiceWrapper(pwDatabase, pwChanger);
+                        var pwChangerService = new PasswordChangerServiceWrapper(pwDatabase, pwChanger, new SystemClock());
                         using (var formPasswordChange = new FormPasswordChanger(hostPwEntry, pwChangerService)) {
                             formPasswordChange.ShowDialog();
                         }

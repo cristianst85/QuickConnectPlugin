@@ -1,4 +1,4 @@
-﻿using System;
+﻿using DisruptiveSoftware.Time.Clocks;
 
 namespace QuickConnectPlugin.PasswordChanger.Services {
 
@@ -7,19 +7,22 @@ namespace QuickConnectPlugin.PasswordChanger.Services {
         private IPasswordDatabase passwordDatabase;
         private IPasswordChangerExFactory passwordChangerFactory;
         private IHostTypeMapper hostTypeMapper;
+        private IClock clock;
 
         public PasswordChangerService(IPasswordDatabase passwordDatabase,
             IPasswordChangerExFactory passwordChangerFactory,
-            IHostTypeMapper hostTypeMapper) {
+            IHostTypeMapper hostTypeMapper, IClock clock) {
             this.passwordDatabase = passwordDatabase;
             this.passwordChangerFactory = passwordChangerFactory;
             this.hostTypeMapper = hostTypeMapper;
+            this.clock = clock;
         }
 
-        public void ChangePassword(IHostPwEntry hostPwEntry, String newPassword) {
+        public void ChangePassword(IHostPwEntry hostPwEntry, string newPassword) {
             var passwordChanger = passwordChangerFactory.Create(this.hostTypeMapper.Get(hostPwEntry));
             passwordChanger.ChangePassword(hostPwEntry, newPassword);
             hostPwEntry.UpdatePassword(newPassword);
+            hostPwEntry.LastModificationTime = this.clock.Now;
         }
 
         public void SaveDatabase() {
