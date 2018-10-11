@@ -15,6 +15,8 @@ namespace QuickConnectPlugin {
         private IPasswordChangerService pwChangerService;
         private BatchPasswordChangerWorker pwChangerWorker;
         private IHostPwEntry hostPwEntry;
+        
+        public bool Changed { get; private set; }
 
         public FormPasswordChanger(IHostPwEntry hostPwEntry, IPasswordChangerService pwChangerService) {
             InitializeComponent();
@@ -59,6 +61,7 @@ namespace QuickConnectPlugin {
             Debug.WriteLine("batchPasswordChangerWorkerChanged");
             this.Invoke((MethodInvoker)delegate {
                 MessageBox.Show(String.Format("Password successfully changed for user '{0}' on host '{1}'.", e.HostPwEntry.GetUsername(), e.HostPwEntry.IPAddress), String.Empty, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                this.Changed = true;
             });
         }
 

@@ -136,8 +136,11 @@ namespace QuickConnectPlugin {
                         pwChangerFactory,
                         new SystemClock()
                     );
-                    using (FormBatchPasswordChanger form = new FormBatchPasswordChanger(pwTreeNode, pwChangerServiceFactory)) {
+                    using (var form = new FormBatchPasswordChanger(pwTreeNode, pwChangerServiceFactory)) {
                         form.ShowDialog(pluginHost.MainWindow);
+                        if (form.Changed) {
+                            refreshUI();
+                        }
                     }
                 }
             );
@@ -364,8 +367,11 @@ namespace QuickConnectPlugin {
                     try {
                         var pwDatabase = new PasswordDatabase(this.pluginHost.Database);
                         var pwChangerService = new PasswordChangerServiceWrapper(pwDatabase, pwChanger, new SystemClock());
-                        using (var formPasswordChange = new FormPasswordChanger(hostPwEntry, pwChangerService)) {
-                            formPasswordChange.ShowDialog();
+                        using (var form = new FormPasswordChanger(hostPwEntry, pwChangerService)) {
+                            form.ShowDialog();
+                            if (form.Changed) {
+                                refreshUI();
+                            }
                         }
                     }
                     catch (Exception ex) {
@@ -374,6 +380,11 @@ namespace QuickConnectPlugin {
                 }
             );
             return menuItem;
+        }
+
+        private void refreshUI() {
+            Debug.WriteLine(String.Format("[{0}] Call pluginHost.MainWindow.RefreshEntriesList()", GetType().Name));
+            this.pluginHost.MainWindow.RefreshEntriesList();
         }
 
         private void entryContextMenu_Closed(object sender, ToolStripDropDownClosedEventArgs e) {

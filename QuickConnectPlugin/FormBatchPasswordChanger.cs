@@ -17,6 +17,8 @@ namespace QuickConnectPlugin {
         private IPasswordChangerServiceFactory pwChangerServiceFactory;
         private BatchPasswordChangerWorker pwChangerWorker;
 
+        public bool Changed { get; private set; }
+
         public FormBatchPasswordChanger(
             IPasswordChangerTreeNode pwChangerTreeNode,
             IPasswordChangerServiceFactory pwChangerServiceFactory
@@ -254,6 +256,7 @@ namespace QuickConnectPlugin {
                         pwEntryItem.Checked = false;
                         this.log(String.Format("Password successfully changed for {0} on host {1}.", e.HostPwEntry.GetUsername(), e.HostPwEntry.IPAddress), true);
                         this.progressBar.Value = e.ProcessedEntries;
+                        this.Changed = true;
                     };
                 }
             });
