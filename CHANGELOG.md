@@ -1,4 +1,11 @@
-# Changelog
+﻿# Changelog
+
+## v0.4.4 (2018-10-12)
+- Enable compatibility with KeePass version 2.40.
+- Renci.SshNet.dll library was updated from version 2016.0.0 to 2016.1.0.
+- Bug fix: LastModificationTime field was not updated after changing the password.
+
+**NOTE:** KeePass version ≥ 2.40 is now required.
 
 ## v0.4.3 (2018-03-31)
 - Bug fix: Password changing for Linux hosts for non-root users was not working.
