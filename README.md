@@ -2,6 +2,9 @@
 
 QuickConnect is a plugin for [KeePass](http://keepass.info) password manager that allows you to connect to Windows/Linux/ESXi hosts.
 
+[![Latest Release](https://img.shields.io/github/release/cristianst85/quickconnectplugin.svg)](https://github.com/cristianst85/quickconnectplugin/releases/latest)
+[![Total Downloads](https://img.shields.io/github/downloads/cristianst85/quickconnectplugin/total.svg?maxAge=86400)](https://github.com/cristianst85/quickconnectplugin/releases/latest)
+
 ## Requirements
 
 - Microsoft Windows XP/7/10 with .NET Framework 3.5;
