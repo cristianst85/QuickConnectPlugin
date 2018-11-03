@@ -38,7 +38,7 @@ This feature allows you to change passwords for Windows/Linux/ESXi hosts directl
 ### Requirements
 
 - [PsPasswd](https://technet.microsoft.com/en-us/sysinternals/bb897543.aspx) utility version 1.22 for Windows hosts.
-- [vSphere PowerCLI version 5.8.0](https://developercenter.vmware.com/tool/vsphere_powercli/5.8.0) for ESXi hosts.
+- [vSphere PowerCLI version 5.8.0](https://my.vmware.com/web/vmware/details?downloadGroup=PCLI58R1&productId=420) for ESXi hosts.
 
 ## Security Considerations
 
