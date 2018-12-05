@@ -15,6 +15,7 @@ namespace QuickConnectPlugin {
         public string HostAddressMapFieldName { get; set; }
         public string ConnectionMethodMapFieldName { get; set; }
         public string AdditionalOptionsMapFieldName { get; set; }
+        public bool DisableCLIPasswordForPutty { get; set; }
 
         private ICustomConfigPropertyNameFormatter formatter;
         private IPluginHost plugin;
@@ -43,6 +44,7 @@ namespace QuickConnectPlugin {
             this.HostAddressMapFieldName = this.plugin.CustomConfig.GetString(this.formatter.Format("HostAddressMapFieldName"), String.Empty);
             this.ConnectionMethodMapFieldName = this.plugin.CustomConfig.GetString(this.formatter.Format("ConnectionMethodMapFieldName"), String.Empty);
             this.AdditionalOptionsMapFieldName = this.plugin.CustomConfig.GetString(this.formatter.Format("AdditionalOptionsMapFieldName"), String.Empty);
+            this.DisableCLIPasswordForPutty = this.plugin.CustomConfig.GetBool(this.formatter.Format("DisableCLIPasswordForPutty"), false);
         }
 
         /// <summary>
@@ -58,6 +60,7 @@ namespace QuickConnectPlugin {
             this.plugin.CustomConfig.SetString(this.formatter.Format("HostAddressMapFieldName"), this.HostAddressMapFieldName);
             this.plugin.CustomConfig.SetString(this.formatter.Format("ConnectionMethodMapFieldName"), this.ConnectionMethodMapFieldName);
             this.plugin.CustomConfig.SetString(this.formatter.Format("AdditionalOptionsMapFieldName"), this.AdditionalOptionsMapFieldName);
+            this.plugin.CustomConfig.SetBool(this.formatter.Format("DisableCLIPasswordForPutty"), this.DisableCLIPasswordForPutty);
         }
     }
 }

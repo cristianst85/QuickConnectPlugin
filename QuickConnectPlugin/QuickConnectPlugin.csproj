@@ -122,7 +122,6 @@
     <Compile Include="PasswordChanger\PsPasswdWrapper.cs" />
     <Compile Include="PasswordChanger\WindowsPasswordChanger.cs" />
     <Compile Include="PuttyOptions.cs" />
-    <Compile Include="PuttyOptionsParser.cs" />
     <Compile Include="PasswordChanger\PasswordChangerTreeNode.cs" />
     <Compile Include="RegistryPuttySessionFinder.cs" />
     <Compile Include="ArgumentsFormatters\IArgumentsFormatter.cs" />

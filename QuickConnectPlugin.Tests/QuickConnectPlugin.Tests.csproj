@@ -90,7 +90,7 @@
     <Compile Include="HostPwEntryTests.cs" />
     <Compile Include="InMemoryHostPwEntry.cs" />
     <Compile Include="ArgumentsFormatters\PuttyArgumentsFormatterTests.cs" />
-    <Compile Include="PuttyOptionsParserTests.cs" />
+    <Compile Include="PuttyOptionsTests.cs" />
     <Compile Include="PuttySessionRegistryFinderTests.cs" />
     <Compile Include="QuickConnectUtilsTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

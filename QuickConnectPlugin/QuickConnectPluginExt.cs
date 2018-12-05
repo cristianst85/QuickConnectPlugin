@@ -297,7 +297,7 @@ namespace QuickConnectPlugin {
                     delegate(object obj, EventArgs ev) {
                         try {
                             var sessionFinder = new RegistryPuttySessionFinder(new WindowsRegistryService());
-                            IArgumentsFormatter argsFormatter = new PuttyArgumentsFormatter(sshClientPath, sessionFinder);
+                            IArgumentsFormatter argsFormatter = new PuttyArgumentsFormatter(sshClientPath, sessionFinder, !this.Settings.DisableCLIPasswordForPutty);
                             ProcessUtils.StartDetached(argsFormatter.Format(hostPwEntry));
                         }
                         catch (Exception ex) {
@@ -348,7 +348,7 @@ namespace QuickConnectPlugin {
             }
             else if (hostType == HostType.Linux) {
                 PuttyOptions puttyOptions = null;
-                bool success = PuttyOptionsParser.TryParse(hostPwEntry.AdditionalOptions, out puttyOptions);
+                bool success = PuttyOptions.TryParse(hostPwEntry.AdditionalOptions, out puttyOptions);
                 // Disable change password menu item if authentication is done using SSH key file.
                 if (!success || (success && !puttyOptions.HasKeyFile())) {
                     int? sshPort = null;

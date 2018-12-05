@@ -7,11 +7,13 @@ namespace QuickConnectPlugin.ArgumentsFormatters {
     public class PuttyArgumentsFormatter : IArgumentsFormatter {
 
         public String ExecutablePath { get; private set; }
+        public bool AppendPassword { get; private set; }
         public IPuttySessionFinder PuttySessionFinder { get; private set; }
 
-        public PuttyArgumentsFormatter(String puttyPath, IPuttySessionFinder puttySessionFinder) {
+        public PuttyArgumentsFormatter(String puttyPath, IPuttySessionFinder puttySessionFinder, bool appendPassword) {
             this.ExecutablePath = puttyPath;
             this.PuttySessionFinder = puttySessionFinder;
+            this.AppendPassword = appendPassword;
         }
 
         public String Format(IHostPwEntry hostPwEntry) {
@@ -30,7 +32,7 @@ namespace QuickConnectPlugin.ArgumentsFormatters {
             }
 
             PuttyOptions options = null;
-            bool success = PuttyOptionsParser.TryParse(hostPwEntry.AdditionalOptions, out options);
+            bool success = PuttyOptions.TryParse(hostPwEntry.AdditionalOptions, out options);
 
             if (success && options.HasKeyFile()) {
                 sb.AppendFormat(" -i \"{0}\"", options.KeyFilePath);
@@ -63,9 +65,15 @@ namespace QuickConnectPlugin.ArgumentsFormatters {
 
             // Specifying the password via -pw switch only works with SSH protocol.
             // See: http://the.earth.li/~sgtatham/putty/0.65/htmldoc/Chapter3.html.
-            if (hostPwEntry.ConnectionMethods.Contains(ConnectionMethodType.PuttySSH)) {
+            if (this.AppendPassword && hostPwEntry.ConnectionMethods.Contains(ConnectionMethodType.PuttySSH)) {
                 // Allow passwords with white-spaces.
-                sb.AppendFormat(" -pw \"{0}\"", hostPwEntry.GetPassword());
+                if (!success || (success && !options.CommandContains("-pw "))) {
+                    sb.AppendFormat(" -pw \"{0}\"", hostPwEntry.GetPassword());
+                }
+            }
+
+            if (success && options.HasCommand()) {
+                sb.AppendFormat(" {0}", options.Command);
             }
 
             return sb.ToString();

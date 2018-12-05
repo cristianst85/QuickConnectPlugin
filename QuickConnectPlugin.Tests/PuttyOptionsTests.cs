@@ -5,14 +5,15 @@ using NUnit.Framework;
 namespace QuickConnectPlugin.Tests {
 
     [TestFixture]
-    public class PuttyOptionsParserTests {
+    public class PuttyOptionsTests {
 
         [TestCase(null)]
         [TestCase("")]
         [TestCase(" ")]
+        [TestCase("some text with no valid arguments")]
         public void TryParseReturnsFalse(String optionsString) {
             PuttyOptions options;
-            Assert.IsFalse(PuttyOptionsParser.TryParse(optionsString, out options));
+            Assert.IsFalse(PuttyOptions.TryParse(optionsString, out options));
         }
 
         [TestCase("session:", "", null)]
@@ -27,7 +28,7 @@ namespace QuickConnectPlugin.Tests {
         [TestCase("ssh;port:50000;session:\"my session\"", "my session", 50000)]
         public void TryParse(String optionsString, String expectedSessionName, int? expectedPort) {
             PuttyOptions options;
-            Assert.IsTrue(PuttyOptionsParser.TryParse(optionsString, out options));
+            Assert.IsTrue(PuttyOptions.TryParse(optionsString, out options));
             Assert.AreEqual(expectedSessionName, options.SessionName);
             Assert.AreEqual(expectedPort, options.Port);
         }
@@ -35,7 +36,7 @@ namespace QuickConnectPlugin.Tests {
         [TestCaseSource("TestCases")]
         public void TryParse(String puttyOptionsString, PuttyOptions expectedPuttyOptions) {
             PuttyOptions puttyOptions;
-            Assert.IsTrue(PuttyOptionsParser.TryParse(puttyOptionsString, out puttyOptions));
+            Assert.IsTrue(PuttyOptions.TryParse(puttyOptionsString, out puttyOptions));
             Assert.AreEqual(expectedPuttyOptions, puttyOptions);
         }
 
@@ -77,6 +78,13 @@ namespace QuickConnectPlugin.Tests {
                 "ssh;key:\"PrivateKey.ppk\"",
                 new PuttyOptions() {
                     KeyFilePath = "PrivateKey.ppk"
+                }
+            );
+
+            yield return new TestCaseData(
+                "ssh;command:-pw pass",
+                new PuttyOptions() {
+                    Command = "-pw pass"
                 }
             );
         }

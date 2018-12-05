@@ -36,7 +36,8 @@ namespace QuickConnectPlugin {
                     if (this.fieldsMapper.AdditionalOptions == null) {
                         return null;
                     }
-                    this.additionalOptions = this.pwEntry.Strings.ReadSafe(this.fieldsMapper.AdditionalOptions);
+                    // Read the compiled string to enable the use of placeholders in this field, e.g.: {PASSWORD}
+                    this.additionalOptions = PwEntryUtils.ReadCompiledSafeString(this.pwDatabase, this.pwEntry, this.fieldsMapper.AdditionalOptions);
                 }
                 return this.additionalOptions;
             }

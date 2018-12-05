@@ -61,6 +61,7 @@
             this.buttonApply = new System.Windows.Forms.Button();
             this.buttonCancel = new System.Windows.Forms.Button();
             this.buttonOK = new System.Windows.Forms.Button();
+            this.checkBoxDisableCLIPasswordForPutty = new System.Windows.Forms.CheckBox();
             this.tabControl.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -210,6 +211,7 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.checkBoxDisableCLIPasswordForPutty);
             this.groupBox1.Controls.Add(this.checkBoxCompatibleMode);
             this.groupBox1.Controls.Add(this.checkBoxEnable);
             this.groupBox1.Location = new System.Drawing.Point(3, 1);
@@ -483,6 +485,16 @@
             this.buttonOK.UseVisualStyleBackColor = true;
             this.buttonOK.Click += new System.EventHandler(this.buttonOK_Click);
             // 
+            // checkBoxDisableCLIPasswordForPutty
+            // 
+            this.checkBoxDisableCLIPasswordForPutty.AutoSize = true;
+            this.checkBoxDisableCLIPasswordForPutty.Location = new System.Drawing.Point(19, 65);
+            this.checkBoxDisableCLIPasswordForPutty.Name = "checkBoxDisableCLIPasswordForPutty";
+            this.checkBoxDisableCLIPasswordForPutty.Size = new System.Drawing.Size(170, 17);
+            this.checkBoxDisableCLIPasswordForPutty.TabIndex = 2;
+            this.checkBoxDisableCLIPasswordForPutty.Text = "Disable CLI password for Putty";
+            this.checkBoxDisableCLIPasswordForPutty.UseVisualStyleBackColor = true;
+            // 
             // FormOptions
             // 
             this.AcceptButton = this.buttonOK;
@@ -570,5 +582,6 @@
         private System.Windows.Forms.GroupBox groupBox6;
         private System.Windows.Forms.PictureBox pictureBoxVSpherePowerCLIStatusIcon;
         private System.Windows.Forms.Label labelVSpherePowerCLIStatusMessage;
+        private System.Windows.Forms.CheckBox checkBoxDisableCLIPasswordForPutty;
     }
 }

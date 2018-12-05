@@ -10,7 +10,7 @@
 
         public void ChangePassword(IHostPwEntry hostPwEntry, string newPassword) {
             PuttyOptions options = null;
-            bool success = PuttyOptionsParser.TryParse(hostPwEntry.AdditionalOptions, out options);
+            bool success = PuttyOptions.TryParse(hostPwEntry.AdditionalOptions, out options);
 
             var passwordChanger = success && options.Port.HasValue ? this.passwordChangerFactory.Create(options.Port.Value) :
                                                     this.passwordChangerFactory.Create();

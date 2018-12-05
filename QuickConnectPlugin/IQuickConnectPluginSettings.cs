@@ -51,6 +51,11 @@ namespace QuickConnectPlugin {
         /// </summary>
         String AdditionalOptionsMapFieldName { get; set; }
         /// <summary>
+        /// Gets or sets a value indicating whether the password is sent 
+        /// via command line arguments for Putty.
+        /// </summary>
+        bool DisableCLIPasswordForPutty { get; set; }
+        /// <summary>
         /// Loads the plugin settings.
         /// </summary>
         void Load();

@@ -13,7 +13,7 @@ namespace QuickConnectPlugin.ArgumentsFormatters {
 
         public String Format(IHostPwEntry hostPwEntry) {
             PuttyOptions options = null;
-            bool success = PuttyOptionsParser.TryParse(hostPwEntry.AdditionalOptions, out options);
+            bool success = PuttyOptions.TryParse(hostPwEntry.AdditionalOptions, out options);
 
             StringBuilder sb = new StringBuilder(String.Format("\"{0}\" scp://{1}", ExecutablePath, hostPwEntry.GetUsername()));
 

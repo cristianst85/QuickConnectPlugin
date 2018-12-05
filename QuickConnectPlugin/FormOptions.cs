@@ -25,6 +25,7 @@ namespace QuickConnectPlugin {
             this.checkBoxEnable.Checked = settings.Enabled;
             this.checkBoxCompatibleMode.Checked = settings.CompatibleMode;
             this.checkBoxAddChangePasswordItem.Checked = settings.AddChangePasswordMenuItem;
+            this.checkBoxDisableCLIPasswordForPutty.Checked = settings.DisableCLIPasswordForPutty;
 
             this.textBoxSSHClientPath.Text = settings.SSHClientPath;
             this.textBoxSSHClientPath.Select(this.textBoxSSHClientPath.Text.Length, 0);
@@ -95,6 +96,7 @@ namespace QuickConnectPlugin {
             this.checkBoxEnable.CheckedChanged += new EventHandler(settingsChanged);
             this.checkBoxCompatibleMode.CheckedChanged += new EventHandler(settingsChanged);
             this.checkBoxAddChangePasswordItem.CheckedChanged += new EventHandler(settingsChanged);
+            this.checkBoxDisableCLIPasswordForPutty.CheckedChanged += new EventHandler(settingsChanged);
             this.textBoxSSHClientPath.TextChanged += new EventHandler(settingsChanged);
             this.textBoxWinScpPath.TextChanged += new EventHandler(settingsChanged);
             this.textBoxPsPasswdPath.TextChanged += new EventHandler(settingsChanged);
@@ -125,6 +127,7 @@ namespace QuickConnectPlugin {
         private void saveSettings() {
             this.settings.Enabled = this.checkBoxEnable.Checked;
             this.settings.CompatibleMode = this.checkBoxCompatibleMode.Checked;
+            this.settings.DisableCLIPasswordForPutty = this.checkBoxDisableCLIPasswordForPutty.Checked;
             this.settings.AddChangePasswordMenuItem = this.checkBoxAddChangePasswordItem.Checked;
             this.settings.SSHClientPath = this.textBoxSSHClientPath.Text;
             this.settings.WinScpPath = this.textBoxWinScpPath.Text;

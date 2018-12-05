@@ -15,7 +15,7 @@ namespace QuickConnectPlugin.Tests {
         private readonly string databasePassword = "12345678";
 
         private PwDatabase pwDatabase;
-        private IFieldMapper fieldsMapper;
+        private IFieldMapper fieldMapper;
 
         [SetUp]
         public void Setup() {
@@ -32,7 +32,7 @@ namespace QuickConnectPlugin.Tests {
             this.pwDatabase = new PwDatabase();
             this.pwDatabase.Open(ioConnectionInfo, key, null);
 
-            this.fieldsMapper = new InMemoryFieldMapper() {
+            this.fieldMapper = new InMemoryFieldMapper() {
                 HostAddress = "IP Address",
                 ConnectionMethod = "OS"
             };
@@ -55,7 +55,7 @@ namespace QuickConnectPlugin.Tests {
             var entry = new HostPwEntry(
                 PwDatabaseUtils.FindEntryByTitle(this.pwDatabase, "Windows host sample", true),
                 this.pwDatabase,
-                this.fieldsMapper
+                this.fieldMapper
             );
 
             Assert.AreEqual("Administrator", entry.GetUsername());
@@ -78,7 +78,7 @@ namespace QuickConnectPlugin.Tests {
             var entry = new HostPwEntry(
                     PwDatabaseUtils.FindEntryByTitle(this.pwDatabase, title, true),
                     this.pwDatabase,
-                    this.fieldsMapper
+                    this.fieldMapper
             );
 
             Assert.AreEqual("root", entry.GetUsername());
@@ -94,7 +94,7 @@ namespace QuickConnectPlugin.Tests {
         [TestCase("Linux host sample", "")]
         [TestCase("Linux host sample", "FieldNameThatDoesNotExist")]
         public void HostPwEntryGetAdditionalOptionsAssertDoesNotThrow(String title, String additionalOptionsFieldName) {
-            var fieldsMapper = new InMemoryFieldMapper() {
+            var fieldMapper = new InMemoryFieldMapper() {
                 HostAddress = "IP Address",
                 ConnectionMethod = "OS",
                 AdditionalOptions = additionalOptionsFieldName
@@ -103,7 +103,7 @@ namespace QuickConnectPlugin.Tests {
             var entry = new HostPwEntry(
                     PwDatabaseUtils.FindEntryByTitle(this.pwDatabase, title, true),
                     this.pwDatabase,
-                    fieldsMapper
+                    fieldMapper
             );
 
             String additionalOptions = null;
@@ -117,7 +117,7 @@ namespace QuickConnectPlugin.Tests {
             var pwEntry = PwDatabaseUtils.FindEntryByTitle(this.pwDatabase, title, true);
             Assert.IsNotNull(pwEntry);
 
-            var hostPwEntry = new HostPwEntry(pwEntry,  this.pwDatabase,  fieldsMapper);
+            var hostPwEntry = new HostPwEntry(pwEntry,  this.pwDatabase,  fieldMapper);
             Assert.That(hostPwEntry.LastModificationTime.ToUniversalTime(), Is.EqualTo(DateTime.Parse(lastModificationTime).ToUniversalTime()));
 
             // Act
@@ -126,6 +126,26 @@ namespace QuickConnectPlugin.Tests {
 
             // Assert
             Assert.AreEqual(utcNow, hostPwEntry.LastModificationTime.ToUniversalTime());
+        }
+
+        [TestCase("Linux host sample (with placeholders)", "command:-pw 12345678")]
+        public void HostPwEntryGetAdditionalOptionsWithPlaceholders(String title, string expectedAdditionalOptions) {
+            // Arrange
+            var fieldMapper = new InMemoryFieldMapper() {
+                AdditionalOptions = "Notes"
+            };
+
+            // Act
+            var entry = new HostPwEntry(
+                  PwDatabaseUtils.FindEntryByTitle(this.pwDatabase, title, true),
+                  this.pwDatabase,
+                  fieldMapper
+            );
+
+            // Assert
+            String additionalOptions = null;
+            Assert.DoesNotThrow(() => additionalOptions = entry.AdditionalOptions);
+            Assert.That(additionalOptions, Is.EqualTo(expectedAdditionalOptions));
         }
     }
 }
