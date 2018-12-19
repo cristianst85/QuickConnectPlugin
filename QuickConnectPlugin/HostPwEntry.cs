@@ -67,16 +67,16 @@ namespace QuickConnectPlugin {
 
         public String Title {
             get {
-                return this.pwEntry.Strings.Get("Title").ReadString();
+                return this.pwEntry.Strings.Get(PwDefs.TitleField).ReadString();
             }
         }
 
         public String GetUsername() {
-            return PwEntryUtils.ReadCompiledSafeString(this.pwDatabase, this.pwEntry, "UserName");
+            return PwEntryUtils.ReadCompiledSafeString(this.pwDatabase, this.pwEntry, PwDefs.UserNameField);
         }
 
         public String GetPassword() {
-            return PwEntryUtils.ReadCompiledSafeString(this.pwDatabase, this.pwEntry, "Password");
+            return PwEntryUtils.ReadCompiledSafeString(this.pwDatabase, this.pwEntry, PwDefs.PasswordField);
         }
 
         public DateTime LastModificationTime {
@@ -89,7 +89,7 @@ namespace QuickConnectPlugin {
         }
 
         public void UpdatePassword(string newPassword) {
-            this.pwDatabase.RootGroup.FindEntry(this.pwEntry.Uuid, true).Strings.Set("Password", new ProtectedString(true, newPassword));
+            this.pwDatabase.RootGroup.FindEntry(this.pwEntry.Uuid, true).Strings.Set(PwDefs.PasswordField, new ProtectedString(true, newPassword));
         }
     }
 }

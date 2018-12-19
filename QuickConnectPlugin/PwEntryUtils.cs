@@ -6,8 +6,8 @@ namespace QuickConnectPlugin {
 
     public static class PwEntryUtils {
 
-        public static string ReadCompiledSafeString(PwDatabase database, PwEntry pwEntry, String stringName) {
-            return SprEngine.Compile(pwEntry.Strings.GetSafe(stringName).ReadString(), new SprContext(pwEntry, database, SprCompileFlags.All));
+        public static string ReadCompiledSafeString(PwDatabase database, PwEntry pwEntry, String fieldName) {
+            return SprEngine.Compile(pwEntry.Strings.GetSafe(fieldName).ReadString(), new SprContext(pwEntry, database, SprCompileFlags.All));
         }
     }
 }
