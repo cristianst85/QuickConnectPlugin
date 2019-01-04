@@ -260,3 +260,4 @@ paket-files/
 # JetBrains Rider
 .idea/
 *.sln.iml
+/QuickConnectPlugin/Properties/GeneratedAssemblyInfo.cs

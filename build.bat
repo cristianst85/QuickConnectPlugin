@@ -6,6 +6,11 @@ set SOURCE_PATH=%PROJECT_PATH%QuickConnectPlugin
 
 cd /d "%PROJECT_PATH%"
 
+IF NOT EXIST .\QuickConnectPlugin\Properties\GeneratedAssemblyInfo.cs (
+	echo "Must build the solution first. Exiting!"
+	exit;
+)
+
 IF NOT EXIST build (
 	mkdir build
 )

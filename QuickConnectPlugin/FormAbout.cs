@@ -11,12 +11,12 @@ namespace QuickConnectPlugin {
 
             InitializeComponent();
 
-            Version version = AssemblyUtils.GetVersion();
+            var version = AssemblyUtils.GetProductVersion();
 
             bool isDebug = false;
             Debug.Assert(isDebug = true);
-            var strVersion = isDebug ? version.ToString() : version.ToString(3);
-            this.labelVersion.Text = this.labelVersion.Text.Replace("{version}", strVersion);
+
+            this.labelVersion.Text = this.labelVersion.Text.Replace("{version}", version);
 
             this.KeyDown += new KeyEventHandler(formAbout_KeyPress);
             this.richTextBoxCopyright.LinkClicked += new LinkClickedEventHandler(richTextBoxCopyright_LinkClicked);

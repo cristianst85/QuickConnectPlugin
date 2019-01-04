@@ -100,6 +100,7 @@
     <Compile Include="PasswordChanger\Services\IPasswordChangerServiceFactory.cs" />
     <Compile Include="PasswordChanger\Services\PasswordChangerServiceFactory.cs" />
     <Compile Include="Extensions\PwDatabaseExtensions.cs" />
+    <Compile Include="Properties\GeneratedAssemblyInfo.cs" />
     <Compile Include="Workers\CancelableWorker.cs" />
     <Compile Include="Workers\ICancelable.cs" />
     <Compile Include="Workers\Worker.cs" />
@@ -164,6 +165,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="PasswordChanger\FixedHostTypeMapper.cs" />
+    <None Include="packages.config" />
     <None Include="Resources\Renci.SshNet.dll" />
     <EmbeddedResource Include="FormBatchPasswordChanger.resx">
       <DependentUpon>FormBatchPasswordChanger.cs</DependentUpon>
@@ -193,6 +195,14 @@
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="..\packages\MSBuildTasks.1.5.0.235\build\MSBuildTasks.targets" Condition="Exists('..\packages\MSBuildTasks.1.5.0.235\build\MSBuildTasks.targets')" />
+  <Import Project="$(SolutionDir)\GitAssemblyVersion.targets" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\MSBuildTasks.1.5.0.235\build\MSBuildTasks.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\MSBuildTasks.1.5.0.235\build\MSBuildTasks.targets'))" />
+  </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

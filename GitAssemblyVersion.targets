@@ -1,0 +1,53 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildCommunityTasksPath Condition=" '$(MSBuildCommunityTasksPath)' == '' ">$(SolutionDir)\.build</MSBuildCommunityTasksPath>
+    <AssemblyInfoFile Condition=" '$(AssemblyInfoFile)' == '' ">$(MsBuildProjectDirectory)\Properties\AssemblyInfo.cs</AssemblyInfoFile>
+    <GeneratedAssemblyInfoFile Condition=" '$(GeneratedAssemblyInfoFile)' == '' ">$(MsBuildProjectDirectory)\Properties\GeneratedAssemblyInfo.cs</GeneratedAssemblyInfoFile>
+    <BuildDependsOn>
+      ReadAssemblyVersion;
+      SetAssemblyVersion;
+      $(BuildDependsOn)
+    </BuildDependsOn>
+    <CleanDependsOn>
+      $(CleanDependsOn);
+      SetAssemblyVersionClean
+    </CleanDependsOn>
+  </PropertyGroup>
+  
+  <Import Project="$(MSBuildCommunityTasksPath)\MSBuild.Community.Tasks.targets" />
+  
+  <Target Name="ReadAssemblyVersion">
+    <ReadLinesFromFile File="$(AssemblyInfoFile)">
+      <Output TaskParameter="Lines" ItemName="ItemsFromFile"/>
+    </ReadLinesFromFile>
+    <PropertyGroup>
+      <Pattern>;\s*\[assembly\s*:\s*AssemblyVersion.*?"(.*?)"</Pattern>
+      <In>@(ItemsFromFile)</In>
+      <AssemblyVersion>$([System.Text.RegularExpressions.Regex]::Match($(In), $(Pattern)).Groups.get_Item(1))</AssemblyVersion>
+    </PropertyGroup>
+  </Target>
+  <Target Name="SetAssemblyVersion">
+    <ItemGroup>
+      <Compile Include="$(GeneratedAssemblyInfoFile)" />
+    </ItemGroup>
+    <GitVersion LocalPath="$(SolutionDir)">
+      <Output TaskParameter="CommitHash" PropertyName="CommitHash" />
+    </GitVersion>
+    <GitBranch LocalPath="$(SolutionDir)">
+      <Output TaskParameter="Branch" PropertyName="Branch" />
+    </GitBranch>
+    <GitPendingChanges LocalPath="$(MSBuildProjectDirectory)">
+      <Output TaskParameter="HasPendingChanges" PropertyName="IsDirty" />
+    </GitPendingChanges>
+    <PropertyGroup Condition="'$(IsDirty)'==True">
+      <Dirty>-dirty</Dirty>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(IsDirty)'==False">
+      <Dirty />
+    </PropertyGroup>
+    <AssemblyInfo CodeLanguage="CS" OutputFile="$(GeneratedAssemblyInfoFile)" AssemblyInformationalVersion="$(AssemblyVersion)-$(CommitHash)$(Dirty) ($(Branch))" />
+  </Target>
+  <Target Name="SetAssemblyVersionClean" Condition="Exists($(GeneratedAssemblyInfoFile))">
+    <Delete Files="$(GeneratedAssemblyInfoFile)" />
+  </Target>
+</Project>
