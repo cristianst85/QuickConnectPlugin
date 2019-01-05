@@ -16,6 +16,7 @@ namespace QuickConnectPlugin {
             bool isDebug = false;
             Debug.Assert(isDebug = true);
 
+            this.labelPluginName.Text += String.Format(" ({0})", Info.PluginType);
             this.labelVersion.Text = this.labelVersion.Text.Replace("{version}", version);
 
             this.KeyDown += new KeyEventHandler(formAbout_KeyPress);

@@ -100,6 +100,7 @@
     <Compile Include="PasswordChanger\Services\IPasswordChangerServiceFactory.cs" />
     <Compile Include="PasswordChanger\Services\PasswordChangerServiceFactory.cs" />
     <Compile Include="Extensions\PwDatabaseExtensions.cs" />
+    <Compile Include="Info.cs" />
     <Compile Include="Properties\GeneratedAssemblyInfo.cs" />
     <Compile Include="Workers\CancelableWorker.cs" />
     <Compile Include="Workers\ICancelable.cs" />
