@@ -1,7 +1,6 @@
-﻿using System;
-using System.Diagnostics;
+﻿using QuickConnectPlugin.Commons;
+using System;
 using System.Windows.Forms;
-using QuickConnectPlugin.Commons;
 
 namespace QuickConnectPlugin {
 
@@ -12,9 +11,6 @@ namespace QuickConnectPlugin {
             InitializeComponent();
 
             var version = AssemblyUtils.GetProductVersion();
-
-            bool isDebug = false;
-            Debug.Assert(isDebug = true);
 
             this.labelPluginName.Text += String.Format(" ({0})", Info.PluginType);
             this.labelVersion.Text = this.labelVersion.Text.Replace("{version}", version);
