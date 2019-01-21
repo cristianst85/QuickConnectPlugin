@@ -27,9 +27,6 @@
     </PropertyGroup>
   </Target>
   <Target Name="SetAssemblyVersion">
-    <ItemGroup>
-      <Compile Include="$(GeneratedAssemblyInfoFile)" />
-    </ItemGroup>
     <GitVersion LocalPath="$(SolutionDir)">
       <Output TaskParameter="CommitHash" PropertyName="CommitHash" />
     </GitVersion>
