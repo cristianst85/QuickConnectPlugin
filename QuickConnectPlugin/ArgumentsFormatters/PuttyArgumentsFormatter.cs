@@ -46,12 +46,14 @@ namespace QuickConnectPlugin.ArgumentsFormatters {
                 }
             }
 
-            if (port != null) {
-                sb.AppendFormat(" -P {0}", port);
-            }
+            if (!success || (success && !options.CommandContainsPort)) {
+                if (port != null) {
+                    sb.AppendFormat(" -P {0}", port);
+                }
 
-            if (port == null && success && options.Port.HasValue) {
-                sb.AppendFormat(" -P {0}", options.Port);
+                if (port == null && success && options.Port.HasValue) {
+                    sb.AppendFormat(" -P {0}", options.Port);
+                }
             }
 
             if (hostPwEntry.ConnectionMethods.Contains(ConnectionMethodType.PuttySSH)) {

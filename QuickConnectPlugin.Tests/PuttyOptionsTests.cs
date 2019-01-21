@@ -87,6 +87,55 @@ namespace QuickConnectPlugin.Tests {
                     Command = "-pw pass"
                 }
             );
+
+            yield return new TestCaseData(
+               "ssh;port: 2672;command:-pw pass -P 2222",
+               new PuttyOptions() {
+                   Command = "-pw pass -P 2222",
+                   Port = 2222
+               }
+            );
+
+            yield return new TestCaseData(
+               "ssh;command:-pw pass -P 2222;port: 2672",
+               new PuttyOptions() {
+                   Command = "-pw pass -P 2222",
+                   Port = 2672
+               }
+            );
+
+            yield return new TestCaseData(
+               "ssh;command:-pw pass -P 2222",
+               new PuttyOptions()
+               {
+                   Command = "-pw pass -P 2222",
+                   Port = 2222
+               }
+            );
+
+            yield return new TestCaseData(
+              "ssh;command:-P 2222 -pw pass",
+              new PuttyOptions() {
+                  Command = "-P 2222 -pw pass",
+                  Port = 2222
+              }
+            );
+
+            yield return new TestCaseData(
+              "ssh;command:-L 5555:127.0.0.1:5432 -pw \"123456\"",
+              new PuttyOptions() {
+                  Command = "-L 5555:127.0.0.1:5432 -pw \"123456\"",
+                  Port = 5432
+              }
+            );
+
+            yield return new TestCaseData(
+             "ssh;command:-L 5555:127.0.0.1 -pw \"123456\"",
+             new PuttyOptions()
+             {
+                 Command = "-L 5555:127.0.0.1 -pw \"123456\""
+             }
+           );
         }
     }
 }

@@ -167,7 +167,7 @@ namespace QuickConnectPlugin.Tests.ArgumentsFormatters {
             var mock = new Mock<IPuttySessionFinder>();
             mock.Setup(m => m.Find(It.IsAny<String>())).Returns(new Collection<String>());
             PuttyArgumentsFormatter argumentsFormatter = new PuttyArgumentsFormatter("putty.exe", mock.Object, true);
-            Assert.AreEqual("\"putty.exe\" -P 2222 -ssh root@127.0.0.1 -pw \"12345678\" -L 5555:127.0.0.1:5432", argumentsFormatter.Format(pwEntry));
+            Assert.AreEqual("\"putty.exe\" -ssh root@127.0.0.1 -pw \"12345678\" -L 5555:127.0.0.1:5432", argumentsFormatter.Format(pwEntry));
         }
 
         [Description("Password argument present in command takes precedence")]
@@ -203,7 +203,27 @@ namespace QuickConnectPlugin.Tests.ArgumentsFormatters {
             var mock = new Mock<IPuttySessionFinder>();
             mock.Setup(m => m.Find(It.IsAny<String>())).Returns(new Collection<String>());
             PuttyArgumentsFormatter argumentsFormatter = new PuttyArgumentsFormatter("putty.exe", mock.Object, appendPassword);
-            Assert.AreEqual("\"putty.exe\" -P 2222 -ssh root@127.0.0.1 -L 5555:127.0.0.1:5432 -pw \"123456\"", argumentsFormatter.Format(pwEntry));
+            Assert.AreEqual("\"putty.exe\" -ssh root@127.0.0.1 -L 5555:127.0.0.1:5432 -pw \"123456\"", argumentsFormatter.Format(pwEntry));
+        }
+
+        [Description("Password argument present in command takes precedence")]
+        [TestCase(true)]
+        [TestCase(false)]
+        public void FormatWithCommandContainingPort(bool appendPassword)
+        {
+            InMemoryHostPwEntry pwEntry = new InMemoryHostPwEntry()
+            {
+                Username = "root",
+                Password = "12345678",
+                IPAddress = "127.0.0.1",
+                AdditionalOptions = "ssh;command:-L 5555:127.0.0.1:5432 -pw \"123456\""
+            };
+            pwEntry.ConnectionMethods.Add(ConnectionMethodType.PuttySSH);
+
+            var mock = new Mock<IPuttySessionFinder>();
+            mock.Setup(m => m.Find(It.IsAny<String>())).Returns(new Collection<String>());
+            PuttyArgumentsFormatter argumentsFormatter = new PuttyArgumentsFormatter("putty.exe", mock.Object, appendPassword);
+            Assert.AreEqual("\"putty.exe\" -ssh root@127.0.0.1 -L 5555:127.0.0.1:5432 -pw \"123456\"", argumentsFormatter.Format(pwEntry));
         }
     }
 }

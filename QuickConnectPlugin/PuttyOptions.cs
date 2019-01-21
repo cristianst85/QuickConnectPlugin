@@ -34,12 +34,76 @@ namespace QuickConnectPlugin {
                     hasAnyArguments = true;
                 }
                 else if (token.Trim().StartsWith("command")) {
+
+                    int? port;
                     options.Command = token.Substring(token.IndexOf(':') + 1).Trim();
+
+                    if (TryParsePortFromCommand(options.Command, out port))
+                    {
+                        options.Port = port.Value;
+                    }
+
                     hasAnyArguments = true;
                 }
             }
 
             return hasAnyArguments;
+        }
+
+        private static bool TryParsePortFromCommand(string command, out int? port) {
+            bool hasPort = false;
+            port = null;
+
+            if (String.IsNullOrEmpty(command)) {
+                return false;
+            }
+
+            if (command.Contains("-P ")) {
+                var portFromCommand = command.Substring(command.IndexOf("-P "));
+                portFromCommand = portFromCommand.Substring(3);
+
+                int index = portFromCommand.IndexOf(" ");
+                portFromCommand = portFromCommand.Substring(0, index > 0 ? index : portFromCommand.Length).Trim();
+
+                int parsedPort;
+                if (int.TryParse(portFromCommand, out parsedPort)) {
+                    port = parsedPort;
+                    hasPort = true;
+                }
+            }
+
+            string forwarding = null;
+            if (command.Contains("-L ")) {
+                forwarding = "-L ";
+            }
+            else if (command.Contains("-R ")) {
+                forwarding = "-R ";
+            }
+
+            if (forwarding != null) {
+                var portFromCommand = command.Substring(command.IndexOf(forwarding));
+                portFromCommand = portFromCommand.Substring(3);
+
+                int index = portFromCommand.IndexOf(" ");
+                portFromCommand = portFromCommand.Substring(0, index > 0 ? index : portFromCommand.Length).Trim();
+                portFromCommand = portFromCommand.Substring(portFromCommand.LastIndexOf(":")).TrimStart(':');
+
+                int parsedPort;
+                if (int.TryParse(portFromCommand, out parsedPort)) {
+                    port = parsedPort;
+                    hasPort = true;
+                }
+            }
+
+            return hasPort;
+        }
+
+
+        public bool CommandContainsPort {
+            get {
+                int? port;
+                return PuttyOptions.TryParsePortFromCommand(this.Command, out port);
+            }
         }
 
         public bool HasKeyFile() {
