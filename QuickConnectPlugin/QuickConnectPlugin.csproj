@@ -51,7 +51,7 @@
     <Compile Include="ArgumentsFormatters\WinScpArgumentsFormatter.cs" />
     <Compile Include="Commons\DisposableList.cs" />
     <Compile Include="Commons\EnumUtils.cs" />
-    <Compile Include="Commons\TextBoxUtils.cs" />
+    <Compile Include="Commons\FormsUtils.cs" />
     <Compile Include="DisruptiveSoftware.Time\Clocks\IClock.cs" />
     <Compile Include="DisruptiveSoftware.Time\Clocks\SystemClock.cs" />
     <Compile Include="FormBatchPasswordChanger.cs">
@@ -71,6 +71,7 @@
     <Compile Include="IFieldMapper.cs" />
     <Compile Include="IHasTitle.cs" />
     <Compile Include="IHostPwEntry.cs" />
+    <Compile Include="ShortcutKeys\KeysHelper.cs" />
     <Compile Include="PasswordChanger\ILinuxPasswordChanger.cs" />
     <Compile Include="PasswordChanger\ILinuxPasswordChangerFactory.cs" />
     <Compile Include="PasswordChanger\LinuxPasswordChangerExFactory.cs" />
@@ -102,6 +103,7 @@
     <Compile Include="Extensions\PwDatabaseExtensions.cs" />
     <Compile Include="Info.cs" />
     <Compile Include="Properties\GeneratedAssemblyInfo.cs" />
+    <Compile Include="AbstractQuickConnectPluginSettings.cs" />
     <Compile Include="Workers\CancelableWorker.cs" />
     <Compile Include="Workers\ICancelable.cs" />
     <Compile Include="Workers\Worker.cs" />
@@ -166,8 +168,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="PasswordChanger\FixedHostTypeMapper.cs" />
-    <None Include="packages.config" />
     <None Include="Resources\Renci.SshNet.dll" />
+    <None Include="packages.config" />
     <EmbeddedResource Include="FormBatchPasswordChanger.resx">
       <DependentUpon>FormBatchPasswordChanger.cs</DependentUpon>
     </EmbeddedResource>

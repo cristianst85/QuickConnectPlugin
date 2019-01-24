@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
@@ -8,6 +9,7 @@ using System.Security.Permissions;
 using System.Windows.Forms;
 using DisruptiveSoftware.Time.Clocks;
 using KeePass.Plugins;
+using KeePass.UI;
 using KeePassLib;
 using QuickConnectPlugin.ArgumentsFormatters;
 using QuickConnectPlugin.Commons;
@@ -16,6 +18,7 @@ using QuickConnectPlugin.KeePass;
 using QuickConnectPlugin.PasswordChanger;
 using QuickConnectPlugin.PasswordChanger.Services;
 using QuickConnectPlugin.Services;
+using QuickConnectPlugin.ShortcutKeys;
 
 namespace QuickConnectPlugin {
 
@@ -25,11 +28,12 @@ namespace QuickConnectPlugin {
 
         private const String PluginName = "QuickConnectPlugin";
         private const String PluginUpdateUrl = "https://raw.githubusercontent.com/cristianst85/QuickConnectPlugin/master/VERSION";
+        private const String KeePassListViewControl = "m_lvEntries";
 
         private const String OpenRemoteDesktopMenuItemText = "Open Remote Desktop";
         private const String OpenRemoteDesktopConsoleMenuItemText = "Open Remote Desktop (console)";
         private const String OpenVSphereClientMenuItemText = "Open vSphere Client";
-        private const String OpenSSHConsoleMenuItemText = "Open PuTTY Console";
+        private const String OpenPuttyMenuItemText = "Open PuTTY";
         private const String OpenWinScpMenuItemText = "Open WinSCP";
         private const String ChangePasswordMenuItemText = "Change Password...";
 
@@ -95,13 +99,24 @@ namespace QuickConnectPlugin {
             pluginMenuItemOptions.Click += new EventHandler(
                 pluginMenuItemOptionsOnClickEventHandler = delegate(object obj, EventArgs ev) {
                     List<String> fields = null;
+
                     // Check if database is open.
                     if (this.pluginHost.Database != null && this.pluginHost.Database.IsOpen) {
                         fields = this.pluginHost.Database.GetAllFields(true).ToList();
                         fields.Sort();
                     }
-                    using (FormOptions form = new FormOptions(Title, this.Settings, fields)) {
-                        form.ShowDialog(pluginHost.MainWindow);
+
+                    try
+                    {
+                        KeysHelper.UnregisterKeePassHotKeys();
+                        using (FormOptions form = new FormOptions(Title, this.Settings, fields))
+                        {
+                            form.ShowDialog(pluginHost.MainWindow);
+                        }
+                    }
+                    finally
+                    {
+                        KeysHelper.RegisterKeePassHotKeys();
                     }
                 }
             );
@@ -165,7 +180,110 @@ namespace QuickConnectPlugin {
             entryContextMenu.Opened += new EventHandler(entryContextMenu_Opened);
             entryContextMenu.Closed += new ToolStripDropDownClosedEventHandler(entryContextMenu_Closed);
 
+            var control = FormsUtils.FindControlRecursive(pluginHost.MainWindow, KeePassListViewControl);
+            var listViewControl = control as CustomListViewEx;
+
+            if (listViewControl != null)
+            {
+                listViewControl.KeyUp += new KeyEventHandler(listViewControl_KeyUp);
+            }
+
             return true;
+        }
+
+        private void listViewControl_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (Settings.Enabled && Settings.EnableShortcutKeys == true)
+            {
+                Debug.WriteLine("[QuickConnectPlugin] ListViewControl Key Up Event: " + e.KeyData);
+
+                PwEntry[] selectedEntries = pluginHost.MainWindow.GetSelectedEntries();
+                HostPwEntry selectedEntry = null;
+
+                if (selectedEntries != null && selectedEntries.Length == 1)
+                {
+                    selectedEntry = new HostPwEntry(selectedEntries[0], pluginHost.Database, fieldsMapper);
+                };
+
+                if (selectedEntry == null)
+                {
+                    return;
+                }
+
+                if (Settings.PuttyShortcutKey != Keys.None && e.KeyData == Settings.RemoteDesktopShortcutKey)
+                {
+                    Debug.WriteLine("[QuickConnectPlugin] Open Remote Desktop Using Shortcut Key");
+                    if (selectedEntry.ConnectionMethods.Contains(ConnectionMethodType.RemoteDesktop))
+                    {
+                        try
+                        {
+                            ProcessUtils.Start(CmdKeyRegisterArgumentsFormatter.CmdKeyPath, new CmdKeyRegisterArgumentsFormatter().Format(selectedEntry));
+                            var argsFormatter = new RemoteDesktopArgumentsFormatter()
+                            {
+                                FullScreen = true
+                            };
+                            ProcessUtils.StartDetached(argsFormatter.Format(selectedEntry));
+                            ProcessUtils.StartDetached(new CmdKeyUnregisterArgumentsFormatter()
+                            {
+                                IncludePath = true
+                            }.Format(selectedEntry), RemoveCredentialsDelay);
+                        }
+                        catch (Exception ex)
+                        {
+                            log(ex);
+                        };
+                        e.Handled = true;
+                    }
+                }
+                else if (Settings.PuttyShortcutKey != Keys.None && e.KeyData == Settings.PuttyShortcutKey)
+                {
+                    Debug.WriteLine("[QuickConnectPlugin] Open PuTTY Using Shortcut Key");
+                    if (selectedEntry.ConnectionMethods.Contains(ConnectionMethodType.PuttySSH) ||
+                        selectedEntry.ConnectionMethods.Contains(ConnectionMethodType.PuttyTelnet))
+                    {
+                        string puttyPath = null;
+                        if (QuickConnectUtils.CanOpenPutty(Settings, selectedEntry, out puttyPath))
+                        {
+                            try
+                            {
+                                var sessionFinder = new RegistryPuttySessionFinder(new WindowsRegistryService());
+                                var argsFormatter = new PuttyArgumentsFormatter(puttyPath, sessionFinder, !Settings.DisableCLIPasswordForPutty);
+                                ProcessUtils.StartDetached(argsFormatter.Format(selectedEntry));
+                            }
+                            catch (Exception ex)
+                            {
+                                log(ex);
+                            };
+                        }
+                        e.Handled = true;
+                    }
+                }
+                else if (Settings.WinScpShortcutKey != Keys.None && e.KeyData == Settings.WinScpShortcutKey)
+                {
+                    Debug.WriteLine("[QuickConnectPlugin] Open WinSCP Using Shortcut Key");
+                    if (selectedEntry.ConnectionMethods.Contains(ConnectionMethodType.WinSCP))
+                    {
+                        string winScpPath = null;
+                        if (QuickConnectUtils.CanOpenWinScp(Settings, selectedEntry, out winScpPath))
+                        {
+                            try
+                            {
+                                var argsFormatter = new WinScpArgumentsFormatter(winScpPath);
+                                ProcessUtils.StartDetached(argsFormatter.Format(selectedEntry));
+                            }
+                            catch (Exception ex)
+                            {
+                                log(ex);
+                            };
+                        }
+                        e.Handled = true;
+                    }
+                }
+                else
+                {
+                    Debug.WriteLine("[QuickConnectPlugin] Keyboard Event Ignored");
+                }
+            }
         }
 
         private void entryContextMenu_Opened(object sender, EventArgs e) {
@@ -210,14 +328,22 @@ namespace QuickConnectPlugin {
         }
 
         [SuppressMessage("Microsoft.Reliability", "CA2000:DisposeObjectsBeforeLosingScope", Justification = "ToolStripItem objects are disposed inside entryContextMenu_Closed method")]
-        private DisposableList<ToolStripItem> createMenuItems(HostPwEntry hostPwEntry) {
+        private DisposableList<ToolStripItem> createMenuItems(IHostPwEntry hostPwEntry) {
             var menuItems = new DisposableList<ToolStripItem>();
+
             if (hostPwEntry.ConnectionMethods.Contains(ConnectionMethodType.RemoteDesktop)) {
                 var menuItem = new ToolStripMenuItem() {
                     Text = OpenRemoteDesktopMenuItemText,
                     Image = (System.Drawing.Image)QuickConnectPlugin.Properties.Resources.remote,
                     Enabled = hostPwEntry.HasIPAddress
                 };
+
+                if (Settings.EnableShortcutKeys == true && Settings.RemoteDesktopShortcutKey != Keys.None)
+                {
+                    menuItem.ShortcutKeys = Settings.RemoteDesktopShortcutKey;
+                    menuItem.ShowShortcutKeys = true;
+                }
+
                 menuItem.Click += new EventHandler(
                     delegate(object obj, EventArgs ev) {
                         try {
@@ -237,12 +363,14 @@ namespace QuickConnectPlugin {
                 );
                 menuItems.Add(menuItem);
             };
+
             if (hostPwEntry.ConnectionMethods.Contains(ConnectionMethodType.RemoteDesktopConsole)) {
                 var menuItem = new ToolStripMenuItem() {
                     Text = OpenRemoteDesktopConsoleMenuItemText,
                     Image = (System.Drawing.Image)QuickConnectPlugin.Properties.Resources.mycomputer,
                     Enabled = hostPwEntry.HasIPAddress
                 };
+
                 menuItem.Click += new EventHandler(
                     delegate(object obj, EventArgs ev) {
                         try {
@@ -265,6 +393,7 @@ namespace QuickConnectPlugin {
                 );
                 menuItems.Add(menuItem);
             };
+
             if (hostPwEntry.ConnectionMethods.Contains(ConnectionMethodType.vSphereClient)) {
                 var vSphereClientPath = QuickConnectUtils.GetVSphereClientPath();
                 var menuItem = new ToolStripMenuItem() {
@@ -284,20 +413,28 @@ namespace QuickConnectPlugin {
                     }
                 );
                 menuItems.Add(menuItem);
-            }
+            };
+
             if (hostPwEntry.ConnectionMethods.Contains(ConnectionMethodType.PuttySSH) ||
                 hostPwEntry.ConnectionMethods.Contains(ConnectionMethodType.PuttyTelnet)) {
-                var sshClientPath = !String.IsNullOrEmpty(this.Settings.SSHClientPath) ? this.Settings.SSHClientPath : QuickConnectUtils.GetPuttyPath();
+                string puttyPath = null;
                 var menuItem = new ToolStripMenuItem() {
-                    Text = OpenSSHConsoleMenuItemText,
+                    Text = OpenPuttyMenuItemText,
                     Image = (System.Drawing.Image)QuickConnectPlugin.Properties.Resources.konsole,
-                    Enabled = hostPwEntry.HasIPAddress && !String.IsNullOrEmpty(sshClientPath)
+                    Enabled = QuickConnectUtils.CanOpenPutty(Settings, hostPwEntry, out puttyPath)
                 };
+
+                if (Settings.EnableShortcutKeys == true && Settings.PuttyShortcutKey != Keys.None)
+                {
+                    menuItem.ShortcutKeys = Settings.PuttyShortcutKey;
+                    menuItem.ShowShortcutKeys = true;
+                }
+
                 menuItem.Click += new EventHandler(
                     delegate(object obj, EventArgs ev) {
                         try {
                             var sessionFinder = new RegistryPuttySessionFinder(new WindowsRegistryService());
-                            IArgumentsFormatter argsFormatter = new PuttyArgumentsFormatter(sshClientPath, sessionFinder, !this.Settings.DisableCLIPasswordForPutty);
+                            IArgumentsFormatter argsFormatter = new PuttyArgumentsFormatter(puttyPath, sessionFinder, !this.Settings.DisableCLIPasswordForPutty);
                             ProcessUtils.StartDetached(argsFormatter.Format(hostPwEntry));
                         }
                         catch (Exception ex) {
@@ -307,14 +444,22 @@ namespace QuickConnectPlugin {
                 );
                 menuItems.Add(menuItem);
             };
+
             if (hostPwEntry.ConnectionMethods.Contains(ConnectionMethodType.WinSCP)) {
-                var winScpPath = !String.IsNullOrEmpty(this.Settings.WinScpPath) ? this.Settings.WinScpPath : QuickConnectUtils.GetWinScpPath();
-                var winScpConsoleMenuItem = new ToolStripMenuItem() {
+                string winScpPath = null;
+                var menuItem = new ToolStripMenuItem() {
                     Text = OpenWinScpMenuItemText,
                     Image = (System.Drawing.Image)QuickConnectPlugin.Properties.Resources.winscp,
-                    Enabled = hostPwEntry.HasIPAddress && !String.IsNullOrEmpty(winScpPath)
+                    Enabled = QuickConnectUtils.CanOpenWinScp(Settings, hostPwEntry, out winScpPath)
                 };
-                winScpConsoleMenuItem.Click += new EventHandler(
+
+                if (Settings.EnableShortcutKeys == true && Settings.WinScpShortcutKey != Keys.None)
+                {
+                    menuItem.ShortcutKeys = Settings.WinScpShortcutKey;
+                    menuItem.ShowShortcutKeys = true;
+                }
+
+                menuItem.Click += new EventHandler(
                     delegate(object obj, EventArgs ev) {
                         try {
                             IArgumentsFormatter argsFormatter = new WinScpArgumentsFormatter(winScpPath);
@@ -325,7 +470,7 @@ namespace QuickConnectPlugin {
                         };
                     }
                 );
-                menuItems.Add(winScpConsoleMenuItem);
+                menuItems.Add(menuItem);
             };
             return menuItems;
         }
@@ -362,6 +507,7 @@ namespace QuickConnectPlugin {
                 Text = ChangePasswordMenuItemText,
                 Enabled = hostPwEntry.HasIPAddress && pwChanger != null
             };
+            
             menuItem.Click += new EventHandler(
                 delegate(object obj, EventArgs ev) {
                     try {
@@ -419,6 +565,14 @@ namespace QuickConnectPlugin {
             }
             if (this.resourcesEventHandler != null) {
                 AppDomain.CurrentDomain.ResourceResolve -= this.resourcesEventHandler;
+            }
+
+            var control = FormsUtils.FindControlRecursive(pluginHost.MainWindow, KeePassListViewControl);
+            var listViewControl = control as CustomListViewEx;
+
+            if (listViewControl != null)
+            {
+                listViewControl.KeyUp -= listViewControl_KeyUp;
             }
         }
 

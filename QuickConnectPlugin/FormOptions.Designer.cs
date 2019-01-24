@@ -31,11 +31,12 @@
             this.buttonConfigureWinScpPath = new System.Windows.Forms.Button();
             this.textBoxWinScpPath = new System.Windows.Forms.TextBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.pictureBoxSSHClientPathWarningIcon = new System.Windows.Forms.PictureBox();
-            this.labelSSHClientPathWarningMessage = new System.Windows.Forms.Label();
-            this.buttonConfigureSSHClientPath = new System.Windows.Forms.Button();
-            this.textBoxSSHClientPath = new System.Windows.Forms.TextBox();
+            this.pictureBoxPuttyPathWarningIcon = new System.Windows.Forms.PictureBox();
+            this.labelPuttyPathWarningMessage = new System.Windows.Forms.Label();
+            this.buttonConfigurePuttyPath = new System.Windows.Forms.Button();
+            this.textBoxPuttyPath = new System.Windows.Forms.TextBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.checkBoxDisableCLIPasswordForPutty = new System.Windows.Forms.CheckBox();
             this.checkBoxCompatibleMode = new System.Windows.Forms.CheckBox();
             this.checkBoxEnable = new System.Windows.Forms.CheckBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
@@ -58,16 +59,26 @@
             this.comboBoxConnectionMethodMapFieldName = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
             this.comboBoxHostAddressMapFieldName = new System.Windows.Forms.ComboBox();
+            this.tabPage4 = new System.Windows.Forms.TabPage();
+            this.groupBox7 = new System.Windows.Forms.GroupBox();
+            this.labelRDShortcutKey = new System.Windows.Forms.Label();
+            this.textBoxRDShortcutKey = new System.Windows.Forms.TextBox();
+            this.pictureBoxShortcutKeysWarning = new System.Windows.Forms.PictureBox();
+            this.labelShortcutKeysWarning = new System.Windows.Forms.Label();
+            this.checkBoxEnableShortcutKeys = new System.Windows.Forms.CheckBox();
+            this.labelWinScpShortcutKey = new System.Windows.Forms.Label();
+            this.labelPuttyShortcutKey = new System.Windows.Forms.Label();
+            this.textBoxWinScpShortcutKey = new System.Windows.Forms.TextBox();
+            this.textBoxPuttyShortcutKey = new System.Windows.Forms.TextBox();
             this.buttonApply = new System.Windows.Forms.Button();
             this.buttonCancel = new System.Windows.Forms.Button();
             this.buttonOK = new System.Windows.Forms.Button();
-            this.checkBoxDisableCLIPasswordForPutty = new System.Windows.Forms.CheckBox();
             this.tabControl.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.groupBox3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxWinScpPathWarningIcon)).BeginInit();
             this.groupBox2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxSSHClientPathWarningIcon)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxPuttyPathWarningIcon)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.tabPage2.SuspendLayout();
             this.groupBox6.SuspendLayout();
@@ -77,6 +88,9 @@
             this.groupBox4.SuspendLayout();
             this.tabPage3.SuspendLayout();
             this.groupBox12.SuspendLayout();
+            this.tabPage4.SuspendLayout();
+            this.groupBox7.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxShortcutKeysWarning)).BeginInit();
             this.SuspendLayout();
             // 
             // tabControl
@@ -84,6 +98,7 @@
             this.tabControl.Controls.Add(this.tabPage1);
             this.tabControl.Controls.Add(this.tabPage2);
             this.tabControl.Controls.Add(this.tabPage3);
+            this.tabControl.Controls.Add(this.tabPage4);
             this.tabControl.Location = new System.Drawing.Point(12, 12);
             this.tabControl.Name = "tabControl";
             this.tabControl.SelectedIndex = 0;
@@ -157,57 +172,57 @@
             // 
             // groupBox2
             // 
-            this.groupBox2.Controls.Add(this.pictureBoxSSHClientPathWarningIcon);
-            this.groupBox2.Controls.Add(this.labelSSHClientPathWarningMessage);
-            this.groupBox2.Controls.Add(this.buttonConfigureSSHClientPath);
-            this.groupBox2.Controls.Add(this.textBoxSSHClientPath);
+            this.groupBox2.Controls.Add(this.pictureBoxPuttyPathWarningIcon);
+            this.groupBox2.Controls.Add(this.labelPuttyPathWarningMessage);
+            this.groupBox2.Controls.Add(this.buttonConfigurePuttyPath);
+            this.groupBox2.Controls.Add(this.textBoxPuttyPath);
             this.groupBox2.Location = new System.Drawing.Point(3, 97);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(290, 80);
             this.groupBox2.TabIndex = 4;
             this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "SSH Client Path";
+            this.groupBox2.Text = "PuTTY Path";
             // 
-            // pictureBoxSSHClientPathWarningIcon
+            // pictureBoxPuttyPathWarningIcon
             // 
-            this.pictureBoxSSHClientPathWarningIcon.ErrorImage = null;
-            this.pictureBoxSSHClientPathWarningIcon.Image = global::QuickConnectPlugin.Properties.Resources.important;
-            this.pictureBoxSSHClientPathWarningIcon.Location = new System.Drawing.Point(19, 49);
-            this.pictureBoxSSHClientPathWarningIcon.Margin = new System.Windows.Forms.Padding(2);
-            this.pictureBoxSSHClientPathWarningIcon.Name = "pictureBoxSSHClientPathWarningIcon";
-            this.pictureBoxSSHClientPathWarningIcon.Size = new System.Drawing.Size(16, 16);
-            this.pictureBoxSSHClientPathWarningIcon.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
-            this.pictureBoxSSHClientPathWarningIcon.TabIndex = 7;
-            this.pictureBoxSSHClientPathWarningIcon.TabStop = false;
+            this.pictureBoxPuttyPathWarningIcon.ErrorImage = null;
+            this.pictureBoxPuttyPathWarningIcon.Image = global::QuickConnectPlugin.Properties.Resources.important;
+            this.pictureBoxPuttyPathWarningIcon.Location = new System.Drawing.Point(19, 49);
+            this.pictureBoxPuttyPathWarningIcon.Margin = new System.Windows.Forms.Padding(2);
+            this.pictureBoxPuttyPathWarningIcon.Name = "pictureBoxPuttyPathWarningIcon";
+            this.pictureBoxPuttyPathWarningIcon.Size = new System.Drawing.Size(16, 16);
+            this.pictureBoxPuttyPathWarningIcon.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            this.pictureBoxPuttyPathWarningIcon.TabIndex = 7;
+            this.pictureBoxPuttyPathWarningIcon.TabStop = false;
             // 
-            // labelSSHClientPathWarningMessage
+            // labelPuttyPathWarningMessage
             // 
-            this.labelSSHClientPathWarningMessage.AutoSize = true;
-            this.labelSSHClientPathWarningMessage.Location = new System.Drawing.Point(38, 51);
-            this.labelSSHClientPathWarningMessage.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.labelSSHClientPathWarningMessage.Name = "labelSSHClientPathWarningMessage";
-            this.labelSSHClientPathWarningMessage.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.labelSSHClientPathWarningMessage.Size = new System.Drawing.Size(151, 13);
-            this.labelSSHClientPathWarningMessage.TabIndex = 5;
-            this.labelSSHClientPathWarningMessage.Text = "Specified path does not exists.";
-            this.labelSSHClientPathWarningMessage.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.labelPuttyPathWarningMessage.AutoSize = true;
+            this.labelPuttyPathWarningMessage.Location = new System.Drawing.Point(38, 51);
+            this.labelPuttyPathWarningMessage.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.labelPuttyPathWarningMessage.Name = "labelPuttyPathWarningMessage";
+            this.labelPuttyPathWarningMessage.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.labelPuttyPathWarningMessage.Size = new System.Drawing.Size(151, 13);
+            this.labelPuttyPathWarningMessage.TabIndex = 5;
+            this.labelPuttyPathWarningMessage.Text = "Specified path does not exists.";
+            this.labelPuttyPathWarningMessage.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // buttonConfigureSSHClientPath
+            // buttonConfigurePuttyPath
             // 
-            this.buttonConfigureSSHClientPath.Location = new System.Drawing.Point(207, 45);
-            this.buttonConfigureSSHClientPath.Name = "buttonConfigureSSHClientPath";
-            this.buttonConfigureSSHClientPath.Size = new System.Drawing.Size(77, 24);
-            this.buttonConfigureSSHClientPath.TabIndex = 4;
-            this.buttonConfigureSSHClientPath.Text = "Configure...";
-            this.buttonConfigureSSHClientPath.UseVisualStyleBackColor = true;
-            this.buttonConfigureSSHClientPath.Click += new System.EventHandler(this.buttonConfigureSSHClientPath_Click);
+            this.buttonConfigurePuttyPath.Location = new System.Drawing.Point(207, 45);
+            this.buttonConfigurePuttyPath.Name = "buttonConfigurePuttyPath";
+            this.buttonConfigurePuttyPath.Size = new System.Drawing.Size(77, 24);
+            this.buttonConfigurePuttyPath.TabIndex = 4;
+            this.buttonConfigurePuttyPath.Text = "Configure...";
+            this.buttonConfigurePuttyPath.UseVisualStyleBackColor = true;
+            this.buttonConfigurePuttyPath.Click += new System.EventHandler(this.buttonConfigurePuttyPath_Click);
             // 
-            // textBoxSSHClientPath
+            // textBoxPuttyPath
             // 
-            this.textBoxSSHClientPath.Location = new System.Drawing.Point(19, 19);
-            this.textBoxSSHClientPath.Name = "textBoxSSHClientPath";
-            this.textBoxSSHClientPath.Size = new System.Drawing.Size(265, 20);
-            this.textBoxSSHClientPath.TabIndex = 0;
+            this.textBoxPuttyPath.Location = new System.Drawing.Point(19, 19);
+            this.textBoxPuttyPath.Name = "textBoxPuttyPath";
+            this.textBoxPuttyPath.Size = new System.Drawing.Size(265, 20);
+            this.textBoxPuttyPath.TabIndex = 0;
             // 
             // groupBox1
             // 
@@ -220,6 +235,16 @@
             this.groupBox1.TabIndex = 1;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Settings";
+            // 
+            // checkBoxDisableCLIPasswordForPutty
+            // 
+            this.checkBoxDisableCLIPasswordForPutty.AutoSize = true;
+            this.checkBoxDisableCLIPasswordForPutty.Location = new System.Drawing.Point(19, 65);
+            this.checkBoxDisableCLIPasswordForPutty.Name = "checkBoxDisableCLIPasswordForPutty";
+            this.checkBoxDisableCLIPasswordForPutty.Size = new System.Drawing.Size(180, 17);
+            this.checkBoxDisableCLIPasswordForPutty.TabIndex = 2;
+            this.checkBoxDisableCLIPasswordForPutty.Text = "Disable CLI password for PuTTY";
+            this.checkBoxDisableCLIPasswordForPutty.UseVisualStyleBackColor = true;
             // 
             // checkBoxCompatibleMode
             // 
@@ -454,6 +479,114 @@
             this.comboBoxHostAddressMapFieldName.Size = new System.Drawing.Size(137, 21);
             this.comboBoxHostAddressMapFieldName.TabIndex = 0;
             // 
+            // tabPage4
+            // 
+            this.tabPage4.Controls.Add(this.groupBox7);
+            this.tabPage4.Location = new System.Drawing.Point(4, 22);
+            this.tabPage4.Name = "tabPage4";
+            this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage4.Size = new System.Drawing.Size(297, 268);
+            this.tabPage4.TabIndex = 3;
+            this.tabPage4.Text = "Shortcut Keys";
+            this.tabPage4.UseVisualStyleBackColor = true;
+            // 
+            // groupBox7
+            // 
+            this.groupBox7.Controls.Add(this.labelRDShortcutKey);
+            this.groupBox7.Controls.Add(this.textBoxRDShortcutKey);
+            this.groupBox7.Controls.Add(this.pictureBoxShortcutKeysWarning);
+            this.groupBox7.Controls.Add(this.labelShortcutKeysWarning);
+            this.groupBox7.Controls.Add(this.checkBoxEnableShortcutKeys);
+            this.groupBox7.Controls.Add(this.labelWinScpShortcutKey);
+            this.groupBox7.Controls.Add(this.labelPuttyShortcutKey);
+            this.groupBox7.Controls.Add(this.textBoxWinScpShortcutKey);
+            this.groupBox7.Controls.Add(this.textBoxPuttyShortcutKey);
+            this.groupBox7.Location = new System.Drawing.Point(3, 1);
+            this.groupBox7.Name = "groupBox7";
+            this.groupBox7.Size = new System.Drawing.Size(290, 263);
+            this.groupBox7.TabIndex = 4;
+            this.groupBox7.TabStop = false;
+            this.groupBox7.Text = "Settings";
+            // 
+            // labelRDShortcutKey
+            // 
+            this.labelRDShortcutKey.AutoSize = true;
+            this.labelRDShortcutKey.Location = new System.Drawing.Point(16, 49);
+            this.labelRDShortcutKey.Name = "labelRDShortcutKey";
+            this.labelRDShortcutKey.Size = new System.Drawing.Size(116, 13);
+            this.labelRDShortcutKey.TabIndex = 12;
+            this.labelRDShortcutKey.Text = "Open Remote Desktop";
+            // 
+            // textBoxRDShortcutKey
+            // 
+            this.textBoxRDShortcutKey.Location = new System.Drawing.Point(137, 46);
+            this.textBoxRDShortcutKey.Name = "textBoxRDShortcutKey";
+            this.textBoxRDShortcutKey.Size = new System.Drawing.Size(137, 20);
+            this.textBoxRDShortcutKey.TabIndex = 11;
+            // 
+            // pictureBoxShortcutKeysWarning
+            // 
+            this.pictureBoxShortcutKeysWarning.ErrorImage = null;
+            this.pictureBoxShortcutKeysWarning.Image = global::QuickConnectPlugin.Properties.Resources.important;
+            this.pictureBoxShortcutKeysWarning.Location = new System.Drawing.Point(19, 145);
+            this.pictureBoxShortcutKeysWarning.Name = "pictureBoxShortcutKeysWarning";
+            this.pictureBoxShortcutKeysWarning.Size = new System.Drawing.Size(16, 16);
+            this.pictureBoxShortcutKeysWarning.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            this.pictureBoxShortcutKeysWarning.TabIndex = 10;
+            this.pictureBoxShortcutKeysWarning.TabStop = false;
+            // 
+            // labelShortcutKeysWarning
+            // 
+            this.labelShortcutKeysWarning.Location = new System.Drawing.Point(41, 139);
+            this.labelShortcutKeysWarning.Name = "labelShortcutKeysWarning";
+            this.labelShortcutKeysWarning.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.labelShortcutKeysWarning.Size = new System.Drawing.Size(233, 29);
+            this.labelShortcutKeysWarning.TabIndex = 9;
+            this.labelShortcutKeysWarning.Text = "One or more shortcut keys conflicts with existing KeePass configuration.";
+            this.labelShortcutKeysWarning.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // checkBoxEnableShortcutKeys
+            // 
+            this.checkBoxEnableShortcutKeys.AutoSize = true;
+            this.checkBoxEnableShortcutKeys.Location = new System.Drawing.Point(19, 19);
+            this.checkBoxEnableShortcutKeys.Name = "checkBoxEnableShortcutKeys";
+            this.checkBoxEnableShortcutKeys.Size = new System.Drawing.Size(59, 17);
+            this.checkBoxEnableShortcutKeys.TabIndex = 8;
+            this.checkBoxEnableShortcutKeys.Text = "Enable";
+            this.checkBoxEnableShortcutKeys.UseVisualStyleBackColor = true;
+            // 
+            // labelWinScpShortcutKey
+            // 
+            this.labelWinScpShortcutKey.AutoSize = true;
+            this.labelWinScpShortcutKey.Location = new System.Drawing.Point(54, 101);
+            this.labelWinScpShortcutKey.Name = "labelWinScpShortcutKey";
+            this.labelWinScpShortcutKey.Size = new System.Drawing.Size(76, 13);
+            this.labelWinScpShortcutKey.TabIndex = 7;
+            this.labelWinScpShortcutKey.Text = "Open WinSCP";
+            // 
+            // labelPuttyShortcutKey
+            // 
+            this.labelPuttyShortcutKey.AutoSize = true;
+            this.labelPuttyShortcutKey.Location = new System.Drawing.Point(61, 75);
+            this.labelPuttyShortcutKey.Name = "labelPuttyShortcutKey";
+            this.labelPuttyShortcutKey.Size = new System.Drawing.Size(70, 13);
+            this.labelPuttyShortcutKey.TabIndex = 6;
+            this.labelPuttyShortcutKey.Text = "Open PuTTY";
+            // 
+            // textBoxWinScpShortcutKey
+            // 
+            this.textBoxWinScpShortcutKey.Location = new System.Drawing.Point(137, 98);
+            this.textBoxWinScpShortcutKey.Name = "textBoxWinScpShortcutKey";
+            this.textBoxWinScpShortcutKey.Size = new System.Drawing.Size(137, 20);
+            this.textBoxWinScpShortcutKey.TabIndex = 5;
+            // 
+            // textBoxPuttyShortcutKey
+            // 
+            this.textBoxPuttyShortcutKey.Location = new System.Drawing.Point(137, 72);
+            this.textBoxPuttyShortcutKey.Name = "textBoxPuttyShortcutKey";
+            this.textBoxPuttyShortcutKey.Size = new System.Drawing.Size(137, 20);
+            this.textBoxPuttyShortcutKey.TabIndex = 4;
+            // 
             // buttonApply
             // 
             this.buttonApply.Location = new System.Drawing.Point(238, 313);
@@ -485,16 +618,6 @@
             this.buttonOK.UseVisualStyleBackColor = true;
             this.buttonOK.Click += new System.EventHandler(this.buttonOK_Click);
             // 
-            // checkBoxDisableCLIPasswordForPutty
-            // 
-            this.checkBoxDisableCLIPasswordForPutty.AutoSize = true;
-            this.checkBoxDisableCLIPasswordForPutty.Location = new System.Drawing.Point(19, 65);
-            this.checkBoxDisableCLIPasswordForPutty.Name = "checkBoxDisableCLIPasswordForPutty";
-            this.checkBoxDisableCLIPasswordForPutty.Size = new System.Drawing.Size(170, 17);
-            this.checkBoxDisableCLIPasswordForPutty.TabIndex = 2;
-            this.checkBoxDisableCLIPasswordForPutty.Text = "Disable CLI password for Putty";
-            this.checkBoxDisableCLIPasswordForPutty.UseVisualStyleBackColor = true;
-            // 
             // FormOptions
             // 
             this.AcceptButton = this.buttonOK;
@@ -523,7 +646,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxWinScpPathWarningIcon)).EndInit();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxSSHClientPathWarningIcon)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxPuttyPathWarningIcon)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.tabPage2.ResumeLayout(false);
@@ -538,6 +661,10 @@
             this.tabPage3.ResumeLayout(false);
             this.groupBox12.ResumeLayout(false);
             this.groupBox12.PerformLayout();
+            this.tabPage4.ResumeLayout(false);
+            this.groupBox7.ResumeLayout(false);
+            this.groupBox7.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxShortcutKeysWarning)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -550,14 +677,14 @@
         private System.Windows.Forms.Button buttonCancel;
         private System.Windows.Forms.Button buttonOK;
         private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.Button buttonConfigureSSHClientPath;
-        private System.Windows.Forms.TextBox textBoxSSHClientPath;
+        private System.Windows.Forms.Button buttonConfigurePuttyPath;
+        private System.Windows.Forms.TextBox textBoxPuttyPath;
         private System.Windows.Forms.TabPage tabPage3;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.CheckBox checkBoxEnable;
         private System.Windows.Forms.CheckBox checkBoxCompatibleMode;
-        private System.Windows.Forms.Label labelSSHClientPathWarningMessage;
-        private System.Windows.Forms.PictureBox pictureBoxSSHClientPathWarningIcon;
+        private System.Windows.Forms.Label labelPuttyPathWarningMessage;
+        private System.Windows.Forms.PictureBox pictureBoxPuttyPathWarningIcon;
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.PictureBox pictureBoxWinScpPathWarningIcon;
         private System.Windows.Forms.Label labelWinScpPathWarningMessage;
@@ -583,5 +710,16 @@
         private System.Windows.Forms.PictureBox pictureBoxVSpherePowerCLIStatusIcon;
         private System.Windows.Forms.Label labelVSpherePowerCLIStatusMessage;
         private System.Windows.Forms.CheckBox checkBoxDisableCLIPasswordForPutty;
+        private System.Windows.Forms.TabPage tabPage4;
+        private System.Windows.Forms.GroupBox groupBox7;
+        private System.Windows.Forms.Label labelWinScpShortcutKey;
+        private System.Windows.Forms.Label labelPuttyShortcutKey;
+        private System.Windows.Forms.TextBox textBoxWinScpShortcutKey;
+        private System.Windows.Forms.TextBox textBoxPuttyShortcutKey;
+        private System.Windows.Forms.CheckBox checkBoxEnableShortcutKeys;
+        private System.Windows.Forms.PictureBox pictureBoxShortcutKeysWarning;
+        private System.Windows.Forms.Label labelShortcutKeysWarning;
+        private System.Windows.Forms.Label labelRDShortcutKey;
+        private System.Windows.Forms.TextBox textBoxRDShortcutKey;
     }
 }

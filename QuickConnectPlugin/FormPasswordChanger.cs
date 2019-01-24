@@ -105,7 +105,7 @@ namespace QuickConnectPlugin {
                 return;
             }
             if (this.maskedTextBoxNewPassword.UseSystemPasswordChar && this.passwordsMatch() ||
-                !this.maskedTextBoxNewPassword.UseSystemPasswordChar && TextBoxUtils.HasText(this.maskedTextBoxNewPassword)) {
+                !this.maskedTextBoxNewPassword.UseSystemPasswordChar && FormsUtils.HasText(this.maskedTextBoxNewPassword)) {
                 this.buttonChangePassword.Enabled = true;
             }
             else {
@@ -123,17 +123,17 @@ namespace QuickConnectPlugin {
 
         private bool passwordsMatch() {
             Debug.WriteLine("passwordsMatch");
-            return TextBoxUtils.HasText(this.maskedTextBoxNewPassword) &&
+            return FormsUtils.HasText(this.maskedTextBoxNewPassword) &&
                 this.maskedTextBoxNewPassword.Text.Equals(this.maskedTextBoxRepeatNewPassword.Text);
         }
 
         private void checkPasswords(object sender, EventArgs e) {
             Debug.WriteLine("checkPasswords");
             if (this.maskedTextBoxNewPassword.UseSystemPasswordChar) {
-                if (TextBoxUtils.HasText(this.maskedTextBoxNewPassword) && this.passwordsMatch()) {
+                if (FormsUtils.HasText(this.maskedTextBoxNewPassword) && this.passwordsMatch()) {
                     this.maskedTextBoxRepeatNewPassword.BackColor = Color.Empty;
                 }
-                else if (!TextBoxUtils.HasText(this.maskedTextBoxNewPassword) && !TextBoxUtils.HasText(this.maskedTextBoxRepeatNewPassword)) {
+                else if (!FormsUtils.HasText(this.maskedTextBoxNewPassword) && !FormsUtils.HasText(this.maskedTextBoxRepeatNewPassword)) {
                     this.maskedTextBoxRepeatNewPassword.BackColor = Color.Empty;
                 }
                 else {

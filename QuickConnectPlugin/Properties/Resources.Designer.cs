@@ -111,6 +111,24 @@ namespace QuickConnectPlugin.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to One or more shortcut keys conflicts with existing KeePass configuration..
+        /// </summary>
+        internal static string ShortcutKeysConflictsWithKeePassConfiguration {
+            get {
+                return ResourceManager.GetString("ShortcutKeysConflictsWithKeePassConfiguration", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to A shortcut key cannot be assigned to multiple programs..
+        /// </summary>
+        internal static string ShortcutKeysConflictsWithSelf {
+            get {
+                return ResourceManager.GetString("ShortcutKeysConflictsWithSelf", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
         internal static System.Drawing.Bitmap success {

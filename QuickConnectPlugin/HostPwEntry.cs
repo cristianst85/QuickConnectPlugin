@@ -22,6 +22,11 @@ namespace QuickConnectPlugin {
         public ICollection<ConnectionMethodType> ConnectionMethods {
             get {
                 if (this.connectionMethods == null) {
+
+                    if (this.fieldsMapper.ConnectionMethod == null) {
+                        return new Collection<ConnectionMethodType>();
+                    }
+
                     var value = this.pwEntry.Strings.ReadSafe(this.fieldsMapper.ConnectionMethod);
                     this.connectionMethods = new List<ConnectionMethodType>(ConnectionMethodTypeUtils.GetConnectionMethodsFromString(value));
                 }
@@ -33,9 +38,11 @@ namespace QuickConnectPlugin {
         public string AdditionalOptions {
             get {
                 if (this.additionalOptions == null) {
+
                     if (this.fieldsMapper.AdditionalOptions == null) {
                         return null;
                     }
+
                     // Read the compiled string to enable the use of placeholders in this field, e.g.: {PASSWORD}
                     this.additionalOptions = PwEntryUtils.ReadCompiledSafeString(this.pwDatabase, this.pwEntry, this.fieldsMapper.AdditionalOptions);
                 }

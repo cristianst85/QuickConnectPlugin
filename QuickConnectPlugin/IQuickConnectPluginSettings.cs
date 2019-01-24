@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Windows.Forms;
 
 namespace QuickConnectPlugin {
 
@@ -20,10 +21,9 @@ namespace QuickConnectPlugin {
         /// </summary>
         bool AddChangePasswordMenuItem { get; set; }
         /// <summary>
-        /// Gets or sets a value indicating the path of the SSH client 
-        /// used for connecting to Linux hosts.
+        /// Gets or sets a value indicating the path of the PuTTY client.
         /// </summary>
-        String SSHClientPath { get; set; }
+        String PuttyPath { get; set; }
         /// <summary>
         /// Gets or sets a value indicating the path of the WinSCP client.
         /// </summary>
@@ -34,7 +34,7 @@ namespace QuickConnectPlugin {
         String PsPasswdPath { get; set; }
         /// <summary>
         /// Gets or sets a value indicating the field name from the KeePass 
-        /// database that is used to get the remote host address (ip address 
+        /// database that is used to get the remote host address (IP address 
         /// or hostname).
         /// </summary>
         String HostAddressMapFieldName { get; set; }
@@ -55,6 +55,22 @@ namespace QuickConnectPlugin {
         /// via command line arguments for Putty.
         /// </summary>
         bool DisableCLIPasswordForPutty { get; set; }
+        /// <summary>
+        /// Gets or sets a value indicating whether shortcut keys are enabled.
+        /// </summary>
+        bool? EnableShortcutKeys { get; set; }
+        /// <summary>
+        /// Gets or sets a value indicating shortcut keys for opening Remote Desktop client.
+        /// </summary>
+        Keys RemoteDesktopShortcutKey { get; set; }
+        /// <summary>
+        /// Gets or sets a value indicating shortcut keys for opening Putty client.
+        /// </summary>
+        Keys PuttyShortcutKey { get; set; }
+        /// <summary>
+        ///  Gets or sets a value indicating shortcut keys for opening WinSCP client.
+        /// </summary>
+        Keys WinScpShortcutKey { get; set; }
         /// <summary>
         /// Loads the plugin settings.
         /// </summary>

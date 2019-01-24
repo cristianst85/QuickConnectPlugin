@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.IO;
+using System.Windows.Forms;
 using Microsoft.Win32;
 
 namespace QuickConnectPlugin {
@@ -97,6 +98,18 @@ namespace QuickConnectPlugin {
             else {
                 return null;
             }
+        }
+
+        internal static bool CanOpenPutty(IQuickConnectPluginSettings settings, IHostPwEntry hostPwEntry, out string puttyPath)
+        {
+            puttyPath = !String.IsNullOrEmpty(settings.PuttyPath) ? settings.PuttyPath : QuickConnectUtils.GetPuttyPath();
+            return hostPwEntry.HasIPAddress && !String.IsNullOrEmpty(puttyPath);
+        }
+
+        internal static bool CanOpenWinScp(IQuickConnectPluginSettings settings, IHostPwEntry hostPwEntry, out string winScpPath)
+        {
+            winScpPath = !String.IsNullOrEmpty(settings.WinScpPath) ? settings.WinScpPath : QuickConnectUtils.GetWinScpPath();
+            return hostPwEntry.HasIPAddress && !String.IsNullOrEmpty(winScpPath);
         }
     }
 }
