@@ -8,6 +8,8 @@ using KeePass.UI;
 using QuickConnectPlugin.ShortcutKeys;
 using QuickConnectPlugin.PasswordChanger;
 
+using HotKeyControlEx = QuickConnect.KeePass.UI.HotKeyControlEx;
+
 namespace QuickConnectPlugin {
 
     [PermissionSetAttribute(SecurityAction.Demand, Name = "FullTrust")]
@@ -104,6 +106,7 @@ namespace QuickConnectPlugin {
             checkBoxEnableShortcutKeys.Checked = settings.EnableShortcutKeys ?? false;
             shortcutKeysSettingWasChanged = settings.EnableShortcutKeys ?? false;
 
+            // KeePass v2.42 API breaking change.
             shortcutKeyControlRemoteDesktop = HotKeyControlEx.ReplaceTextBox(this.textBoxRDShortcutKey.Parent, this.textBoxRDShortcutKey, false);
             shortcutKeyControlRemoteDesktop.HotKey = (settings.EnableShortcutKeys.HasValue ? settings.RemoteDesktopShortcutKey : QuickConnectPluginSettings.DefaultRemoteDesktopShortcutKey) & Keys.KeyCode;
             shortcutKeyControlRemoteDesktop.HotKeyModifiers = (settings.EnableShortcutKeys.HasValue ? settings.RemoteDesktopShortcutKey : QuickConnectPluginSettings.DefaultRemoteDesktopShortcutKey) & Keys.Modifiers;

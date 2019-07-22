@@ -71,6 +71,9 @@
     <Compile Include="IFieldMapper.cs" />
     <Compile Include="IHasTitle.cs" />
     <Compile Include="IHostPwEntry.cs" />
+    <Compile Include="KeePass\UI\HotKeyControlEx.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="ShortcutKeys\KeysHelper.cs" />
     <Compile Include="PasswordChanger\ILinuxPasswordChanger.cs" />
     <Compile Include="PasswordChanger\ILinuxPasswordChangerFactory.cs" />
