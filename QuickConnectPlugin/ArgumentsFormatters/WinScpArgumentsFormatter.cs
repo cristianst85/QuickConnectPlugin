@@ -1,4 +1,5 @@
-﻿using System;
+﻿using QuickConnectPlugin.Commons;
+using System;
 using System.Text;
 
 namespace QuickConnectPlugin.ArgumentsFormatters {
@@ -18,7 +19,8 @@ namespace QuickConnectPlugin.ArgumentsFormatters {
             StringBuilder sb = new StringBuilder(String.Format("\"{0}\" scp://{1}", ExecutablePath, hostPwEntry.GetUsername()));
 
             if (!success || (success && !options.HasKeyFile())) {
-                sb.AppendFormat(":\"{0}\"", hostPwEntry.GetPassword());
+                // See: https://winscp.net/eng/docs/session_url > Special Characters
+                sb.AppendFormat(":\"{0}\"", HttpUtilityEx.UrlEncodeUpperCase(hostPwEntry.GetPassword()));
             }
 
             sb.AppendFormat("@{0}", hostPwEntry.IPAddress);

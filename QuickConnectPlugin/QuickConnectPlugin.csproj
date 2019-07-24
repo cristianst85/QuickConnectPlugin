@@ -44,6 +44,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
@@ -52,6 +53,7 @@
     <Compile Include="Commons\DisposableList.cs" />
     <Compile Include="Commons\EnumUtils.cs" />
     <Compile Include="Commons\FormsUtils.cs" />
+    <Compile Include="Commons\HttpUtilityEx.cs" />
     <Compile Include="DisruptiveSoftware.Time\Clocks\IClock.cs" />
     <Compile Include="DisruptiveSoftware.Time\Clocks\SystemClock.cs" />
     <Compile Include="FormBatchPasswordChanger.cs">

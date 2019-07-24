@@ -55,5 +55,19 @@ namespace QuickConnectPlugin.Tests.ArgumentsFormatters {
             WinScpArgumentsFormatter argumentsFormatter = new WinScpArgumentsFormatter("WinSCP.exe");
             Assert.AreEqual("\"WinSCP.exe\" scp://root:\"12345678\"@127.0.0.1:2222", argumentsFormatter.Format(pwEntry));
         }
+
+        [Test]
+        public void FormatWithSpecialCharsInPassword()
+        {
+            InMemoryHostPwEntry pwEntry = new InMemoryHostPwEntry()
+            {
+                Username = "root",
+                Password = "#m+y/p@ssw0rd",
+                IPAddress = "127.0.0.1:2222"
+            };
+
+            WinScpArgumentsFormatter argumentsFormatter = new WinScpArgumentsFormatter("WinSCP.exe");
+            Assert.AreEqual("\"WinSCP.exe\" scp://root:\"%23m%2By%2Fp%40ssw0rd\"@127.0.0.1:2222", argumentsFormatter.Format(pwEntry));
+        }
     }
 }
