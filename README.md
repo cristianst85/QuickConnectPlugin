@@ -63,3 +63,4 @@ Also, _nightly builds_ are available [here](http://www.disruptivesoftware.ro/pro
 * The source code in this repository is released under the GNU GPLv2 or later license. See the [bundled LICENSE](https://github.com/cristianst85/QuickConnectPlugin/blob/master/LICENSE) file for details.
 * The menu items icons are from Crystal Clear icon set by [Everaldo Coelho](http://www.everaldo.com/) licensed under LGPL v2.1 or later.
 * Includes [SSH.NET](https://github.com/sshnet/SSH.NET) library copyrighted by RENCI and released under MIT License.
+* Includes code from [KeePass](https://keepass.info) licensed under GNU General Public License version 2 or later.

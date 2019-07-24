@@ -112,10 +112,10 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="richTextBoxCopyright.Text" xml:space="preserve">
     <value>Menu items icons from Crystal Clear icon set
@@ -125,6 +125,11 @@ License: GNU Lesser General Public License v2.1 or later.
 SSH.NET library v{sshNetLibVersion} 
 Copyright (c) 2012-2016, RENCI. All rights reserved.
 https://github.com/sshnet/SSH.NET
-License: MIT License.</value>
+License: MIT License.
+
+HotKeyControlEx.cs (KeePass v2.41)
+Copyright (C) 2003-2019 Dominik Reichl &lt;dominik.reichl@t-online.de&gt;.
+https://keepass.info/
+License: GNU General Public License version 2 or later.</value>
   </data>
 </root>

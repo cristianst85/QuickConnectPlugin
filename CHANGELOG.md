@@ -1,5 +1,11 @@
 ﻿# Changelog
 
+## v0.5.2 (2019-07-25)
+- Bug fix: WinSCP - password must be URL encoded. Fixes #29.
+- Shortcut keys can be configured to launch RDP/PuTTY/WnSCP. Fixes #23.
+- Pass custom command line arguments for Putty. Fixes #27.
+- Other code optimizations and improvements.
+
 ## v0.4.4 (2018-10-12)
 - Enable compatibility with KeePass version 2.40.
 - Renci.SshNet.dll library was updated from version 2016.0.0 to 2016.1.0.
