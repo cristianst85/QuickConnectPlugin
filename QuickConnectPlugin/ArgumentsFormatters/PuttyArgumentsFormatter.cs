@@ -70,7 +70,15 @@ namespace QuickConnectPlugin.ArgumentsFormatters {
             if (this.AppendPassword && hostPwEntry.ConnectionMethods.Contains(ConnectionMethodType.PuttySSH)) {
                 // Allow passwords with white-spaces.
                 if (!success || (success && !options.CommandContains("-pw "))) {
-                    sb.AppendFormat(" -pw \"{0}\"", hostPwEntry.GetPassword());
+
+                    var password = hostPwEntry.GetPassword();
+
+                    if (password.Contains(@"""")) {
+                        sb.AppendFormat(" -pw \"{0}\"", password.Replace(@"""", @"\"""));
+                    }
+                    else {
+                        sb.AppendFormat(" -pw \"{0}\"", password);
+                    }
                 }
             }
 

@@ -225,5 +225,41 @@ namespace QuickConnectPlugin.Tests.ArgumentsFormatters {
             PuttyArgumentsFormatter argumentsFormatter = new PuttyArgumentsFormatter("putty.exe", mock.Object, appendPassword);
             Assert.AreEqual("\"putty.exe\" -ssh root@127.0.0.1 -L 5555:127.0.0.1:5432 -pw \"123456\"", argumentsFormatter.Format(pwEntry));
         }
+
+        [Test]
+        public void FormatWithSingleQuoteInPassword() {
+            InMemoryHostPwEntry pwEntry = new InMemoryHostPwEntry() {
+                Username = "root",
+                Password = "12345'678",
+                IPAddress = "127.0.0.1"
+            };
+
+            pwEntry.ConnectionMethods.Add(ConnectionMethodType.PuttySSH);
+
+            var mock = new Mock<IPuttySessionFinder>();
+            mock.Setup(m => m.Find(It.IsAny<String>())).Returns(new Collection<String>());
+
+            PuttyArgumentsFormatter argumentsFormatter = new PuttyArgumentsFormatter("putty.exe", mock.Object, appendPassword: true);
+
+            Assert.AreEqual("\"putty.exe\" -ssh root@127.0.0.1 -pw \"12345'678\"", argumentsFormatter.Format(pwEntry));
+        }
+
+        [Test]
+        public void FormatWithDoubleQuoteInPassword() {
+            InMemoryHostPwEntry pwEntry = new InMemoryHostPwEntry() {
+                Username = "root",
+                Password = "12345\"678",
+                IPAddress = "127.0.0.1"
+            };
+
+            pwEntry.ConnectionMethods.Add(ConnectionMethodType.PuttySSH);
+
+            var mock = new Mock<IPuttySessionFinder>();
+            mock.Setup(m => m.Find(It.IsAny<String>())).Returns(new Collection<String>());
+
+            PuttyArgumentsFormatter argumentsFormatter = new PuttyArgumentsFormatter("putty.exe", mock.Object, appendPassword: true);
+
+            Assert.AreEqual("\"putty.exe\" -ssh root@127.0.0.1 -pw \"12345\\\"678\"", argumentsFormatter.Format(pwEntry));
+        }
     }
 }
