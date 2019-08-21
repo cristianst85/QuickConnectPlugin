@@ -1,6 +1,7 @@
 ﻿# Changelog
 
-## v0.5.2 (2019-07-25)
+## v0.5.2 (2019-08-21)
+- Bug fix: Putty - Fixes an issue with passwords containing double-quotes. Fixes #30.
 - Bug fix: WinSCP - password must be URL encoded. Fixes #29.
 - Shortcut keys can be configured to launch RDP/PuTTY/WnSCP. Fixes #23.
 - Pass custom command line arguments for Putty. Fixes #27.
