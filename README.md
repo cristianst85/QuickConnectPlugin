@@ -54,9 +54,9 @@ See [CHANGELOG](https://github.com/cristianst85/QuickConnectPlugin/blob/master/C
 
 ## Download
 
-You can download compiled binaries from [here](https://github.com/cristianst85/QuickConnectPlugin/releases/) and [here](http://www.disruptivesoftware.ro/projects/QuickConnectPlugin/).
+You can download compiled binaries from [here](https://github.com/cristianst85/QuickConnectPlugin/releases/).
 
-Also, _nightly builds_ are available [here](http://www.disruptivesoftware.ro/projects/QuickConnectPlugin/nightly/).
+Some experimental builds are available [here](http://www.disruptivesoftware.ro/projects/QuickConnectPlugin/experimental/).
 
 ## License
 
@@ -64,3 +64,7 @@ Also, _nightly builds_ are available [here](http://www.disruptivesoftware.ro/pro
 * The menu items icons are from Crystal Clear icon set by [Everaldo Coelho](http://www.everaldo.com/) licensed under LGPL v2.1 or later.
 * Includes [SSH.NET](https://github.com/sshnet/SSH.NET) library copyrighted by RENCI and released under MIT License.
 * Includes code from [KeePass](https://keepass.info) licensed under GNU General Public License version 2 or later.
+
+## Related Projects
+
+* [AdvancedConnectPlugin](https://github.com/aalbng/AdvancedConnectPlugin)
