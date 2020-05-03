@@ -6,6 +6,9 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuickConnectPlugin", "QuickConnectPlugin\QuickConnectPlugin.csproj", "{6027B153-E1DA-4272-9F9D-D870C27DB630}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuickConnectPlugin.Tests", "QuickConnectPlugin.Tests\QuickConnectPlugin.Tests.csproj", "{6B58F95D-3205-4B21-820F-87BD5FAF5F84}"
+	ProjectSection(ProjectDependencies) = postProject
+		{6027B153-E1DA-4272-9F9D-D870C27DB630} = {6027B153-E1DA-4272-9F9D-D870C27DB630}
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{CAEB41BA-0F12-42EF-8D32-328F63A0C7D2}"
 	ProjectSection(SolutionItems) = preProject
@@ -18,6 +21,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuickConnectPlugin.FormLaunchers", "QuickConnectPlugin.FormLaunchers\QuickConnectPlugin.FormLaunchers.csproj", "{DC5F4E07-5083-4A7E-B253-F14D67A54708}"
+	ProjectSection(ProjectDependencies) = postProject
+		{6027B153-E1DA-4272-9F9D-D870C27DB630} = {6027B153-E1DA-4272-9F9D-D870C27DB630}
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".build", ".build", "{F2F1FD88-23AA-49A4-B9A8-AC1D41CBD8A5}"
 	ProjectSection(SolutionItems) = preProject

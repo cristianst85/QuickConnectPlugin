@@ -21,7 +21,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DefineConstants>DEBUG</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <LangVersion>3</LangVersion>
@@ -30,7 +30,8 @@
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
+    <DefineConstants>
+    </DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
@@ -175,6 +176,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="PasswordChanger\FixedHostTypeMapper.cs" />
+    <None Include="packages.config" />
     <None Include="Resources\Renci.SshNet.dll" />
     <EmbeddedResource Include="FormBatchPasswordChanger.resx">
       <DependentUpon>FormBatchPasswordChanger.cs</DependentUpon>

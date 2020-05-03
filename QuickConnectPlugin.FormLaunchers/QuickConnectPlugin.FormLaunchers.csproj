@@ -20,13 +20,14 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DefineConstants>DEBUG</DefineConstants>
     <DebugType>full</DebugType>
     <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
     <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
+    <DefineConstants>
+    </DefineConstants>
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -72,11 +73,11 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\QuickConnectPlugin.Tests\QuickConnectPlugin.Tests.csproj">
-      <Project>{6B58F95D-3205-4B21-820F-87BD5FAF5F84}</Project>
+      <Project>{6b58f95d-3205-4b21-820f-87bd5faf5f84}</Project>
       <Name>QuickConnectPlugin.Tests</Name>
     </ProjectReference>
     <ProjectReference Include="..\QuickConnectPlugin\QuickConnectPlugin.csproj">
-      <Project>{6027B153-E1DA-4272-9F9D-D870C27DB630}</Project>
+      <Project>{6027b153-e1da-4272-9f9d-d870c27db630}</Project>
       <Name>QuickConnectPlugin</Name>
     </ProjectReference>
   </ItemGroup>
