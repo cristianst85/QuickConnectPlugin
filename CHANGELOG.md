@@ -1,5 +1,11 @@
 ﻿# Changelog
 
+## 0.5.3 (2020-05-08)
+
+- Enable compatibility with KeePass version 2.45. Fixes #32.
+
+**NOTE:** KeePass version ≥ 2.45 is now required.
+
 ## 0.5.2 (2019-08-21)
 
 - Bug fix: Putty - Fixes an issue with passwords containing double-quotes. Fixes #30.
