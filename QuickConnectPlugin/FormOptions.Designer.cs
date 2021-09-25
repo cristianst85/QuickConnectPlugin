@@ -161,7 +161,7 @@
             this.buttonConfigureWinScpPath.TabIndex = 4;
             this.buttonConfigureWinScpPath.Text = "Configure...";
             this.buttonConfigureWinScpPath.UseVisualStyleBackColor = true;
-            this.buttonConfigureWinScpPath.Click += new System.EventHandler(this.buttonConfigureWinScpPath_Click);
+            this.buttonConfigureWinScpPath.Click += new System.EventHandler(this.ButtonConfigureWinScpPath_Click);
             // 
             // textBoxWinScpPath
             // 
@@ -215,7 +215,7 @@
             this.buttonConfigurePuttyPath.TabIndex = 4;
             this.buttonConfigurePuttyPath.Text = "Configure...";
             this.buttonConfigurePuttyPath.UseVisualStyleBackColor = true;
-            this.buttonConfigurePuttyPath.Click += new System.EventHandler(this.buttonConfigurePuttyPath_Click);
+            this.buttonConfigurePuttyPath.Click += new System.EventHandler(this.ButtonConfigurePuttyPath_Click);
             // 
             // textBoxPuttyPath
             // 
@@ -359,7 +359,7 @@
             this.buttonConfigurePsPasswdPath.TabIndex = 4;
             this.buttonConfigurePsPasswdPath.Text = "Configure...";
             this.buttonConfigurePsPasswdPath.UseVisualStyleBackColor = true;
-            this.buttonConfigurePsPasswdPath.Click += new System.EventHandler(this.buttonConfigurePsPasswdPath_Click);
+            this.buttonConfigurePsPasswdPath.Click += new System.EventHandler(this.ButtonConfigurePsPasswdPath_Click);
             // 
             // textBoxPsPasswdPath
             // 
@@ -542,7 +542,7 @@
             this.labelShortcutKeysWarning.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.labelShortcutKeysWarning.Size = new System.Drawing.Size(233, 29);
             this.labelShortcutKeysWarning.TabIndex = 9;
-            this.labelShortcutKeysWarning.Text = "One or more shortcut keys conflicts with existing KeePass configuration.";
+            this.labelShortcutKeysWarning.Text = "One or more shortcut keys conflict with the current KeePass configuration.";
             this.labelShortcutKeysWarning.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // checkBoxEnableShortcutKeys
@@ -595,7 +595,7 @@
             this.buttonApply.TabIndex = 1;
             this.buttonApply.Text = "Apply";
             this.buttonApply.UseVisualStyleBackColor = true;
-            this.buttonApply.Click += new System.EventHandler(this.buttonApply_Click);
+            this.buttonApply.Click += new System.EventHandler(this.ButtonApply_Click);
             // 
             // buttonCancel
             // 
@@ -616,7 +616,7 @@
             this.buttonOK.TabIndex = 3;
             this.buttonOK.Text = "OK";
             this.buttonOK.UseVisualStyleBackColor = true;
-            this.buttonOK.Click += new System.EventHandler(this.buttonOK_Click);
+            this.buttonOK.Click += new System.EventHandler(this.ButtonOK_Click);
             // 
             // FormOptions
             // 

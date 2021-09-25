@@ -1,22 +1,22 @@
-﻿using System;
+﻿using QuickConnectPlugin.PasswordChanger;
+using QuickConnectPlugin.ShortcutKeys;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
+using System.Linq;
 using System.Security.Permissions;
 using System.Windows.Forms;
-using KeePass.UI;
-using QuickConnectPlugin.ShortcutKeys;
-using QuickConnectPlugin.PasswordChanger;
 
 using HotKeyControlEx = QuickConnect.KeePass.UI.HotKeyControlEx;
 
-namespace QuickConnectPlugin {
-
-    [PermissionSetAttribute(SecurityAction.Demand, Name = "FullTrust")]
-    [PermissionSetAttribute(SecurityAction.InheritanceDemand, Name = "FullTrust")]
-    public partial class FormOptions : Form {
-
-        private IQuickConnectPluginSettings settings;
+namespace QuickConnectPlugin
+{
+    [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
+    [PermissionSet(SecurityAction.InheritanceDemand, Name = "FullTrust")]
+    public partial class FormOptions : Form
+    {
+        private readonly IQuickConnectPluginSettings settings;
 
         private readonly HotKeyControlEx shortcutKeyControlRemoteDesktop;
         private readonly HotKeyControlEx shortcutKeyControlPutty;
@@ -24,8 +24,8 @@ namespace QuickConnectPlugin {
 
         private bool shortcutKeysSettingWasChanged;
 
-        public FormOptions(String pluginName, IQuickConnectPluginSettings settings, ICollection<String> dbFields) {
-
+        public FormOptions(string pluginName, IQuickConnectPluginSettings settings, ICollection<string> dbFields)
+        {
             InitializeComponent();
 
             this.settings = settings;
@@ -47,23 +47,27 @@ namespace QuickConnectPlugin {
             this.textBoxPsPasswdPath.Select(this.textBoxPsPasswdPath.Text.Length, 0);
 
             // Always add empty items.
-            this.comboBoxHostAddressMapFieldName.Items.Add(String.Empty);
-            this.comboBoxConnectionMethodMapFieldName.Items.Add(String.Empty);
-            this.comboBoxAdditionalOptionsMapFieldName.Items.Add(String.Empty);
+            this.comboBoxHostAddressMapFieldName.Items.Add(string.Empty);
+            this.comboBoxConnectionMethodMapFieldName.Items.Add(string.Empty);
+            this.comboBoxAdditionalOptionsMapFieldName.Items.Add(string.Empty);
 
-            if (dbFields == null) {
+            if (dbFields == null)
+            {
                 this.labelWarningMessage.Visible = true;
                 this.comboBoxHostAddressMapFieldName.Enabled = false;
                 this.comboBoxConnectionMethodMapFieldName.Enabled = false;
                 this.comboBoxAdditionalOptionsMapFieldName.Enabled = false;
 
-                if (!String.IsNullOrEmpty(settings.HostAddressMapFieldName)) {
+                if (!string.IsNullOrEmpty(settings.HostAddressMapFieldName))
+                {
                     this.comboBoxHostAddressMapFieldName.Items.Add(settings.HostAddressMapFieldName);
                 }
-                if (!String.IsNullOrEmpty(settings.ConnectionMethodMapFieldName)) {
+                if (!string.IsNullOrEmpty(settings.ConnectionMethodMapFieldName))
+                {
                     this.comboBoxConnectionMethodMapFieldName.Items.Add(settings.ConnectionMethodMapFieldName);
                 }
-                if (!String.IsNullOrEmpty(settings.AdditionalOptionsMapFieldName)) {
+                if (!string.IsNullOrEmpty(settings.AdditionalOptionsMapFieldName))
+                {
                     this.comboBoxAdditionalOptionsMapFieldName.Items.Add(settings.AdditionalOptionsMapFieldName);
                 }
 
@@ -71,35 +75,43 @@ namespace QuickConnectPlugin {
                 this.comboBoxConnectionMethodMapFieldName.SelectedValue = settings.ConnectionMethodMapFieldName;
                 this.comboBoxAdditionalOptionsMapFieldName.SelectedValue = settings.AdditionalOptionsMapFieldName;
             }
-            else {
+            else
+            {
                 this.labelWarningMessage.Visible = false;
-                foreach (var field in dbFields) {
+
+                foreach (var field in dbFields)
+                {
                     this.comboBoxHostAddressMapFieldName.Items.Add(field);
                     this.comboBoxConnectionMethodMapFieldName.Items.Add(field);
                     this.comboBoxAdditionalOptionsMapFieldName.Items.Add(field);
                 }
             }
 
-            if (String.IsNullOrEmpty(settings.HostAddressMapFieldName)) {
-                this.comboBoxHostAddressMapFieldName.SelectedIndex = this.comboBoxHostAddressMapFieldName.FindStringExact(String.Empty);
+            if (string.IsNullOrEmpty(settings.HostAddressMapFieldName))
+            {
+                this.comboBoxHostAddressMapFieldName.SelectedIndex = this.comboBoxHostAddressMapFieldName.FindStringExact(string.Empty);
             }
-            else {
-                this.comboBoxHostAddressMapFieldName.SelectedIndex =
-                    this.comboBoxHostAddressMapFieldName.FindStringExact(this.settings.HostAddressMapFieldName);
+            else
+            {
+                this.comboBoxHostAddressMapFieldName.SelectedIndex = this.comboBoxHostAddressMapFieldName.FindStringExact(this.settings.HostAddressMapFieldName);
             }
-            if (String.IsNullOrEmpty(settings.ConnectionMethodMapFieldName)) {
-                this.comboBoxConnectionMethodMapFieldName.SelectedIndex = this.comboBoxConnectionMethodMapFieldName.FindStringExact(String.Empty);
+
+            if (string.IsNullOrEmpty(settings.ConnectionMethodMapFieldName))
+            {
+                this.comboBoxConnectionMethodMapFieldName.SelectedIndex = this.comboBoxConnectionMethodMapFieldName.FindStringExact(string.Empty);
             }
-            else {
-                this.comboBoxConnectionMethodMapFieldName.SelectedIndex =
-                    this.comboBoxConnectionMethodMapFieldName.FindStringExact(this.settings.ConnectionMethodMapFieldName);
+            else
+            {
+                this.comboBoxConnectionMethodMapFieldName.SelectedIndex = this.comboBoxConnectionMethodMapFieldName.FindStringExact(this.settings.ConnectionMethodMapFieldName);
             }
-            if (String.IsNullOrEmpty(settings.AdditionalOptionsMapFieldName)) {
-                this.comboBoxAdditionalOptionsMapFieldName.SelectedIndex = this.comboBoxAdditionalOptionsMapFieldName.FindStringExact(String.Empty);
+
+            if (string.IsNullOrEmpty(settings.AdditionalOptionsMapFieldName))
+            {
+                this.comboBoxAdditionalOptionsMapFieldName.SelectedIndex = this.comboBoxAdditionalOptionsMapFieldName.FindStringExact(string.Empty);
             }
-            else {
-                this.comboBoxAdditionalOptionsMapFieldName.SelectedIndex =
-                    this.comboBoxAdditionalOptionsMapFieldName.FindStringExact(this.settings.AdditionalOptionsMapFieldName);
+            else
+            {
+                this.comboBoxAdditionalOptionsMapFieldName.SelectedIndex = this.comboBoxAdditionalOptionsMapFieldName.FindStringExact(this.settings.AdditionalOptionsMapFieldName);
             }
 
             // Shortcut Keys.
@@ -129,45 +141,50 @@ namespace QuickConnectPlugin {
             shortcutKeyControlWinScp.Show();
 
             // Add handlers.
-            this.checkBoxEnable.CheckedChanged += new EventHandler(settingsChanged);
-            this.checkBoxCompatibleMode.CheckedChanged += new EventHandler(settingsChanged);
-            this.checkBoxAddChangePasswordItem.CheckedChanged += new EventHandler(settingsChanged);
-            this.checkBoxDisableCLIPasswordForPutty.CheckedChanged += new EventHandler(settingsChanged);
-            this.textBoxPuttyPath.TextChanged += new EventHandler(settingsChanged);
-            this.textBoxWinScpPath.TextChanged += new EventHandler(settingsChanged);
-            this.textBoxPsPasswdPath.TextChanged += new EventHandler(settingsChanged);
-            this.comboBoxHostAddressMapFieldName.SelectedIndexChanged += new EventHandler(settingsChanged);
-            this.comboBoxConnectionMethodMapFieldName.SelectedIndexChanged += new EventHandler(settingsChanged);
-            this.comboBoxAdditionalOptionsMapFieldName.SelectedIndexChanged += new EventHandler(settingsChanged);
+            this.checkBoxEnable.CheckedChanged += new EventHandler(SettingsChanged);
+            this.checkBoxCompatibleMode.CheckedChanged += new EventHandler(SettingsChanged);
+            this.checkBoxAddChangePasswordItem.CheckedChanged += new EventHandler(SettingsChanged);
+            this.checkBoxDisableCLIPasswordForPutty.CheckedChanged += new EventHandler(SettingsChanged);
+            this.textBoxPuttyPath.TextChanged += new EventHandler(SettingsChanged);
+            this.textBoxWinScpPath.TextChanged += new EventHandler(SettingsChanged);
+            this.textBoxPsPasswdPath.TextChanged += new EventHandler(SettingsChanged);
+            this.comboBoxHostAddressMapFieldName.SelectedIndexChanged += new EventHandler(SettingsChanged);
+            this.comboBoxConnectionMethodMapFieldName.SelectedIndexChanged += new EventHandler(SettingsChanged);
+            this.comboBoxAdditionalOptionsMapFieldName.SelectedIndexChanged += new EventHandler(SettingsChanged);
 
-            this.checkBoxEnableShortcutKeys.CheckedChanged += new EventHandler(settingsChanged);
+            this.checkBoxEnableShortcutKeys.CheckedChanged += new EventHandler(SettingsChanged);
             this.checkBoxEnableShortcutKeys.CheckedChanged += (o, e) => { shortcutKeysSettingWasChanged = true; };
-            this.shortcutKeyControlRemoteDesktop.KeyUp += (s, e) => { settingsChanged(s, e); };
-            this.shortcutKeyControlPutty.KeyUp += (s, e) => { settingsChanged(s, e); };
-            this.shortcutKeyControlWinScp.KeyUp += (s, e) => { settingsChanged(s, e); };
+            this.shortcutKeyControlRemoteDesktop.KeyUp += (s, e) => { SettingsChanged(s, e); };
+            this.shortcutKeyControlPutty.KeyUp += (s, e) => { SettingsChanged(s, e); };
+            this.shortcutKeyControlWinScp.KeyUp += (s, e) => { SettingsChanged(s, e); };
 
             this.buttonApply.Enabled = false;
 
             // Check if VMware VSphere PowerCLI is installed.
-            this.checkVSpherePowerCLIStatus();
-           
+            this.CheckVSpherePowerCLIStatus();
+
             // Force settings validation.
-            this.validateSettings();
+            this.ValidateSettings();
         }
 
-        private void buttonApply_Click(object sender, EventArgs e) {
-            this.saveSettings();
+        private void ButtonApply_Click(object sender, EventArgs e)
+        {
+            this.SaveSettings();
             this.buttonApply.Enabled = false;
         }
 
-        private void buttonOK_Click(object sender, EventArgs e) {
-            if (this.buttonApply.Enabled) {
-                this.saveSettings();
+        private void ButtonOK_Click(object sender, EventArgs e)
+        {
+            if (this.buttonApply.Enabled)
+            {
+                this.SaveSettings();
             }
+
             this.Close();
         }
 
-        private void saveSettings() {
+        private void SaveSettings()
+        {
             this.settings.Enabled = this.checkBoxEnable.Checked;
             this.settings.CompatibleMode = this.checkBoxCompatibleMode.Checked;
             this.settings.DisableCLIPasswordForPutty = this.checkBoxDisableCLIPasswordForPutty.Checked;
@@ -175,9 +192,9 @@ namespace QuickConnectPlugin {
             this.settings.PuttyPath = this.textBoxPuttyPath.Text;
             this.settings.WinScpPath = this.textBoxWinScpPath.Text;
             this.settings.PsPasswdPath = this.textBoxPsPasswdPath.Text;
-            this.settings.HostAddressMapFieldName = (String)this.comboBoxHostAddressMapFieldName.SelectedItem;
-            this.settings.ConnectionMethodMapFieldName = (String)this.comboBoxConnectionMethodMapFieldName.SelectedItem;
-            this.settings.AdditionalOptionsMapFieldName = (String)this.comboBoxAdditionalOptionsMapFieldName.SelectedItem;
+            this.settings.HostAddressMapFieldName = (string)this.comboBoxHostAddressMapFieldName.SelectedItem;
+            this.settings.ConnectionMethodMapFieldName = (string)this.comboBoxConnectionMethodMapFieldName.SelectedItem;
+            this.settings.AdditionalOptionsMapFieldName = (string)this.comboBoxAdditionalOptionsMapFieldName.SelectedItem;
 
             if (shortcutKeysSettingWasChanged)
             {
@@ -190,54 +207,68 @@ namespace QuickConnectPlugin {
             this.settings.Save();
         }
 
-        private bool isPuttyPathValid() {
-            if (this.textBoxPuttyPath.Text.Length == 0 || !File.Exists(this.textBoxPuttyPath.Text)) {
-                // Allow path to be empty.
+        private bool IsPuttyPathValid()
+        {
+            if (this.textBoxPuttyPath.Text.Length == 0 || !File.Exists(this.textBoxPuttyPath.Text))
+            {
                 return (this.textBoxPuttyPath.Text.Length == 0);
             }
-            else {
+            else
+            {
                 this.textBoxPuttyPath.BackColor = default(Color);
                 return true;
             }
         }
 
-        private bool isWinScpPathValid() {
-            if (this.textBoxWinScpPath.Text.Length == 0 || !File.Exists(this.textBoxWinScpPath.Text)) {
-                // Allow path to be empty.
-                return (this.textBoxWinScpPath.Text.Length == 0);
+        private bool IsWinScpPathValid()
+        {
+            if (this.textBoxWinScpPath.Text.Length == 0 || !File.Exists(this.textBoxWinScpPath.Text))
+            {
+                return (this.textBoxWinScpPath.Text.Length == 0); // Allow empty path.
             }
-            else {
+            else
+            {
                 this.textBoxWinScpPath.BackColor = default(Color);
                 return true;
             }
         }
 
-        private bool isPsPasswdPathValid() {
-            if (this.textBoxPsPasswdPath.Text.Length == 0) {
+        private bool IsPsPasswdPathValid()
+        {
+            if (this.textBoxPsPasswdPath.Text.Length == 0)
+            {
                 this.pictureBoxPsPasswdPathWarningIcon.Visible = false;
                 this.labelPsPasswdPathWarningMessage.Visible = false;
                 this.textBoxPsPasswdPath.BackColor = default(Color);
+
                 return true;
             }
-            else {
+            else
+            {
                 this.pictureBoxPsPasswdPathWarningIcon.Visible = true;
                 this.labelPsPasswdPathWarningMessage.Visible = true;
-                if (File.Exists(this.textBoxPsPasswdPath.Text)) {
-                    if (!PsPasswdWrapper.IsPsPasswdUtility(this.textBoxPsPasswdPath.Text)) {
-                        this.labelPsPasswdPathWarningMessage.Text = String.Format("Specified file is not valid.");
+
+                if (File.Exists(this.textBoxPsPasswdPath.Text))
+                {
+                    if (!PsPasswdWrapper.IsPsPasswdUtility(this.textBoxPsPasswdPath.Text))
+                    {
+                        this.labelPsPasswdPathWarningMessage.Text = string.Format("Specified file is not valid.");
                         return false;
                     }
-                    else if (!PsPasswdWrapper.IsSupportedVersion(this.textBoxPsPasswdPath.Text)) {
-                        this.labelPsPasswdPathWarningMessage.Text = String.Format("Only version {0} is supported.", PsPasswdWrapper.SupportedVersion);
+                    else if (!PsPasswdWrapper.IsSupportedVersion(this.textBoxPsPasswdPath.Text))
+                    {
+                        this.labelPsPasswdPathWarningMessage.Text = string.Format("Only version {0} is supported.", PsPasswdWrapper.SupportedVersion);
                         return false;
                     }
-                    else {
+                    else
+                    {
                         this.pictureBoxPsPasswdPathWarningIcon.Visible = false;
                         this.labelPsPasswdPathWarningMessage.Visible = false;
                         return true;
                     }
                 }
-                else {
+                else
+                {
                     this.pictureBoxPsPasswdPathWarningIcon.Image = global::QuickConnectPlugin.Properties.Resources.important;
                     this.labelPsPasswdPathWarningMessage.Text = "Specified path does not exists.";
                     return false;
@@ -245,16 +276,18 @@ namespace QuickConnectPlugin {
             }
         }
 
-        private void settingsChanged(Object sender, EventArgs e) {
-            this.buttonApply.Enabled = validateSettings();
+        private void SettingsChanged(Object sender, EventArgs e)
+        {
+            this.buttonApply.Enabled = ValidateSettings();
         }
 
-        private bool validateSettings() {
-            bool isValidPuttyPath = isPuttyPathValid();
+        private bool ValidateSettings()
+        {
+            bool isValidPuttyPath = IsPuttyPathValid();
             this.pictureBoxPuttyPathWarningIcon.Visible = !isValidPuttyPath;
             this.labelPuttyPathWarningMessage.Visible = !isValidPuttyPath;
 
-            bool isValidWinScpPath = isWinScpPathValid();
+            bool isValidWinScpPath = IsWinScpPathValid();
             this.pictureBoxWinScpPathWarningIcon.Visible = !isValidWinScpPath;
             this.labelWinScpPathWarningMessage.Visible = !isValidWinScpPath;
 
@@ -262,77 +295,105 @@ namespace QuickConnectPlugin {
             this.shortcutKeyControlPutty.Enabled = this.checkBoxEnableShortcutKeys.Checked;
             this.shortcutKeyControlWinScp.Enabled = this.checkBoxEnableShortcutKeys.Checked;
 
-            return isValidPuttyPath && isValidWinScpPath && isPsPasswdPathValid() && checkShortcutKeys();
+            return isValidPuttyPath && isValidWinScpPath && IsPsPasswdPathValid() && HasNoConflictingShortcutKeys();
         }
 
-        private void buttonConfigurePuttyPath_Click(object sender, EventArgs e) {
-            using (OpenFileDialog openFileDialog = new OpenFileDialog()) {
+        private void ButtonConfigurePuttyPath_Click(object sender, EventArgs e)
+        {
+            using (var openFileDialog = new OpenFileDialog())
+            {
                 openFileDialog.Multiselect = false;
-                if (File.Exists(this.textBoxPuttyPath.Text)) {
+
+                if (File.Exists(this.textBoxPuttyPath.Text))
+                {
                     openFileDialog.InitialDirectory = Path.GetDirectoryName(this.textBoxPuttyPath.Text);
                     openFileDialog.FileName = Path.GetFileName(this.textBoxPuttyPath.Text);
                 }
+
                 openFileDialog.CheckFileExists = true;
                 openFileDialog.CheckPathExists = true;
                 openFileDialog.Filter = "PuTTY executable (*.exe)|*.exe|All files (*.*)|*.*";
                 openFileDialog.Title = "Select PuTTY Path";
-                DialogResult result = openFileDialog.ShowDialog();
-                if (result == DialogResult.OK && !String.IsNullOrEmpty(openFileDialog.FileName)) {
+
+                var result = openFileDialog.ShowDialog();
+
+                if (result == DialogResult.OK && !string.IsNullOrEmpty(openFileDialog.FileName))
+                {
                     this.textBoxPuttyPath.Text = openFileDialog.FileName;
                     this.textBoxPuttyPath.Select(this.textBoxPuttyPath.Text.Length, 0);
                 }
             }
         }
 
-        private void buttonConfigureWinScpPath_Click(object sender, EventArgs e) {
-            using (OpenFileDialog openFileDialog = new OpenFileDialog()) {
+        private void ButtonConfigureWinScpPath_Click(object sender, EventArgs e)
+        {
+            using (var openFileDialog = new OpenFileDialog())
+            {
                 openFileDialog.Multiselect = false;
-                if (File.Exists(this.textBoxWinScpPath.Text)) {
+
+                if (File.Exists(this.textBoxWinScpPath.Text))
+                {
                     openFileDialog.InitialDirectory = Path.GetDirectoryName(this.textBoxWinScpPath.Text);
                     openFileDialog.FileName = Path.GetFileName(this.textBoxWinScpPath.Text);
                 }
+
                 openFileDialog.CheckFileExists = true;
                 openFileDialog.CheckPathExists = true;
                 openFileDialog.Filter = "WinSCP executable (*.exe)|*.exe|All files (*.*)|*.*";
                 openFileDialog.Title = "Select WinSCP Path";
-                DialogResult result = openFileDialog.ShowDialog();
-                if (result == DialogResult.OK && !String.IsNullOrEmpty(openFileDialog.FileName)) {
+
+                var result = openFileDialog.ShowDialog();
+
+                if (result == DialogResult.OK && !string.IsNullOrEmpty(openFileDialog.FileName))
+                {
                     this.textBoxWinScpPath.Text = openFileDialog.FileName;
                     this.textBoxWinScpPath.Select(this.textBoxWinScpPath.Text.Length, 0);
                 }
             }
         }
 
-        private void buttonConfigurePsPasswdPath_Click(object sender, EventArgs e) {
-            using (OpenFileDialog openFileDialog = new OpenFileDialog()) {
+        private void ButtonConfigurePsPasswdPath_Click(object sender, EventArgs e)
+        {
+            using (var openFileDialog = new OpenFileDialog())
+            {
                 openFileDialog.Multiselect = false;
-                if (File.Exists(this.textBoxPsPasswdPath.Text)) {
+
+                if (File.Exists(this.textBoxPsPasswdPath.Text))
+                {
                     openFileDialog.InitialDirectory = Path.GetDirectoryName(this.textBoxPsPasswdPath.Text);
                     openFileDialog.FileName = Path.GetFileName(this.textBoxPsPasswdPath.Text);
                 }
+
                 openFileDialog.CheckFileExists = true;
                 openFileDialog.CheckPathExists = true;
                 openFileDialog.Filter = "PsPasswd executable (*.exe)|*.exe|All files (*.*)|*.*";
                 openFileDialog.Title = "Select PsPasswd Path";
-                DialogResult result = openFileDialog.ShowDialog();
-                if (result == DialogResult.OK && !String.IsNullOrEmpty(openFileDialog.FileName)) {
+
+                var result = openFileDialog.ShowDialog();
+
+                if (result == DialogResult.OK && !string.IsNullOrEmpty(openFileDialog.FileName))
+                {
                     this.textBoxPsPasswdPath.Text = openFileDialog.FileName;
                     this.textBoxPsPasswdPath.Select(this.textBoxPsPasswdPath.Text.Length, 0);
                 }
             }
         }
 
-        private void checkVSpherePowerCLIStatus() {
+        private void CheckVSpherePowerCLIStatus()
+        {
             var status = QuickConnectUtils.IsVSpherePowerCLIInstalled();
+
             this.labelVSpherePowerCLIStatusMessage.Text = this.labelVSpherePowerCLIStatusMessage.Text.Replace("{status}",
                 status ? "installed" : "not installed"
             );
-            if (status) {
+
+            if (status)
+            {
                 this.pictureBoxVSpherePowerCLIStatusIcon.Image = global::QuickConnectPlugin.Properties.Resources.success;
             }
         }
 
-        private bool checkShortcutKeys()
+        private bool HasNoConflictingShortcutKeys()
         {
             if (checkBoxEnableShortcutKeys.Checked)
             {
@@ -340,53 +401,66 @@ namespace QuickConnectPlugin {
                 var puttyShortcutKey = (this.shortcutKeyControlPutty.HotKey | this.shortcutKeyControlPutty.HotKeyModifiers);
                 var winScpShortcutKey = (this.shortcutKeyControlWinScp.HotKey | this.shortcutKeyControlWinScp.HotKeyModifiers);
 
-                bool haveNoConflicts = true;
-                haveNoConflicts &= !(checkRemoteDesktopShortcutKey(remoteDesktopShortcutKey));
-                haveNoConflicts &= !(checkPuttyShortcutKey(puttyShortcutKey));
-                haveNoConflicts &= !(checkWinScpShortcutKey(winScpShortcutKey));
+                bool conflictsWithKeePass = false;
 
-                // Reset label text.
+                conflictsWithKeePass |= CheckRemoteDesktopShortcutKey(remoteDesktopShortcutKey);
+                conflictsWithKeePass |= CheckPuttyShortcutKey(puttyShortcutKey);
+                conflictsWithKeePass |= CheckWinScpShortcutKey(winScpShortcutKey);
+
+                // Reset warning text.
                 labelShortcutKeysWarning.Text = Properties.Resources.ShortcutKeysConflictsWithKeePassConfiguration;
 
-                // Check if there is conflict between configured shortcut keys.
-                if (haveNoConflicts && (puttyShortcutKey != Keys.None && winScpShortcutKey != Keys.None) && (winScpShortcutKey == puttyShortcutKey))
+                var configuredShortcuts = new List<Keys>
                 {
-                    labelShortcutKeysWarning.Text = Properties.Resources.ShortcutKeysConflictsWithSelf;
-                    haveNoConflicts &= false;
+                    remoteDesktopShortcutKey,
+                    puttyShortcutKey,
+                    winScpShortcutKey
+                };
+
+                var conflictsWithSelf = configuredShortcuts.Where(x => x != Keys.None).GroupBy(x => x).Any(g => g.Count() > 1);
+                var hasConflicts = conflictsWithKeePass || conflictsWithSelf;
+
+                if (!conflictsWithKeePass && conflictsWithSelf)
+                {
+                    labelShortcutKeysWarning.Text = Properties.Resources.ShortcutKeysCannotAssignToMultiplePrograms;
                 }
 
-                pictureBoxShortcutKeysWarning.Visible = !haveNoConflicts;
-                labelShortcutKeysWarning.Visible = !haveNoConflicts;
+                pictureBoxShortcutKeysWarning.Visible = hasConflicts;
+                labelShortcutKeysWarning.Visible = hasConflicts;
 
-                return haveNoConflicts;
+                return !hasConflicts;
             }
             else
             {
                 pictureBoxShortcutKeysWarning.Visible = false;
                 labelShortcutKeysWarning.Visible = false;
+
                 return true;
             }
         }
 
-        private bool checkRemoteDesktopShortcutKey(Keys remoteDesktopShortcutKeys)
+        private bool CheckRemoteDesktopShortcutKey(Keys remoteDesktopShortcutKeys)
         {
-            var hasConflicts = remoteDesktopShortcutKeys != Keys.None && KeysHelper.ConflictsWithKeePassShortcutKeys(remoteDesktopShortcutKeys);
-            this.shortcutKeyControlRemoteDesktop.BackColor = hasConflicts ? ColorTranslator.FromHtml("#FFC0C0") : default(Color);
-            return hasConflicts;
+            var conflictsWithKeePass = remoteDesktopShortcutKeys != Keys.None && KeysHelper.ConflictsWithKeePassShortcutKeys(remoteDesktopShortcutKeys);
+            this.shortcutKeyControlRemoteDesktop.BackColor = conflictsWithKeePass ? ColorTranslator.FromHtml("#FFC0C0") : default(Color);
+
+            return conflictsWithKeePass;
         }
 
-        private bool checkPuttyShortcutKey(Keys puttyShortcutKeys)
+        private bool CheckPuttyShortcutKey(Keys puttyShortcutKeys)
         {
-            var hasConflicts = puttyShortcutKeys != Keys.None && KeysHelper.ConflictsWithKeePassShortcutKeys(puttyShortcutKeys);
-            this.shortcutKeyControlPutty.BackColor = hasConflicts ? ColorTranslator.FromHtml("#FFC0C0") : default(Color);
-            return hasConflicts;
+            var conflictsWithKeePass = puttyShortcutKeys != Keys.None && KeysHelper.ConflictsWithKeePassShortcutKeys(puttyShortcutKeys);
+            this.shortcutKeyControlPutty.BackColor = conflictsWithKeePass ? ColorTranslator.FromHtml("#FFC0C0") : default(Color);
+
+            return conflictsWithKeePass;
         }
 
-        private bool checkWinScpShortcutKey(Keys winScpShortcutKeys)
+        private bool CheckWinScpShortcutKey(Keys winScpShortcutKeys)
         {
-            var hasConflicts = winScpShortcutKeys != Keys.None && KeysHelper.ConflictsWithKeePassShortcutKeys(winScpShortcutKeys);
-            this.shortcutKeyControlWinScp.BackColor = hasConflicts ? ColorTranslator.FromHtml("#FFC0C0") : default(Color);
-            return hasConflicts;
+            var conflictsWithKeePass = winScpShortcutKeys != Keys.None && KeysHelper.ConflictsWithKeePassShortcutKeys(winScpShortcutKeys);
+            this.shortcutKeyControlWinScp.BackColor = conflictsWithKeePass ? ColorTranslator.FromHtml("#FFC0C0") : default(Color);
+
+            return conflictsWithKeePass;
         }
     }
 }

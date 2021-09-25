@@ -98,28 +98,31 @@ namespace QuickConnectPlugin {
             pluginMenuItemOptions = new ToolStripMenuItem("Options...");
             pluginMenuItemOptions.Click += new EventHandler(
                 pluginMenuItemOptionsOnClickEventHandler = delegate(object obj, EventArgs ev) {
-                    List<String> fields = null;
+                    List<string> fields = null;
 
-                    // Check if database is open.
-                    if (this.pluginHost.Database != null && this.pluginHost.Database.IsOpen) {
+                    // Check if the database is open.
+                    if (this.pluginHost.Database != null && this.pluginHost.Database.IsOpen)
+                    {
                         fields = this.pluginHost.Database.GetAllFields(true).ToList();
                         fields.Sort();
                     }
 
                     try
                     {
-                        KeysHelper.UnregisterKeePassHotKeys();
-                        using (FormOptions form = new FormOptions(Title, this.Settings, fields))
+                        KeysHelper.UnregisterKeePassGlobalHotKeys();
+
+                        using (var form = new FormOptions(Title, this.Settings, fields))
                         {
                             form.ShowDialog(pluginHost.MainWindow);
                         }
                     }
                     finally
                     {
-                        KeysHelper.RegisterKeePassHotKeys();
+                        KeysHelper.RegisterKeePassGlobalHotKeys();
                     }
                 }
             );
+
             pluginMenuItemBatchPasswordChanger = new ToolStripMenuItem("Batch Password Changer...");
             pluginMenuItemBatchPasswordChanger.Click += new EventHandler(
                 pluginMenuItemBatchPasswordChangerOnClickEventHandler = delegate(object obj, EventArgs ev) {
@@ -159,6 +162,7 @@ namespace QuickConnectPlugin {
                     }
                 }
             );
+
             pluginMenuItemAbout = new ToolStripMenuItem("About");
             pluginMenuItemAbout.Click += new EventHandler(
                 pluginMenuItemAboutOnClickEventHandler = delegate(object obj, EventArgs ev) {
@@ -168,6 +172,7 @@ namespace QuickConnectPlugin {
                     }
                 }
             );
+
             pluginMenuItem = new ToolStripMenuItem(String.Format("{0}", Title));
             pluginMenuItem.DropDownItems.Add(pluginMenuItemBatchPasswordChanger);
             pluginMenuItem.DropDownItems.Add(pluginMenuItemOptions);

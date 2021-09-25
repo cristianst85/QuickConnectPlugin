@@ -10,70 +10,95 @@ namespace QuickConnectPlugin.ShortcutKeys
 {
     public class KeysHelper
     {
-        private static ICollection<Keys> KeePassDefaultShortcuts = new Collection<Keys>
+        private static readonly ICollection<Keys> KeePassDefaultShortcuts = new Collection<Keys>
         {
-            // Entry context menu.
-            Keys.Control | Keys.A,
-            Keys.Control | Keys.B,
-            Keys.Control | Keys.C,
-            Keys.Control | Keys.I,
-            Keys.Control | Keys.K,
-            Keys.Control | Keys.V,
-            Keys.Control | Keys.U,
-            Keys.Control | Keys.Shift | Keys.U,
-            Keys.Control | Keys.Shift | Keys.C,
-            Keys.Control | Keys.Shift | Keys.V,
-            Keys.Control | Keys.G,
-            Keys.Delete,
-            Keys.Return,
-            Keys.Alt | Keys.Home,
-            Keys.Alt | Keys.Up,
-            Keys.Alt | Keys.Down,
-            Keys.Alt | Keys.End,
-            // Menus.
-            Keys.Alt | Keys.F,
-            Keys.Alt | Keys.E,
-            Keys.Alt | Keys.V,
-            Keys.Alt | Keys.T,
-            Keys.Alt | Keys.H,
-            // Menu functions.
+            // File menu functions.
             Keys.Control | Keys.N,
-            Keys.Control | Keys.W,
             Keys.Control | Keys.O,
             Keys.Control | Keys.Shift | Keys.O,
+            Keys.Control | Keys.W,
             Keys.Control | Keys.S,
             Keys.Control | Keys.P,
             Keys.Control | Keys.R,
             Keys.Control | Keys.Shift | Keys.R,
             Keys.Control | Keys.L,
             Keys.Control | Keys.Q,
+
+            // Group menu functions.
+            Keys.Control | Keys.Multiply, // Ctrl + * (numeric keypad)
+            Keys.Control | Keys.Divide, // Ctrl + / (numeric keypad)
+            Keys.Control | Keys.Shift | Keys.P,
+
+            // Entry menu functions.
+            Keys.Control | Keys.B,
+            Keys.Control | Keys.C,
+            Keys.Control | Keys.U,
+            Keys.Control | Keys.Shift | Keys.U,
+            Keys.Control | Keys.V,
             Keys.Control | Keys.I,
+            Keys.Enter,
+            Keys.Return,
+            Keys.Control | Keys.K,
+            Keys.Control | Keys.A,
+            Keys.Control | Keys.Shift | Keys.C,
+            Keys.Control | Keys.Shift | Keys.V,
+
+            // Find menu functions.
+            Keys.F3,
             Keys.Control | Keys.F,
             Keys.Control | Keys.Shift | Keys.F,
+            Keys.Control | Keys.G,
+
+            // Misc.
+            Keys.Control | Keys.J,
+            Keys.Control | Keys.H,
+            Keys.F1,
+            Keys.Escape,
             Keys.Control | Keys.E,
-            Keys.F1
+            Keys.Control | Keys.Tab,
+            Keys.Control | Keys.Shift | Keys.Tab,
+
+            // Main group tree / main entry list commands.
+            Keys.Delete,
+            Keys.Shift | Keys.Delete,
+            Keys.Alt | Keys.Home,
+            Keys.Alt | Keys.Up,
+            Keys.Alt | Keys.Down,
+            Keys.Alt | Keys.End,
+            Keys.Control | Keys.Shift | Keys.F5,
+            Keys.Control | Keys.Shift | Keys.F6,
+            Keys.Control | Keys.Shift | Keys.F7,
+            Keys.Control | Keys.Shift | Keys.F8,
+
+            // Menus.
+            Keys.Alt | Keys.F,
+            Keys.Alt | Keys.G,
+            Keys.Alt | Keys.E,
+            Keys.Alt | Keys.I,
+            Keys.Alt | Keys.V,
+            Keys.Alt | Keys.T,
+            Keys.Alt | Keys.H
         };
 
-        private static ICollection<Keys> KeePassPluginsShortcuts = new Collection<Keys>
+        private static readonly ICollection<Keys> KeePassGlobalHotKeys = new Collection<Keys>
+        {
+            (Keys)Program.Config.Integration.HotKeyEntryMenu,
+            (Keys)Program.Config.Integration.HotKeyShowWindow,
+            (Keys)Program.Config.Integration.HotKeySelectedAutoType,
+            (Keys)Program.Config.Integration.HotKeyGlobalAutoTypePassword,
+            (Keys)Program.Config.Integration.HotKeyGlobalAutoType
+        };
+
+        private static readonly ICollection<Keys> KeePassPluginsShortcuts = new Collection<Keys>
         {
             Keys.F9 // KPEnhancedListview
         };
-
-        private static ICollection<Keys> KeePassHotKeys() {
-            return new Collection<Keys>()
-            {
-                (Keys)Program.Config.Integration.HotKeyEntryMenu,
-                (Keys)Program.Config.Integration.HotKeyShowWindow,
-                (Keys)Program.Config.Integration.HotKeySelectedAutoType,
-                (Keys)Program.Config.Integration.HotKeyGlobalAutoType
-            };
-        }
 
         public static bool TryParse(string keyString, out Keys key)
         {
             key = Keys.None;
 
-            if (String.IsNullOrEmpty(keyString))
+            if (string.IsNullOrEmpty(keyString))
             {
                 return true;
             }
@@ -91,33 +116,34 @@ namespace QuickConnectPlugin.ShortcutKeys
 
         public static bool ConflictsWithKeePassShortcutKeys(Keys key)
         {
-            return 
-                KeePassDefaultShortcuts.Contains(key) || 
-                KeePassHotKeys().Contains(key);
+            return KeePassDefaultShortcuts.Contains(key) || KeePassGlobalHotKeys.Contains(key);
         }
 
-        public static void UnregisterKeePassHotKeys()
+        public static void UnregisterKeePassGlobalHotKeys()
         {
-            Keys kAutoTypeKey = (Keys)Program.Config.Integration.HotKeyGlobalAutoType;
-            HotKeyManager.UnregisterHotKey(AppDefs.GlobalHotKeyId.AutoType);
-            Keys kAutoTypeSelKey = (Keys)Program.Config.Integration.HotKeySelectedAutoType;
-            HotKeyManager.UnregisterHotKey(AppDefs.GlobalHotKeyId.AutoTypeSelected);
-            Keys kShowWindowKey = (Keys)Program.Config.Integration.HotKeyShowWindow;
-            HotKeyManager.UnregisterHotKey(AppDefs.GlobalHotKeyId.ShowWindow);
-            Keys kEntryMenuKey = (Keys)Program.Config.Integration.HotKeyEntryMenu;
             HotKeyManager.UnregisterHotKey(AppDefs.GlobalHotKeyId.EntryMenu);
+            HotKeyManager.UnregisterHotKey(AppDefs.GlobalHotKeyId.ShowWindow);
+            HotKeyManager.UnregisterHotKey(AppDefs.GlobalHotKeyId.AutoType);
+            HotKeyManager.UnregisterHotKey(AppDefs.GlobalHotKeyId.AutoTypeSelected);
+            HotKeyManager.UnregisterHotKey(AppDefs.GlobalHotKeyId.AutoTypePassword);
         }
 
-        public static void RegisterKeePassHotKeys()
+        public static void RegisterKeePassGlobalHotKeys()
         {
-            Keys kAutoTypeKey = (Keys)Program.Config.Integration.HotKeyGlobalAutoType;
-            HotKeyManager.RegisterHotKey(AppDefs.GlobalHotKeyId.AutoType, kAutoTypeKey);
-            Keys kAutoTypeSelKey = (Keys)Program.Config.Integration.HotKeySelectedAutoType;
-            HotKeyManager.RegisterHotKey(AppDefs.GlobalHotKeyId.AutoTypeSelected, kAutoTypeSelKey);
-            Keys kShowWindowKey = (Keys)Program.Config.Integration.HotKeyShowWindow;
-            HotKeyManager.RegisterHotKey(AppDefs.GlobalHotKeyId.ShowWindow, kShowWindowKey);
-            Keys kEntryMenuKey = (Keys)Program.Config.Integration.HotKeyEntryMenu;
-            HotKeyManager.RegisterHotKey(AppDefs.GlobalHotKeyId.EntryMenu, kEntryMenuKey);
+            var kEntryMenuHotKey = (Keys)Program.Config.Integration.HotKeyEntryMenu;
+            HotKeyManager.RegisterHotKey(AppDefs.GlobalHotKeyId.EntryMenu, kEntryMenuHotKey);
+
+            var kShowWindowHotKey = (Keys)Program.Config.Integration.HotKeyShowWindow;
+            HotKeyManager.RegisterHotKey(AppDefs.GlobalHotKeyId.ShowWindow, kShowWindowHotKey);
+
+            var kGlobalAutoTypeHotKey = (Keys)Program.Config.Integration.HotKeyGlobalAutoType;
+            HotKeyManager.RegisterHotKey(AppDefs.GlobalHotKeyId.AutoType, kGlobalAutoTypeHotKey);
+
+            var kAutoTypeSelectedHotKey = (Keys)Program.Config.Integration.HotKeySelectedAutoType;
+            HotKeyManager.RegisterHotKey(AppDefs.GlobalHotKeyId.AutoTypeSelected, kAutoTypeSelectedHotKey);
+
+            var kAutoTypePasswordHotKey = (Keys)Program.Config.Integration.HotKeyGlobalAutoTypePassword;
+            HotKeyManager.RegisterHotKey(AppDefs.GlobalHotKeyId.AutoTypePassword, kAutoTypePasswordHotKey);
         }
     }
 }

@@ -111,20 +111,20 @@ namespace QuickConnectPlugin.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to One or more shortcut keys conflicts with existing KeePass configuration..
+        ///   Looks up a localized string similar to You cannot assign the same shortcut key to multiple programs..
         /// </summary>
-        internal static string ShortcutKeysConflictsWithKeePassConfiguration {
+        internal static string ShortcutKeysCannotAssignToMultiplePrograms {
             get {
-                return ResourceManager.GetString("ShortcutKeysConflictsWithKeePassConfiguration", resourceCulture);
+                return ResourceManager.GetString("ShortcutKeysCannotAssignToMultiplePrograms", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to A shortcut key cannot be assigned to multiple programs..
+        ///   Looks up a localized string similar to One or more shortcut keys conflict with the current KeePass configuration..
         /// </summary>
-        internal static string ShortcutKeysConflictsWithSelf {
+        internal static string ShortcutKeysConflictsWithKeePassConfiguration {
             get {
-                return ResourceManager.GetString("ShortcutKeysConflictsWithSelf", resourceCulture);
+                return ResourceManager.GetString("ShortcutKeysConflictsWithKeePassConfiguration", resourceCulture);
             }
         }
         
