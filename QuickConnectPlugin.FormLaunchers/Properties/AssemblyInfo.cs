@@ -6,11 +6,11 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("QuickConnectPlugin.FormLaunchers")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("QuickConnectPlugin.FormLaunchers")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("Cristian Stoica")]
 [assembly: AssemblyProduct("QuickConnectPlugin.FormLaunchers")]
-[assembly: AssemblyCopyright("Copyright ©  2016-2017")]
+[assembly: AssemblyCopyright("Copyright © 2016-2017 Cristian Stoica")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
