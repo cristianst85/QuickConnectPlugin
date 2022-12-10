@@ -113,6 +113,8 @@
     <Compile Include="Info.cs" />
     <Compile Include="Properties\GeneratedAssemblyInfo.cs" />
     <Compile Include="AbstractQuickConnectPluginSettings.cs" />
+    <Compile Include="WinScpOptions.cs" />
+    <Compile Include="WinScp\Protocol.cs" />
     <Compile Include="Workers\CancelableWorker.cs" />
     <Compile Include="Workers\ICancelable.cs" />
     <Compile Include="Workers\Worker.cs" />
