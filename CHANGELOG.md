@@ -1,5 +1,14 @@
 ﻿# Changelog
 
+## 0.6.0-rc.1 (2022-12-10)
+
+ - Added the ability to set the protocol for WinSCP. Fixes #35.
+ - Renci.SshNet.dll library was updated from version 2016.1.0 to 2020.0.2.
+ - Bug fix: Fixed shortcut keys validations.
+ - Other code optimizations and improvements.
+
+ **NOTE:** KeePass version ≥ 2.52 is now required.
+
 ## 0.5.3 (2020-05-08)
 
 - Enable compatibility with KeePass version 2.45. Fixes #32.
