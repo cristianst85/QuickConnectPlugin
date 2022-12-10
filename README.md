@@ -7,8 +7,8 @@ QuickConnect is a plugin for [KeePass](http://keepass.info) password manager tha
 
 ## Requirements
 
-- Microsoft Windows XP/7/10 with .NET Framework 3.5;
-- [KeePass](http://keepass.info) version 2.45 or newer.
+- Microsoft Windows XP/7/10 with .NET Framework 4.0;
+- [KeePass](http://keepass.info) version 2.52 or newer.
 
 ## Installation
 
@@ -26,6 +26,8 @@ QuickConnect is a plugin for [KeePass](http://keepass.info) password manager tha
     * `ssh`, `telnet`, `linux` or a known Linux distribution name - *Open PuTTY Console* and *Open WinSCP*.
 - Additional options like session name or port can be specified to be used with PuTTY/WinSCP. The syntax is as follows:
     `[{ssh|telnet}|<os_type>[;session:"<regex_pattern>"[;port:<port>[;ssh_key:"<ssh_key_path.ppk>"]]]]`.
+- Starting with the version [0.6.0-rc.1](https://github.com/cristianst85/QuickConnectPlugin/releases/tag/0.6.0-rc.1) the protocol for WinSCP can be also specified with the additional options. The syntax is as follows:
+	`protocol:{sftp|ftp|scp}` (e.g., `protocol:sftp`). If the protocol is omitted then it defaults to `scp`. A complete list of supported protocols by the WinSCP can be found [here](https://winscp.net/eng/docs/protocols).
 
 Connection method and Additional options can be mapped to the same field. This will avoid cluttering the database with too many custom fields.
 
@@ -55,7 +57,6 @@ See [CHANGELOG](https://github.com/cristianst85/QuickConnectPlugin/blob/master/C
 ## Download
 
 You can download compiled binaries from [here](https://github.com/cristianst85/QuickConnectPlugin/releases/).
-
 Some experimental builds are available [here](http://www.disruptivesoftware.ro/projects/QuickConnectPlugin/experimental/).
 
 ## License
