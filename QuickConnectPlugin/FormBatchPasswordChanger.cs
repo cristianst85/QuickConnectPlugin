@@ -88,7 +88,7 @@ namespace QuickConnectPlugin {
             return showPasswordsMenuItem != null && showPasswordsMenuItem.Checked;
         }
 
-        private void toogleControls(bool state) {
+        private void toggleControls(bool state) {
             this.treeView.Enabled = state;
             this.listView.Enabled = state;
             this.checkBoxOverrideHostType.Enabled = state && this.comboBoxHostType.Items.Count > 0;
@@ -205,7 +205,7 @@ namespace QuickConnectPlugin {
             else {
                 Debug.WriteLine("buttonStartChangePasswordsClick");
                 if (this.pwChangerWorker == null || !this.pwChangerWorker.IsRunning) {
-                    this.toogleControls(false);
+                    this.toggleControls(false);
                     var selectedEntries = getSelectedEntries();
                     // Reset progress bar in case batchPasswordChangerWorker was run before.
                     this.progressBar.Value = 0;
@@ -288,7 +288,7 @@ namespace QuickConnectPlugin {
             Debug.WriteLine("batchPasswordChangerWorkerCompleted");
             this.pwChangerWorker = null;
             this.Invoke((MethodInvoker)delegate {
-                this.toogleControls(true);
+                this.toggleControls(true);
                 this.checkControls();
                 this.buttonStartChangePasswords.Text = "Start Change Passwords";
             });

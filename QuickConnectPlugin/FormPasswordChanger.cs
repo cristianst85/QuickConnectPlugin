@@ -38,7 +38,7 @@ namespace QuickConnectPlugin {
 
         private void changePasswordClick(object sender, EventArgs e) {
             if (this.pwChangerWorker == null || !this.pwChangerWorker.IsRunning) {
-                this.toogleControls(false);
+                this.toggleControls(false);
                 var entries = new Collection<IHostPwEntry>() { this.hostPwEntry };
                 this.pwChangerWorker = new BatchPasswordChangerWorker(this.pwChangerService, entries, maskedTextBoxNewPassword.Text);
                 var thread = new Thread(new ThreadStart(() => runBatchPasswordChangerWorker(this.pwChangerService)));
@@ -76,7 +76,7 @@ namespace QuickConnectPlugin {
             Debug.WriteLine("batchPasswordChangerWorkerCompleted");
             this.pwChangerWorker = null;
             this.Invoke((MethodInvoker)delegate {
-                this.toogleControls(true);
+                this.toggleControls(true);
                 this.checkControls();
             });
         }
@@ -114,7 +114,7 @@ namespace QuickConnectPlugin {
             this.maskedTextBoxRepeatNewPassword.Enabled = this.maskedTextBoxNewPassword.UseSystemPasswordChar;
         }
 
-        private void toogleControls(bool state) {
+        private void toggleControls(bool state) {
             this.maskedTextBoxNewPassword.Enabled = state;
             this.maskedTextBoxRepeatNewPassword.Enabled = state;
             this.buttonChangePassword.Enabled = state;
