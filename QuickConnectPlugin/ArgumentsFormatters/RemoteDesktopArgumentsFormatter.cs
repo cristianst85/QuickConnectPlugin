@@ -1,37 +1,44 @@
 ﻿using System;
 using System.Text;
 
-namespace QuickConnectPlugin.ArgumentsFormatters {
+namespace QuickConnectPlugin.ArgumentsFormatters
+{
+    public class RemoteDesktopArgumentsFormatter : IArgumentsFormatter
+    {
+        public static readonly string RemoteDesktopClientPath = Environment.ExpandEnvironmentVariables(@"%SystemRoot%\system32\mstsc.exe");
 
-    public class RemoteDesktopArgumentsFormatter : IArgumentsFormatter {
+        public bool UseFullScreen { get; set; }
 
-        public static readonly String RemoteDesktopClientPath = Environment.ExpandEnvironmentVariables(@"%SystemRoot%\system32\mstsc.exe");
-
-        public bool FullScreen { get; set; }
         public bool UseConsole { get; set; }
-        public bool IsOlderVersion { get; set; }
 
-        public RemoteDesktopArgumentsFormatter() {
+        public bool UseAdmin { get; set; }
+
+        public RemoteDesktopArgumentsFormatter()
+        {
         }
 
-        public string Format(IHostPwEntry hostPwEntry) {
-            StringBuilder sb = new StringBuilder();
-            sb.AppendFormat("\"{0}\"", RemoteDesktopClientPath);
-            sb.AppendFormat(" /v:{0}", hostPwEntry.IPAddress);
+        public string Format(IHostPwEntry hostPwEntry)
+        {
+            var stringBuilder = new StringBuilder();
 
-            if (this.FullScreen) {
-                sb.Append(" /f");
-            }
-            if (this.UseConsole) {
-                if (this.IsOlderVersion) {
-                    sb.Append(" /console");
-                }
-                else {
-                    sb.Append(" /admin");
-                }
+            stringBuilder.AppendFormat("\"{0}\"", RemoteDesktopClientPath);
+            stringBuilder.AppendFormat(" /v:{0}", hostPwEntry.IPAddress);
+
+            if (UseFullScreen)
+            {
+                stringBuilder.Append(" /f");
             }
 
-            return sb.ToString();
+            if (UseConsole)
+            {
+                stringBuilder.Append(" /console");
+            }
+            else if (UseAdmin)
+            {
+                stringBuilder.Append(" /admin");
+            }
+
+            return stringBuilder.ToString();
         }
     }
 }

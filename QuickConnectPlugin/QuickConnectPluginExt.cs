@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
@@ -52,13 +51,14 @@ namespace QuickConnectPlugin {
         private ResolveEventHandler resourcesEventHandler;
         private DisposableList<ToolStripItem> menuItems;
 
-        private bool? rdcIsOlderVersion;
-        private bool RDCIsOlderVersion {
+        private bool? isAtLeastRDCVersion61;
+        private bool IsAtLeastRDCVersion61
+        {
             get {
-                if (!rdcIsOlderVersion.HasValue) {
-                    rdcIsOlderVersion = QuickConnectUtils.IsOlderRemoteDesktopConnectionVersion();
+                if (!isAtLeastRDCVersion61.HasValue) {
+                    isAtLeastRDCVersion61 = QuickConnectUtils.IsAtLeastRDCVersion61();
                 }
-                return rdcIsOlderVersion.Value;
+                return isAtLeastRDCVersion61.Value;
             }
         }
 
@@ -223,11 +223,7 @@ namespace QuickConnectPlugin {
                         try
                         {
                             ProcessUtils.Start(CmdKeyRegisterArgumentsFormatter.CmdKeyPath, new CmdKeyRegisterArgumentsFormatter().Format(selectedEntry));
-                            var argsFormatter = new RemoteDesktopArgumentsFormatter()
-                            {
-                                FullScreen = true
-                            };
-                            ProcessUtils.StartDetached(argsFormatter.Format(selectedEntry));
+                            ProcessUtils.StartDetached(new RemoteDesktopArgumentsFormatter().Format(selectedEntry));
                             ProcessUtils.StartDetached(new CmdKeyUnregisterArgumentsFormatter()
                             {
                                 IncludePath = true
@@ -353,10 +349,7 @@ namespace QuickConnectPlugin {
                     delegate(object obj, EventArgs ev) {
                         try {
                             ProcessUtils.Start(CmdKeyRegisterArgumentsFormatter.CmdKeyPath, new CmdKeyRegisterArgumentsFormatter().Format(hostPwEntry));
-                            IArgumentsFormatter argsFormatter = new RemoteDesktopArgumentsFormatter() {
-                                FullScreen = true
-                            };
-                            ProcessUtils.StartDetached(argsFormatter.Format(hostPwEntry));
+                            ProcessUtils.StartDetached(new RemoteDesktopArgumentsFormatter().Format(hostPwEntry));
                             ProcessUtils.StartDetached(new CmdKeyUnregisterArgumentsFormatter() {
                                 IncludePath = true 
                             }.Format(hostPwEntry), RemoveCredentialsDelay);
@@ -381,11 +374,15 @@ namespace QuickConnectPlugin {
                         try {
                             ProcessUtils.Start(CmdKeyRegisterArgumentsFormatter.CmdKeyPath, new CmdKeyRegisterArgumentsFormatter()
                                 .Format(hostPwEntry));
-                            IArgumentsFormatter argsFormatter = new RemoteDesktopArgumentsFormatter() {
-                                FullScreen = true,
-                                UseConsole = true,
-                                IsOlderVersion = RDCIsOlderVersion
+
+                            // See https://superuser.com/a/991740 or https://archive.ph/3N9Ra
+                            var useConsole = !IsAtLeastRDCVersion61;
+
+                            var argsFormatter = new RemoteDesktopArgumentsFormatter() {
+                                UseConsole = useConsole,
+                                UseAdmin = !useConsole
                             };
+
                             ProcessUtils.StartDetached(argsFormatter.Format(hostPwEntry));
                             ProcessUtils.StartDetached(new CmdKeyUnregisterArgumentsFormatter() {
                                 IncludePath = true

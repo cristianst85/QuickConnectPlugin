@@ -2,68 +2,86 @@
 using NUnit.Framework;
 using QuickConnectPlugin.ArgumentsFormatters;
 
-namespace QuickConnectPlugin.Tests.ArgumentsFormatters {
-
+namespace QuickConnectPlugin.Tests.ArgumentsFormatters
+{
     [TestFixture]
-    public class RemoteDesktopArgumentsFormatterTests {
-
+    public class RemoteDesktopArgumentsFormatterTests
+    {
         [TestCase]
-        public void Format() {
-            InMemoryHostPwEntry pwEntry = new InMemoryHostPwEntry() {
+        public void Format()
+        {
+            var pwEntry = new InMemoryHostPwEntry()
+            {
                 Username = "admin",
                 Password = "12345678",
                 IPAddress = "127.0.0.1"
             };
+
             pwEntry.ConnectionMethods.Add(ConnectionMethodType.RemoteDesktop);
 
-            RemoteDesktopArgumentsFormatter argumentsFormatter = new RemoteDesktopArgumentsFormatter();
-            Assert.AreEqual(String.Format("\"{0}\" /v:127.0.0.1", RemoteDesktopArgumentsFormatter.RemoteDesktopClientPath), argumentsFormatter.Format(pwEntry));
+            var argumentsFormatter = new RemoteDesktopArgumentsFormatter();
+
+            Assert.AreEqual(string.Format("\"{0}\" /v:127.0.0.1", RemoteDesktopArgumentsFormatter.RemoteDesktopClientPath), argumentsFormatter.Format(pwEntry));
         }
 
         [TestCase]
-        public void FormatWithUseConsole() {
-            InMemoryHostPwEntry pwEntry = new InMemoryHostPwEntry() {
+        public void FormatWithUseFullScreen()
+        {
+            var pwEntry = new InMemoryHostPwEntry()
+            {
                 Username = "admin",
                 Password = "12345678",
                 IPAddress = "127.0.0.1"
             };
+
             pwEntry.ConnectionMethods.Add(ConnectionMethodType.RemoteDesktop);
 
-            RemoteDesktopArgumentsFormatter argumentsFormatter = new RemoteDesktopArgumentsFormatter() {
+            var argumentsFormatter = new RemoteDesktopArgumentsFormatter()
+            {
+                UseFullScreen = true
+            };
+
+            Assert.AreEqual(string.Format("\"{0}\" /v:127.0.0.1 /f", RemoteDesktopArgumentsFormatter.RemoteDesktopClientPath), argumentsFormatter.Format(pwEntry));
+        }
+
+        [TestCase]
+        public void FormatWithUseConsole()
+        {
+            var pwEntry = new InMemoryHostPwEntry()
+            {
+                Username = "admin",
+                Password = "12345678",
+                IPAddress = "127.0.0.1"
+            };
+
+            pwEntry.ConnectionMethods.Add(ConnectionMethodType.RemoteDesktop);
+
+            var argumentsFormatter = new RemoteDesktopArgumentsFormatter()
+            {
                 UseConsole = true
             };
-            Assert.AreEqual(String.Format("\"{0}\" /v:127.0.0.1 /admin", RemoteDesktopArgumentsFormatter.RemoteDesktopClientPath), argumentsFormatter.Format(pwEntry));
+
+            Assert.AreEqual(string.Format("\"{0}\" /v:127.0.0.1 /console", RemoteDesktopArgumentsFormatter.RemoteDesktopClientPath), argumentsFormatter.Format(pwEntry));
         }
 
         [TestCase]
-        public void FormatWithOlderVersionConsole() {
-            InMemoryHostPwEntry pwEntry = new InMemoryHostPwEntry() {
+        public void FormatWithUseAdmin()
+        {
+            var pwEntry = new InMemoryHostPwEntry()
+            {
                 Username = "admin",
                 Password = "12345678",
                 IPAddress = "127.0.0.1"
             };
+
             pwEntry.ConnectionMethods.Add(ConnectionMethodType.RemoteDesktop);
 
-            RemoteDesktopArgumentsFormatter argumentsFormatter = new RemoteDesktopArgumentsFormatter() {
-                UseConsole = true,
-                IsOlderVersion = true
+            var argumentsFormatter = new RemoteDesktopArgumentsFormatter()
+            {
+                UseAdmin = true
             };
-            Assert.AreEqual(String.Format("\"{0}\" /v:127.0.0.1 /console", RemoteDesktopArgumentsFormatter.RemoteDesktopClientPath), argumentsFormatter.Format(pwEntry));
-        }
 
-        [TestCase]
-        public void FormatWithFullScreen() {
-            InMemoryHostPwEntry pwEntry = new InMemoryHostPwEntry() {
-                Username = "admin",
-                Password = "12345678",
-                IPAddress = "127.0.0.1"
-            };
-            pwEntry.ConnectionMethods.Add(ConnectionMethodType.RemoteDesktop);
-
-            RemoteDesktopArgumentsFormatter argumentsFormatter = new RemoteDesktopArgumentsFormatter() {
-                FullScreen = true
-            };
-            Assert.AreEqual(String.Format("\"{0}\" /v:127.0.0.1 /f", RemoteDesktopArgumentsFormatter.RemoteDesktopClientPath), argumentsFormatter.Format(pwEntry));
+            Assert.AreEqual(string.Format("\"{0}\" /v:127.0.0.1 /admin", RemoteDesktopArgumentsFormatter.RemoteDesktopClientPath), argumentsFormatter.Format(pwEntry));
         }
     }
 }

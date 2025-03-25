@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Diagnostics;
 using System.IO;
-using System.Windows.Forms;
 using Microsoft.Win32;
+using QuickConnectPlugin.ArgumentsFormatters;
 
 namespace QuickConnectPlugin {
 
@@ -67,9 +67,12 @@ namespace QuickConnectPlugin {
             }
         }
 
-        internal static bool IsOlderRemoteDesktopConnectionVersion() {
-            var fvi = FileVersionInfo.GetVersionInfo(Environment.ExpandEnvironmentVariables(@"%SystemRoot%\system32\mstsc.exe"));
-            return new Version(fvi.ProductVersion) < new Version("6.0.6001");
+        internal static bool IsAtLeastRDCVersion61() {
+            return new Version("6.0.6001") <= new Version(GetRDCVersion().ProductVersion);
+        }
+
+        private static FileVersionInfo GetRDCVersion() {
+            return FileVersionInfo.GetVersionInfo(RemoteDesktopArgumentsFormatter.RemoteDesktopClientPath);
         }
 
         internal static String GetPuttyPath() {
