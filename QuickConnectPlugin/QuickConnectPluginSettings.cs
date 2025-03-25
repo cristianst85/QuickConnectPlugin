@@ -8,8 +8,8 @@ namespace QuickConnectPlugin {
 
     public class QuickConnectPluginSettings : AbstractQuickConnectPluginSettings
     {
-        public const Keys DefaultRemoteDesktopShortcutKey = Keys.Control | Keys.Shift | Keys.D;
-        public const Keys DefaultPuttyShortcutKey = Keys.Control | Keys.Shift | Keys.T;
+        public const Keys DefaultRemoteDesktopShortcutKey = Keys.Control | Keys.Shift | Keys.E;
+        public const Keys DefaultPuttyShortcutKey = Keys.Control | Keys.Shift | Keys.Q;
         public const Keys DefaultWinScpShortcutKey = Keys.Control | Keys.Shift | Keys.W;
 
         private readonly ICustomConfigPropertyNameFormatter formatter;

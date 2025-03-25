@@ -24,16 +24,13 @@ namespace QuickConnectPlugin.ShortcutKeys
             Keys.Control | Keys.L,
             Keys.Control | Keys.Q,
 
-            // Group menu functions.
-            Keys.Control | Keys.Multiply, // Ctrl + * (numeric keypad)
-            Keys.Control | Keys.Divide, // Ctrl + / (numeric keypad)
-            Keys.Control | Keys.Shift | Keys.P,
-
             // Entry menu functions.
             Keys.Control | Keys.B,
             Keys.Control | Keys.C,
             Keys.Control | Keys.U,
             Keys.Control | Keys.Shift | Keys.U,
+            Keys.Control | Keys.T,
+            Keys.Control | Keys.Shift | Keys.T,
             Keys.Control | Keys.V,
             Keys.Control | Keys.I,
             Keys.Enter,
@@ -69,6 +66,15 @@ namespace QuickConnectPlugin.ShortcutKeys
             Keys.Control | Keys.Shift | Keys.F6,
             Keys.Control | Keys.Shift | Keys.F7,
             Keys.Control | Keys.Shift | Keys.F8,
+            Keys.Control | Keys.D,
+            Keys.Control | Keys.Shift | Keys.D,
+
+            // Group menu functions.
+            Keys.Control | Keys.Multiply, // Ctrl + * (numeric keypad)
+            Keys.Control | Keys.Divide, // Ctrl + / (numeric keypad)
+            Keys.Control | Keys.Shift | Keys.C,
+            Keys.Control | Keys.Shift | Keys.V,
+            Keys.Control | Keys.Shift | Keys.P,
 
             // Menus.
             Keys.Alt | Keys.F,
