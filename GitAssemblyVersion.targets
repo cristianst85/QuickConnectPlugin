@@ -45,7 +45,7 @@
     <PropertyGroup Condition="'$(Branch)'!=''">
       <BranchInfo> ($(Branch))</BranchInfo>
     </PropertyGroup>
-    <AssemblyInfo CodeLanguage="CS" OutputFile="$(GeneratedAssemblyInfoFile)" AssemblyInformationalVersion="$(AssemblyVersion)-$(CommitHash)$(Dirty)$(BranchInfo)" />
+    <AssemblyInfo CodeLanguage="CS" OutputFile="$(GeneratedAssemblyInfoFile)" AssemblyInformationalVersion="$(AssemblyVersion)+$(CommitHash)$(Dirty)" />
   </Target>
   <Target Name="SetAssemblyVersionClean" Condition="Exists($(GeneratedAssemblyInfoFile))">
     <Delete Files="$(GeneratedAssemblyInfoFile)" />
