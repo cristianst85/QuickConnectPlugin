@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Cristian Stoica")]
 [assembly: AssemblyProduct("QuickConnectPlugin.Tests")]
-[assembly: AssemblyCopyright("Copyright © 2016-2022 Cristian Stoica")]
+[assembly: AssemblyCopyright("Copyright © 2016-2025 Cristian Stoica")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

@@ -1,5 +1,11 @@
 ﻿# Changelog
 
+## 0.6.1 (2025-03-26)
+
+ - Launching Remote Desktop Connection application will not force the use of full screen anymore. Fixes #21.
+ - Updated the default shortcut keys for opening Remote Desktop / PuTTY / WinSCP so that they don't conflict with the default KeePass shortcut keys.
+ - Other code optimizations and improvements.
+
 ## 0.6.0-rc.1 (2022-12-10)
 
  - Added the ability to set the protocol for WinSCP. Fixes #35.
