@@ -33,7 +33,7 @@ echo Building PLGX file...
 copy /Y .\QuickConnectPlugin\Info.cs .\QuickConnectPlugin\Info.cs.bak
 xcopy /Y .\Info.cs .\QuickConnectPlugin\
 
-%KEEPASS_PATH% --plgx-prereq-kp:2.40 --plgx-prereq-net:4.0 --plgx-create %SOURCE_PATH%
+%KEEPASS_PATH% --plgx-prereq-kp:2.52 --plgx-prereq-net:4.0 --plgx-create %SOURCE_PATH%
 
 echo Moving PLGX file to build directory...
 move /Y .\QuickConnectPlugin.plgx .\build\QuickConnectPlugin.plgx
