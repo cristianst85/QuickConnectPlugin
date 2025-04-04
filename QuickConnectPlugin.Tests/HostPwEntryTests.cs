@@ -6,6 +6,8 @@ using KeePassLib.Keys;
 using KeePassLib.Serialization;
 using NUnit.Framework;
 
+using KeePassProgram = KeePass.Program;
+
 namespace QuickConnectPlugin.Tests {
 
     [TestFixture]
@@ -36,6 +38,8 @@ namespace QuickConnectPlugin.Tests {
                 HostAddress = "IP Address",
                 ConnectionMethod = "OS"
             };
+
+            KeePassProgram.CommonInitialize();
         }
 
         [TearDown]
@@ -43,6 +47,8 @@ namespace QuickConnectPlugin.Tests {
             if (this.pwDatabase != null) {
                 this.pwDatabase.Close();
             }
+
+            KeePassProgram.CommonTerminate();
         }
 
         [Test]
